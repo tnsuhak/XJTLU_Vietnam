@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>XJTLU Việt Nam | Đại học Giao thông Tây An – Liverpool · Bằng cấp Anh, học bằng tiếng Anh, trải nghiệm Trung Quốc</title>
-<meta name="description" content="Thông tin chính thức bằng tiếng Việt về XJTLU (Xi'an Jiaotong-Liverpool University, Tô Châu, Trung Quốc): ngành học, học phí, học bổng, ký túc xá, điều kiện tuyển sinh dành cho học sinh Việt Nam. Tư vấn miễn phí qua Zalo bởi TNS Worldwide.">
+<meta name="description" content="Thông tin chính thức bằng tiếng Việt về XJTLU (Xi'an Jiaotong-Liverpool University, Tô Châu, Trung Quốc): ngành học, học phí, học bổng, ký túc xá, điều kiện tuyển sinh dành cho học sinh Việt Nam. Tư vấn miễn phí qua Zalo bởi SOS International.">
 <meta property="og:title" content="XJTLU Việt Nam · Bằng cấp Anh. Học bằng tiếng Anh. Trải nghiệm Trung Quốc.">
 <meta property="og:description" content="Học bằng tiếng Anh tại Tô Châu, nhận bằng của University of Liverpool và XJTLU. Hướng dẫn tuyển sinh dành riêng cho học sinh Việt Nam.">
 <meta property="og:type" content="website">
@@ -101,6 +101,8 @@ h3{font-size:22px;font-weight:600}
 .nav .container{height:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
 .brand{display:flex;align-items:center;gap:12px}
 .brand-mark{width:42px;height:42px;border-radius:12px;background:var(--navy);display:grid;place-items:center;color:var(--gold);font-family:var(--font-display);font-weight:700;font-size:15px;letter-spacing:.02em;position:relative;overflow:hidden}
+.brand-mark img{width:100%;height:100%;object-fit:cover;display:block}
+.brand-mark:has(img)::after{display:none}
 .brand-mark::after{content:"";position:absolute;inset:auto -8px -8px auto;width:26px;height:26px;border-radius:50%;background:var(--gold);opacity:.25}
 .brand-text{line-height:1.05}
 .brand-text b{display:block;font-family:var(--font-display);font-size:19px;color:var(--navy);letter-spacing:.01em;white-space:nowrap}
@@ -138,7 +140,7 @@ h3{font-size:22px;font-weight:600}
 .hero .container>*{min-width:0}
 .hero-kicker{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:8px 16px 8px 10px;border-radius:999px;font-size:13px;font-weight:600;color:#e6ebf5;margin-bottom:28px}
 .hero-kicker .flag{display:inline-flex;gap:4px}
-.hero-kicker .flag i{width:16px;height:11px;border-radius:2px;display:inline-block;box-shadow:0 0 0 1px rgba(255,255,255,.35)}
+.hero-kicker .flag svg{width:18px;height:13px;border-radius:3px;display:inline-block;box-shadow:0 0 0 1px rgba(255,255,255,.4);overflow:hidden}
 .hero h1{font-size:clamp(38px,5.6vw,74px);font-weight:600;line-height:1.04;color:#fff;letter-spacing:-.01em}
 .hero h1 .line{display:block}
 .hero h1 .line:nth-child(1){color:#fff}
@@ -168,13 +170,17 @@ h3{font-size:22px;font-weight:600}
 .lbl.sub{fill:#9fa9c0;font-weight:500;font-size:10.5px}
 .route-card{position:absolute;max-width:240px;background:rgba(11,22,48,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px 14px;font-size:12.5px;color:#dfe4ef;box-shadow:var(--shadow-lg)}
 .route-card b{display:block;color:#fff;font-size:13.5px;margin-bottom:2px}
-.route-card.a{right:-4%;bottom:2%}
-.route-card.b{left:-4%;top:40%}
+.route-card{max-width:230px}
+.route-card.a{right:-4%;bottom:1%}
+.route-card.b{left:0;top:0;max-width:205px}
+.route-card.c{right:-3%;top:27%}
+@media(max-width:1180px){.route-card{max-width:168px;font-size:11px;padding:9px 11px}.route-card b{font-size:12px}.route-card.b{left:-6%;top:-3%;max-width:168px}.route-card.c{right:0;top:22%}}
 @media(max-width:980px){
   .hero .container{grid-template-columns:1fr;padding:56px 0 64px}
   .route{max-width:420px;margin:12px auto 0}
   .hero-facts{grid-template-columns:repeat(2,1fr);gap:22px}
-  .route-card.a{right:0}.route-card.b{left:0}
+  .route-card{max-width:200px;font-size:11.5px;padding:10px 12px}
+  .route-card.a{right:0}.route-card.b{left:0;top:-5%}.route-card.c{right:0;top:14%}
 }
 @media(max-width:560px){.hero{min-height:auto}.hero-actions .btn{width:100%;white-space:normal;text-align:center}.fact b{font-size:28px}}
 @media(max-width:640px){.btn{white-space:normal;text-align:center}.nav .btn,.fab{white-space:nowrap}}
@@ -369,6 +375,10 @@ tr:hover td{background:#fbfaf6}
 .story .av.id{background:#b8332f}
 .story .av.my{background:#1f4e9c}
 .story .av.sg{background:#d12a3a}
+.story .av.kr{background:#003478}
+.story .av.mn{background:#046a38}
+.story .av.no{background:#0f766e}
+.story .av.ru{background:#6d28d9}
 .story .who b{display:block;font-size:15px;color:var(--navy)}
 .story .who small{color:var(--muted);font-size:12.5px}
 .story p{font-size:14.5px;color:var(--ink-2);flex:1}
@@ -389,7 +399,7 @@ tr:hover td{background:#fbfaf6}
 @media(max-width:600px){.story-grid{grid-template-columns:1fr}.career{grid-template-columns:1fr}}
 
 /* ---------- Video ---------- */
-.videos{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.videos{display:grid;grid-template-columns:1fr;gap:32px;max-width:760px;margin-inline:auto}
 .video{position:relative;aspect-ratio:16/9;border-radius:var(--r-lg);overflow:hidden;background:var(--navy);cursor:pointer;box-shadow:var(--shadow-lg)}
 .video img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .video:hover img{transform:scale(1.04)}
@@ -399,7 +409,7 @@ tr:hover td{background:#fbfaf6}
 .video .play svg{width:26px;height:26px;margin-left:4px;color:var(--deep)}
 .video .cap{position:absolute;left:18px;right:18px;bottom:16px;color:#fff;font-weight:600;font-size:14.5px;text-shadow:0 2px 8px rgba(0,0,0,.5)}
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-@media(max-width:900px){.videos{grid-template-columns:1fr}}
+@media(max-width:820px){.videos{max-width:100%}}
 
 /* ---------- FAQ ---------- */
 .faq{max-width:860px;margin-inline:auto;display:grid;gap:12px}
@@ -481,7 +491,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
 <!-- ===================== TOP BAR ===================== -->
 <div class="topbar">
   <div class="container">
-    <span>📍 Thông tin chính thức bằng tiếng Việt về XJTLU · Đại diện tuyển sinh TNS Worldwide</span>
+    <span>📍 Thông tin chính thức bằng tiếng Việt về XJTLU · Đại diện tuyển sinh SOS International</span>
     <div class="contacts">
       <a href="mailto:khj@tnsuhak.com">✉ khj@tnsuhak.com</a>
       <a class="zalo-link" href="#">💬 Zalo tư vấn</a>
@@ -493,7 +503,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
 <header class="nav" id="nav">
   <div class="container">
     <a class="brand" href="#hero" aria-label="XJTLU Việt Nam">
-      <div class="brand-mark">XJ</div>
+      <div class="brand-mark"><img src="data:image/webp;base64,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" alt="XJTLU logo"></div>
       <div class="brand-text"><b>XJTLU Việt Nam</b><small>Suzhou · China</small></div>
     </a>
     <nav>
@@ -523,23 +533,23 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
   <div class="container">
     <div>
       <div class="hero-kicker">
-        <span class="flag"><i style="background:#c8102e"></i><i style="background:#012169"></i><i style="background:#de2910"></i></span>
-        Đại học liên doanh Trung – Anh · Tô Châu · 30 phút đến Thượng Hải
+        <span class="flag"><svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><defs><clipPath id="ukClip"><rect width="60" height="40"/></clipPath></defs><g clip-path="url(#ukClip)"><rect width="60" height="40" fill="#012169"/><g stroke="#FFF" stroke-width="8"><line x1="0" y1="0" x2="60" y2="40"/><line x1="60" y1="0" x2="0" y2="40"/></g><g stroke="#C8102E" stroke-width="3"><line x1="0" y1="0" x2="60" y2="40"/><line x1="60" y1="0" x2="0" y2="40"/></g><g stroke="#FFF" stroke-width="14"><line x1="30" y1="0" x2="30" y2="40"/><line x1="0" y1="20" x2="60" y2="20"/></g><g stroke="#C8102E" stroke-width="8"><line x1="30" y1="0" x2="30" y2="40"/><line x1="0" y1="20" x2="60" y2="20"/></g></g></svg><svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="60" height="40" fill="#EE1C25"/><polygon fill="#FFDE00" points="10.0,4.0 11.35,8.15 15.71,8.15 12.18,10.71 13.53,14.85 10.0,12.29 6.47,14.85 7.82,10.71 4.29,8.15 8.65,8.15"/><polygon fill="#FFDE00" points="18.29,5.03 19.24,3.93 18.49,2.69 19.83,3.26 20.78,2.16 20.66,3.61 21.99,4.18 20.58,4.5 20.45,5.95 19.7,4.7"/><polygon fill="#FFDE00" points="22.02,8.28 23.32,7.64 23.12,6.2 24.13,7.25 25.44,6.61 24.76,7.89 25.77,8.93 24.34,8.69 23.66,9.97 23.45,8.53"/><polygon fill="#FFDE00" points="22.08,13.45 23.53,13.4 23.93,12.0 24.43,13.37 25.88,13.31 24.73,14.21 25.23,15.57 24.03,14.76 22.88,15.66 23.28,14.26"/><polygon fill="#FFDE00" points="18.44,16.75 19.8,17.26 20.71,16.13 20.64,17.58 22.0,18.09 20.6,18.48 20.53,19.93 19.73,18.71 18.33,19.1 19.24,17.96"/></svg></span>
+        Đại học toàn cầu hợp tác Anh – Trung, tọa lạc tại Tô Châu (30 phút đến Thượng Hải)
       </div>
       <h1>
-        <span class="line">Bằng cấp Anh.</span>
-        <span class="line">Học bằng tiếng Anh.</span>
-        <span class="line">Trải nghiệm Trung Quốc.</span>
+        <span class="line">Đại học Liverpool (Anh Quốc)</span>
+        <span class="line">Học bằng tiếng Anh</span>
+        <span class="line">Tô Châu, Trung Quốc</span>
       </h1>
-      <p class="sub">Xi'an Jiaotong-Liverpool University (XJTLU) do <b>Đại học Giao thông Tây An</b> và <b>University of Liverpool</b> (Anh Quốc) đồng sáng lập năm 2006. Sinh viên tốt nghiệp đại học nhận <b>bằng của University of Liverpool và bằng của XJTLU</b>, học hoàn toàn bằng tiếng Anh, và có thể bổ sung tiếng Trung như một lợi thế nghề nghiệp.</p>
+      <p class="sub">Xi'an Jiaotong-Liverpool University (XJTLU) do <b>University of Liverpool</b> (Anh Quốc) và <b>Đại học Giao thông Tây An</b> (Trung Quốc) đồng sáng lập năm 2006. Sinh viên tốt nghiệp đại học nhận <b>bằng của University of Liverpool (Anh Quốc) và bằng của XJTLU</b>, học hoàn toàn bằng tiếng Anh, và có thể bổ sung tiếng Trung như một lợi thế nghề nghiệp.</p>
       <div class="hero-actions">
         <a class="btn btn-gold" href="#admission">Xem điều kiện tuyển sinh cho học sinh Việt Nam →</a>
         <a class="btn btn-ghost" href="#information">Tìm hiểu về XJTLU</a>
       </div>
       <div class="hero-facts">
-        <div class="fact"><b><span class="count" data-to="26000">0</span><span class="g">+</span></b><small>sinh viên</small></div>
+        <div class="fact"><b><span class="count" data-to="28000">0</span><span class="g">+</span></b><small>sinh viên</small></div>
         <div class="fact"><b><span class="count" data-to="100">0</span><span class="g">+</span></b><small>chương trình đào tạo</small></div>
-        <div class="fact"><b><span class="count" data-to="90">0</span><span class="g">+</span></b><small>quốc gia &amp; vùng lãnh thổ</small></div>
+        <div class="fact"><b><span class="count" data-to="90">0</span><span class="g">+</span></b><small>quốc gia có sinh viên theo học</small></div>
         <div class="fact"><b>2<span class="g">°</span></b><small>bằng cấp: UoL + XJTLU</small></div>
       </div>
     </div>
@@ -551,8 +561,8 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
         <circle class="ring" cx="250" cy="270" r="160"/>
         <circle class="ring" cx="250" cy="270" r="90"/>
         <!-- path: Hà Nội (150,410) & TP.HCM (120,500) -> Tô Châu (330,240) -> Liverpool (110,70) -->
-        <path class="route-glow" d="M120 500 C 160 470, 150 430, 150 410 C 180 340, 260 270, 330 240 C 360 200, 300 120, 110 70"/>
-        <path class="route-path" d="M120 500 C 160 470, 150 430, 150 410 C 180 340, 260 270, 330 240 C 360 200, 300 120, 110 70"/>
+        <path class="route-glow" d="M120 500 C 160 470, 150 430, 150 410 C 180 340, 260 270, 330 240 C 360 195, 305 150, 135 115"/>
+        <path class="route-path" d="M120 500 C 160 470, 150 430, 150 410 C 180 340, 260 270, 330 240 C 360 195, 305 150, 135 115"/>
         <!-- cities -->
         <circle class="city" cx="120" cy="500" r="5"/>
         <text class="lbl" x="134" y="505">TP. Hồ Chí Minh</text>
@@ -562,15 +572,16 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
         <circle class="city hub" cx="330" cy="240" r="8"/>
         <text class="lbl big" x="346" y="236">Tô Châu (Suzhou)</text>
         <text class="lbl sub" x="346" y="254">XJTLU · cách Thượng Hải ~30 phút</text>
-        <circle class="city" cx="110" cy="70" r="5"/>
-        <text class="lbl big" x="124" y="66">Liverpool</text>
-        <text class="lbl sub" x="124" y="84">University of Liverpool · lộ trình 2+2</text>
+        <circle class="city" cx="135" cy="115" r="5"/>
+        <text class="lbl big" x="149" y="111">Liverpool</text>
+        <text class="lbl sub" x="149" y="133">University of Liverpool</text>
         <!-- Shanghai marker -->
         <circle cx="372" cy="262" r="3" fill="#9fa9c0"/>
         <text class="lbl sub" x="380" y="266">Thượng Hải</text>
       </svg>
       <div class="route-card a"><b>Đường bay thuận tiện</b>Hà Nội / TP.HCM → Thượng Hải có nhiều chuyến bay thẳng*</div>
-      <div class="route-card b"><b>Lộ trình 2+2</b>2 năm tại Tô Châu → 2 năm tại Liverpool (theo ngành, có điều kiện)</div>
+      <div class="route-card b"><b>Lộ trình 2+2</b>2 năm Tô Châu → 2 năm Liverpool (tùy ngành)</div>
+      <div class="route-card c"><b>Lộ trình 4+0</b>Học trọn 4 năm tại Trung Quốc</div>
     </div>
   </div>
 </section>
@@ -578,10 +589,10 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
 <!-- ===================== TRUST STRIP ===================== -->
 <div class="strip">
   <div class="container">
-    <div class="item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><div><b>Bằng University of Liverpool + XJTLU</b><small>Được Bộ Giáo dục Trung Quốc công nhận</small></div></div>
+    <div class="item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><div><b>Bằng University of Liverpool + XJTLU</b><small>Được công nhận tại Anh và Trung Quốc</small></div></div>
     <div class="item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></div><div><b>100% giảng dạy bằng tiếng Anh</b><small>Chương trình quốc tế, giảng viên toàn cầu</small></div></div>
     <div class="item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4 2 7-6.5-4.5L5.5 20l2-7L2 9h7z"/></svg></div><div><b>Học bổng đầu vào đến 50%</b><small>Xét theo thành tích học tập · gia hạn hằng năm</small></div></div>
-    <div class="item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><b>Tư vấn miễn phí qua Zalo</b><small>TNS Worldwide · đối tác tuyển sinh từ 2007</small></div></div>
+    <div class="item"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><b>Tư vấn miễn phí qua Zalo</b><small>SOS International · TP. Hồ Chí Minh &amp; Hà Nội</small></div></div>
   </div>
 </div>
 
@@ -590,15 +601,15 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
   <div class="container">
     <div class="section-head reveal">
       <div class="eyebrow">Giới thiệu</div>
-      <h2>Không phải "du học Trung Quốc" thông thường. Đây là giáo dục quốc tế kiểu châu Á.</h2>
-      <p class="lead">XJTLU là đại học liên doanh Trung – Anh lớn nhất Trung Quốc, được thành lập bởi Xi'an Jiaotong University và University of Liverpool. Bạn học chuyên ngành bằng tiếng Anh theo cấu trúc bằng cấp Anh Quốc, giữa hệ sinh thái công nghiệp – công nghệ của Tô Châu và Thượng Hải.</p>
+      <h2>Không phải "du học nước ngoài" thông thường. Đây là giáo dục quốc tế kiểu châu Á.</h2>
+      <p class="lead">XJTLU là đại học liên doanh Anh – Trung lớn nhất Trung Quốc, được thành lập bởi University of Liverpool và Xi'an Jiaotong University. Bạn học chuyên ngành bằng tiếng Anh theo cấu trúc bằng cấp Anh Quốc, ngay giữa hệ sinh thái công nghiệp – công nghệ của Tô Châu và Thượng Hải.</p>
     </div>
 
     <div class="why">
       <div class="why-list">
         <div class="why-item reveal"><div class="k">EN</div><div><b>Tiếng Anh là nền tảng</b><p>Toàn bộ chương trình đại học dành cho sinh viên quốc tế được giảng dạy bằng tiếng Anh. Tiếng Trung là năng lực cộng thêm, không phải điều kiện bắt buộc để nhập học.</p></div></div>
-        <div class="why-item reveal d1"><div class="k">UK</div><div><b>Cấu trúc bằng cấp của University of Liverpool</b><p>Sinh viên tốt nghiệp nhận bằng cử nhân của University of Liverpool cùng bằng của XJTLU. Riêng lễ tốt nghiệp 2026, 3.797 sinh viên đại học đã nhận đồng thời hai văn bằng này.</p></div></div>
-        <div class="why-item reveal d2"><div class="k">90+</div><div><b>Cộng đồng quốc tế thực sự</b><p>Hơn 26.000 sinh viên, 100+ chương trình đào tạo, thành viên đến từ hơn 90 quốc gia và vùng lãnh thổ. Đông Nam Á là một trong những cộng đồng quốc tế phát triển nhanh nhất.</p></div></div>
+        <div class="why-item reveal d1"><div class="k">UK</div><div><b>Cấu trúc bằng cấp của University of Liverpool</b><p>Sinh viên tốt nghiệp nhận bằng cử nhân của University of Liverpool (Anh Quốc) cùng bằng của XJTLU. Riêng lễ tốt nghiệp 2026, 3.797 sinh viên đại học đã nhận đồng thời hai văn bằng này.</p></div></div>
+        <div class="why-item reveal d2"><div class="k">90+</div><div><b>Cộng đồng quốc tế thực sự</b><p>Hơn 28.000 sinh viên, 100+ chương trình đào tạo, sinh viên đến từ hơn 90 quốc gia. Đông Nam Á là một trong những cộng đồng quốc tế phát triển nhanh nhất.</p></div></div>
         <div class="why-item reveal d3"><div class="k">SZ</div><div><b>Tô Châu &amp; Thượng Hải</b><p>Khuôn viên nằm trong Khu công nghiệp Tô Châu (SIP) – một trong những trung tâm sản xuất và đổi mới lớn của Trung Quốc; đi tàu cao tốc đến Thượng Hải chỉ khoảng 30 phút.</p></div></div>
         <div class="why-item reveal d4"><div class="k">中</div><div><b>Tiếng Trung &amp; hiểu biết về Trung Quốc</b><p>Các khóa tiếng Trung, Business Chinese, ngành International Business with a Language… giúp bạn xây dựng "năng lực Trung Quốc" trên nền tảng tiếng Anh.</p></div></div>
         <div class="why-item reveal d4"><div class="k">2+2</div><div><b>Lộ trình sang Anh</b><p>Nhiều ngành cho phép học 2 năm tại Tô Châu rồi chuyển sang University of Liverpool học 2 năm cuối (được giảm 10% học phí tại Liverpool). Không phải mọi ngành đều áp dụng – hãy kiểm tra theo ngành.</p></div></div>
@@ -607,17 +618,17 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
       <div class="why-visual reveal d2">
         <div class="panel">
           <div class="eyebrow">Số liệu chính · 2026</div>
-          <h3>Đại học liên doanh Trung – Anh lớn nhất Trung Quốc</h3>
+          <h3>Đại học liên doanh Anh – Trung lớn nhất Trung Quốc</h3>
           <p>Thành lập năm 2006 tại Tô Châu, tỉnh Giang Tô. Khuôn viên từng đoạt giải tại World Architecture Festival.</p>
           <div class="panel-stats">
             <div class="panel-stat"><b>2006</b><small>năm thành lập</small></div>
-            <div class="panel-stat"><b>26.000+</b><small>sinh viên</small></div>
+            <div class="panel-stat"><b>28.000+</b><small>sinh viên</small></div>
             <div class="panel-stat"><b>100+</b><small>chương trình đào tạo</small></div>
             <div class="panel-stat"><b>3.797</b><small>cử nhân nhận 2 bằng năm 2026</small></div>
           </div>
           <ul>
             <li>Giảng dạy 100% bằng tiếng Anh</li>
-            <li>Bằng cấp được Bộ Giáo dục Trung Quốc và quốc tế công nhận</li>
+            <li>Bằng cấp được Anh Quốc, Bộ Giáo dục Trung Quốc và quốc tế công nhận</li>
             <li>Mạng lưới trao đổi sinh viên với các đại học đối tác toàn cầu</li>
             <li>Hai cơ sở: Tô Châu (SIP) và Thái Thương (Entrepreneur College)</li>
           </ul>
@@ -627,8 +638,20 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
           <div class="plus">+</div>
           <div class="d"><b>XJTLU</b><small>Bằng tốt nghiệp &amp; bằng cử nhân</small></div>
         </div>
-        <p class="note">Nguồn: <a class="src" href="https://www.xjtlu.edu.cn/en/overview" target="_blank" rel="noopener">XJTLU Overview &amp; Key Facts</a> · <a class="src" href="https://www.xjtlu.edu.cn/en/news/2026/07/class-of-2026-xjtlu" target="_blank" rel="noopener">Class of 2026</a> · <a class="src" href="https://www.liverpool.ac.uk/xjtlu/the-xjtlu-partnership/" target="_blank" rel="noopener">University of Liverpool – XJTLU partnership</a></p>
       </div>
+    </div>
+
+    <div class="all-progs reveal" style="margin-top:56px">
+      <div class="tbl-title">Hai trường danh tiếng đồng sáng lập XJTLU</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th></th><th><svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:20px;height:14px;border-radius:3px;vertical-align:middle;margin-right:6px;box-shadow:0 0 0 1px rgba(20,33,61,.15)"><defs><clipPath id="ukClipT"><rect width="60" height="40"/></clipPath></defs><g clip-path="url(#ukClipT)"><rect width="60" height="40" fill="#012169"/><g stroke="#FFF" stroke-width="8"><line x1="0" y1="0" x2="60" y2="40"/><line x1="60" y1="0" x2="0" y2="40"/></g><g stroke="#C8102E" stroke-width="3"><line x1="0" y1="0" x2="60" y2="40"/><line x1="60" y1="0" x2="0" y2="40"/></g><g stroke="#FFF" stroke-width="14"><line x1="30" y1="0" x2="30" y2="40"/><line x1="0" y1="20" x2="60" y2="20"/></g><g stroke="#C8102E" stroke-width="8"><line x1="30" y1="0" x2="30" y2="40"/><line x1="0" y1="20" x2="60" y2="20"/></g></g></svg>University of Liverpool</th><th><svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:20px;height:14px;border-radius:3px;vertical-align:middle;margin-right:6px;box-shadow:0 0 0 1px rgba(20,33,61,.15)"><rect width="60" height="40" fill="#EE1C25"/><polygon fill="#FFDE00" points="10.0,4.0 11.35,8.15 15.71,8.15 12.18,10.71 13.53,14.85 10.0,12.29 6.47,14.85 7.82,10.71 4.29,8.15 8.65,8.15"/><polygon fill="#FFDE00" points="18.29,5.03 19.24,3.93 18.49,2.69 19.83,3.26 20.78,2.16 20.66,3.61 21.99,4.18 20.58,4.5 20.45,5.95 19.7,4.7"/><polygon fill="#FFDE00" points="22.02,8.28 23.32,7.64 23.12,6.2 24.13,7.25 25.44,6.61 24.76,7.89 25.77,8.93 24.34,8.69 23.66,9.97 23.45,8.53"/><polygon fill="#FFDE00" points="22.08,13.45 23.53,13.4 23.93,12.0 24.43,13.37 25.88,13.31 24.73,14.21 25.23,15.57 24.03,14.76 22.88,15.66 23.28,14.26"/><polygon fill="#FFDE00" points="18.44,16.75 19.8,17.26 20.71,16.13 20.64,17.58 22.0,18.09 20.6,18.48 20.53,19.93 19.73,18.71 18.33,19.1 19.24,17.96"/></svg>Xi'an Jiaotong University</th></tr></thead>
+        <tbody>
+          <tr><td><b>Vị thế trong nước</b></td><td>Đại học nghiên cứu hàng đầu nước Anh</td><td>Đại học nghiên cứu tốp đầu Trung Quốc</td></tr>
+          <tr><td><b>Nhóm đại học tinh hoa</b></td><td>Thành viên sáng lập <b>Russell Group</b><span class="vnd">(gồm cả Oxford, Cambridge)</span></td><td>Thành viên <b>C9 League</b><span class="vnd">(gồm cả Bắc Kinh, Thanh Hoa)</span></td></tr>
+          <tr><td><b>Xếp hạng thế giới</b></td><td>Hạng <b>139</b> thế giới, <b>QS World University Rankings 2027</b></td><td>Hạng <b>79</b> thế giới, <b>ARWU 2026</b></td></tr>
+          <tr><td><b>Thế mạnh nổi bật</b></td><td>Marketing, Business, Accounting &amp; Finance, Architecture, Biological Sciences...</td><td>Engineering, Electrical Engineering, Energy &amp; Power, Mechanical Engineering, Management...</td></tr>
+        </tbody>
+      </table></div>
     </div>
   </div>
 </section>
@@ -639,13 +662,13 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
     <div class="section-head reveal">
       <div class="eyebrow">Cơ hội · Việt Nam ↔ Trung Quốc</div>
       <h2>Vì sao "tiếng Anh + tiếng Trung + trải nghiệm Trung Quốc" đang trở thành lợi thế của người trẻ Việt Nam</h2>
-      <p class="lead">Du học Trung Quốc không còn là lựa chọn hiếm. Điều XJTLU mang lại là một phương án lai: nhu cầu du học Trung Quốc gặp nhu cầu bằng cấp Anh Quốc và giáo dục bằng tiếng Anh.</p>
+      <p class="lead">Điều XJTLU mang lại là một phương án lai: nhu cầu về bằng cấp Anh Quốc và giáo dục bằng tiếng Anh, gặp cơ hội học tập ngay tại Trung Quốc với chi phí hợp lý.</p>
     </div>
     <div class="grid g4">
-      <div class="signal reveal"><span class="pill">Du học</span><b class="num">~25.000</b><p>Số sinh viên Việt Nam đang học tại Trung Quốc (báo cáo 2026). Năm 2025, Việt Nam có khoảng 250.000 du học sinh ở nước ngoài.</p><a class="src" href="https://en.vietnamplus.vn/vietnamese-students-in-beijing-nurture-aspirations-to-contribute-to-vietnamchina-friendship-post344137.vnp" target="_blank" rel="noopener">VietnamPlus ↗</a></div>
-      <div class="signal reveal d1"><span class="pill">Tiếng Trung</span><b class="num">146.000+</b><p>Lượt thi HSK tại Việt Nam năm 2025 – được báo chí ghi nhận là cao nhất thế giới, chiếm khoảng 18% toàn cầu.</p><a class="src" href="https://thanhnien.vn/nguoi-viet-thi-tieng-trung-dong-nhat-the-gioi-185260319120651807.htm" target="_blank" rel="noopener">Thanh Niên ↗</a></div>
-      <div class="signal reveal d2"><span class="pill">Việc làm</span><b class="num">+49%</b><p>Tin tuyển dụng yêu cầu tiếng Trung năm 2025 tăng 49% so với 2024 (12.997 tin, theo dữ liệu nền tảng tuyển dụng tư nhân JobOKO).</p><a class="src" href="https://vn.joboko.com/blog/ngon-ngu-trung-co-hoi-viec-lam-nwi5962" target="_blank" rel="noopener">JobOKO ↗</a></div>
-      <div class="signal reveal d3"><span class="pill">Đầu tư</span><b class="num">6,7 tỷ USD+</b><p>Vốn cam kết đầu tư của doanh nghiệp Trung Quốc &amp; Hồng Kông vào Việt Nam trong 11 tháng đầu 2025 (Reuters) – sản xuất, điện tử, EV, chuỗi cung ứng.</p><a class="src" href="https://www.reuters.com/business/autos-transportation/how-china-inc-is-marching-into-vietnam-amid-us-tariffs-2025-12-10/" target="_blank" rel="noopener">Reuters ↗</a></div>
+      <div class="signal reveal"><span class="pill">Du học</span><b class="num">~25.000</b><p>Số sinh viên Việt Nam đang học tại Trung Quốc (báo cáo 2026). Tăng hơn gấp đôi so với năm 2018.</p>Nguồn: <a class="src" href="https://en.vietnamplus.vn/vietnamese-students-in-beijing-nurture-aspirations-to-contribute-to-vietnamchina-friendship-post344137.vnp" target="_blank" rel="noopener">VietnamPlus ↗</a></div>
+      <div class="signal reveal d1"><span class="pill">Tiếng Trung</span><b class="num">146.000+</b><p>Lượt thi HSK tại Việt Nam năm 2025 – được báo chí ghi nhận là cao nhất thế giới, chiếm khoảng 18% toàn cầu.</p>Nguồn: <a class="src" href="https://thanhnien.vn/nguoi-viet-thi-tieng-trung-dong-nhat-the-gioi-185260319120651807.htm" target="_blank" rel="noopener">Thanh Niên ↗</a></div>
+      <div class="signal reveal d2"><span class="pill">Việc làm</span><b class="num">+49%</b><p>Tin tuyển dụng yêu cầu tiếng Trung năm 2025 tăng 49% so với 2024 (12.997 tin, theo dữ liệu nền tảng tuyển dụng tư nhân JobOKO).</p>Nguồn: <a class="src" href="https://vn.joboko.com/blog/ngon-ngu-trung-co-hoi-viec-lam-nwi5962" target="_blank" rel="noopener">JobOKO ↗</a></div>
+      <div class="signal reveal d3"><span class="pill">Đầu tư</span><b class="num">6,7 tỷ USD+</b><p>Vốn cam kết đầu tư của doanh nghiệp Trung Quốc &amp; Hồng Kông vào Việt Nam trong 11 tháng đầu 2025 (Reuters) – sản xuất, điện tử, EV, chuỗi cung ứng.</p>Nguồn: <a class="src" href="https://www.reuters.com/business/autos-transportation/how-china-inc-is-marching-into-vietnam-amid-us-tariffs-2025-12-10/" target="_blank" rel="noopener">Reuters ↗</a></div>
     </div>
     <div class="signal-note reveal">
       <b>Cách đọc các con số này:</b> khi đầu tư và chuỗi cung ứng Trung Quốc ngày càng gắn với Việt Nam, sự kết hợp <b>tiếng Anh + tiếng Trung + trải nghiệm sống và học tại Trung Quốc</b> có thể mở rộng lựa chọn nghề nghiệp của bạn – dù bạn làm việc ở Việt Nam, Trung Quốc hay Singapore. Đây là tín hiệu thị trường, không phải cam kết về việc làm hay mức lương.
@@ -673,14 +696,14 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
       <div class="pkg-panel active" data-panel="business">
         <span class="pill navy">International Business School Suzhou</span>
         <h3>Kinh doanh toàn cầu</h3>
-        <p class="msg">Tiếng Anh + hiểu biết thị trường Trung Quốc + cấu trúc bằng cấp Anh Quốc. Phù hợp với sinh viên hướng tới các tập đoàn đa quốc gia, tài chính, thương mại xuyên biên giới Việt – Trung.</p>
+        <p class="msg">Cấu trúc bằng cấp Anh Quốc + tiếng Anh + hiểu biết thị trường Trung Quốc. Phù hợp với sinh viên hướng tới các tập đoàn đa quốc gia, tài chính, thương mại xuyên biên giới Việt – Trung.</p>
         <ul class="prog-list">
           <li><b>International Business with a Language</b><span>BA (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/international-business-with-a-language" target="_blank" rel="noopener">Chi tiết ↗</a></li>
           <li><b>Economics and Finance</b><span>BSc (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/economics-and-finance" target="_blank" rel="noopener">Chi tiết ↗</a></li>
           <li><b>Financial Mathematics</b><span>BSc (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/financial-mathematics" target="_blank" rel="noopener">Chi tiết ↗</a></li>
           <li><b>Accounting · Business Administration · Digital &amp; Intelligent Marketing</b><span>BA (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/" target="_blank" rel="noopener">Danh sách ↗</a></li>
         </ul>
-        <div class="foot"><a class="src" href="https://www.xjtlu.edu.cn/en/news/2024/12/business-chinese-boosts-international-students-career-prospects" target="_blank" rel="noopener">Business Chinese &amp; triển vọng nghề nghiệp ↗</a><a class="btn btn-navy zalo-link" href="#">Hỏi về nhóm ngành này</a></div>
+        <div class="foot"><a class="src" href="https://www.xjtlu.edu.cn/en/news/2024/12/business-chinese-boosts-international-students-career-prospects" target="_blank" rel="noopener">Business Chinese &amp; triển vọng nghề nghiệp ↗</a><a class="btn btn-navy zalo-link" href="#">Hỏi về nhóm ngành này (Zalo)</a></div>
       </div>
       <div class="pkg-panel" data-panel="tech">
         <span class="pill navy">School of Advanced Technology · Taicang</span>
@@ -693,7 +716,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
           <li><b>Microelectronic Science &amp; Engineering</b><span>BEng (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/microelectronic-science-and-engineering" target="_blank" rel="noopener">Chi tiết ↗</a></li>
           <li><b>Intelligent Robotics Engineering · Electrical Engineering</b><span>BEng (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/" target="_blank" rel="noopener">Danh sách ↗</a></li>
         </ul>
-        <div class="foot"><span class="small muted">Một số ngành tại cơ sở Thái Thương có <b>Industry-Leadership Scholarship</b> riêng (40 suất).</span><a class="btn btn-navy zalo-link" href="#">Hỏi về nhóm ngành này</a></div>
+        <div class="foot"><span class="small muted">Một số ngành tại cơ sở Thái Thương có <b>Industry-Leadership Scholarship</b> riêng (40 suất).</span><a class="btn btn-navy zalo-link" href="#">Hỏi về nhóm ngành này (Zalo)</a></div>
       </div>
       <div class="pkg-panel" data-panel="scm">
         <span class="pill navy">XJTLU Entrepreneur College (Taicang)</span>
@@ -704,7 +727,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
           <li><b>Intelligent Manufacturing Engineering</b><span>BEng (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/" target="_blank" rel="noopener">Danh sách ↗</a></li>
           <li><b>Internet of Things Engineering</b><span>BEng (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/" target="_blank" rel="noopener">Danh sách ↗</a></li>
         </ul>
-        <div class="foot"><a class="src" href="#stories">Xem câu chuyện TS. Đặng Việt Linh ↓</a><a class="btn btn-navy zalo-link" href="#">Hỏi về nhóm ngành này</a></div>
+        <div class="foot"><a class="src" href="#stories">Xem câu chuyện TS. Đặng Việt Linh ↓</a><a class="btn btn-navy zalo-link" href="#">Hỏi về nhóm ngành này (Zalo)</a></div>
       </div>
       <div class="pkg-panel" data-panel="life">
         <span class="pill navy">School of Science · Academy of Pharmacy</span>
@@ -715,7 +738,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
           <li><b>Biopharmaceuticals</b><span>BSc (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/" target="_blank" rel="noopener">Danh sách ↗</a></li>
           <li><b>Applied Chemistry</b><span>BSc (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/" target="_blank" rel="noopener">Danh sách ↗</a></li>
         </ul>
-        <div class="foot"><span class="small muted">Sinh viên khối khoa học có thể chọn lộ trình 2+2 sang Liverpool ở nhiều ngành.</span><a class="btn btn-navy zalo-link" href="#">Hỏi về nhóm ngành này</a></div>
+        <div class="foot"><span class="small muted">Sinh viên khối khoa học có thể chọn lộ trình 2+2 sang Liverpool ở nhiều ngành.</span><a class="btn btn-navy zalo-link" href="#">Hỏi về nhóm ngành này (Zalo)</a></div>
       </div>
       <div class="pkg-panel" data-panel="design">
         <span class="pill navy">Design School · Academy of Film and Creative Technology</span>
@@ -727,7 +750,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
           <li><b>Filmmaking · TV Production · Digital Media Arts</b><span>BA (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/" target="_blank" rel="noopener">Danh sách ↗</a></li>
           <li><b>Media &amp; Communication Studies</b><span>BA (Hons)</span><a href="https://www.xjtlu.edu.cn/en/study/undergraduate/" target="_blank" rel="noopener">Danh sách ↗</a></li>
         </ul>
-        <div class="foot"><span class="small muted">Architecture, Filmmaking, TV Production, Digital Media Arts: cần portfolio + phỏng vấn (năm 2/3).</span><a class="btn btn-navy zalo-link" href="#">Hỏi về nhóm ngành này</a></div>
+        <div class="foot"><span class="small muted">Architecture, Filmmaking, TV Production, Digital Media Arts: cần portfolio + phỏng vấn (năm 2/3).</span><a class="btn btn-navy zalo-link" href="#">Hỏi về nhóm ngành này (Zalo)</a></div>
       </div>
     </div>
 
@@ -748,26 +771,27 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
       <div class="eyebrow">Học phí &amp; Học bổng</div>
       <h2>Chi phí bằng Anh Quốc với mức học phí châu Á</h2>
       <p class="lead">Học phí sinh viên quốc tế được XJTLU công bố cho kỳ nhập học 2026. Các mức giảm và học bổng có thể cộng dồn tùy điều kiện; hãy kiểm tra lại trang chính thức trước khi nộp hồ sơ.</p>
-      <div style="margin-top:14px"><span class="verified"><span class="dot"></span>Kỳ nhập học <b>2026</b> · kiểm tra lần cuối <b>24/08/2026</b> · <a class="src" href="https://www.xjtlu.edu.cn/en/admissions/global/fees-and-scholarships/" target="_blank" rel="noopener">Nguồn chính thức ↗</a></span></div>
+      <div style="margin-top:14px"><span class="verified"><span class="dot"></span>Kỳ nhập học <b>2026</b> · kiểm tra lần cuối <b>24/08/2026</b></span></div>
     </div>
     <div class="fee-grid">
       <div class="fee-hero reveal">
         <div class="eyebrow">Học phí đại học · sinh viên quốc tế</div>
         <div class="amt">93.000<small>RMB / năm</small></div>
-        <div class="vnd">≈ 335 triệu VND / năm <span style="color:#9fa9c0;font-weight:400">(tỷ giá tham khảo 1 RMB ≈ 3.600 VND)</span></div>
-        <p>Thấp hơn đáng kể so với du học Anh, Úc, Mỹ, trong khi vẫn nhận bằng của University of Liverpool. Không có phí nộp hồ sơ. Đặt cọc 10.000 RMB khi nhận thư mời nhập học vô điều kiện (được trừ vào học phí).</p>
+        <div class="vnd">≈ 335 triệu VND / năm</div>
+        <p>Thấp hơn đáng kể so với du học Anh, Úc, Mỹ, trong khi vẫn nhận bằng của University of Liverpool.</p>
         <div class="cmp">
-          <div><b>XJTLU</b><div class="bar"><i style="width:34%"></i></div><span>≈ 335 tr</span></div>
-          <div><b>Anh Quốc*</b><div class="bar"><i style="width:80%;opacity:.45"></i></div><span>≈ 700–900 tr</span></div>
-          <div><b>Úc / Mỹ*</b><div class="bar"><i style="width:100%;opacity:.35"></i></div><span>≈ 800 tr–1 tỷ+</span></div>
+          <div><b>XJTLU</b><div class="bar"><i style="width:29%"></i></div><span>≈ 335 tr</span></div>
+          <div><b>Úc*</b><div class="bar"><i style="width:71%;opacity:.4"></i></div><span>≈ 840 tr</span></div>
+          <div><b>Anh Quốc*</b><div class="bar"><i style="width:86%;opacity:.45"></i></div><span>≈ 1 tỷ</span></div>
+          <div><b>Mỹ*</b><div class="bar"><i style="width:100%;opacity:.32"></i></div><span>≈ 1,17 tỷ</span></div>
         </div>
-        <p class="small" style="margin-top:12px;color:#9fa9c0">* Mức học phí phổ biến cho sinh viên quốc tế tại các đại học công lập, chỉ để so sánh tương đối.</p>
+        <p class="small" style="margin-top:12px;color:#9fa9c0">* Mức học phí phổ biến cho sinh viên quốc tế tại các đại học công lập hàng đầu</p><p class="small" style="margin-top:4px;color:#9fa9c0">* Nếu tính thêm chi phí ăn ở, sinh hoạt và các khoản khác, mức chênh lệch sẽ còn lớn hơn.</p>
       </div>
       <div class="schol">
         <div class="card reveal d1"><div class="pct">50%</div><div><b>Học bổng đầu vào (Entry Scholarship)</b><p>Tối đa 50% học phí mỗi năm cho sinh viên quốc tế có thành tích học tập xuất sắc. Gia hạn hằng năm nếu duy trì kết quả tốt. Đánh dấu mục "XJTLU Entry Scholarship" khi nộp hồ sơ online – nộp sớm để còn suất.</p></div></div>
         <div class="card reveal d2"><div class="pct">10%</div><div><b>Ưu đãi nộp sớm (Early Bird)</b><p>Giảm 10% học phí mỗi năm nếu nộp đủ hồ sơ trước hạn Early Bird (kỳ 2026: 15/4) và đóng cọc đúng hạn ghi trên thư mời.</p></div></div>
         <div class="card reveal d3"><div class="pct">10%</div><div><b>Ưu đãi 2+2 tại Liverpool</b><p>Sinh viên chuyển sang University of Liverpool học năm 3–4 được giảm 10% học phí tại Liverpool.</p></div></div>
-        <div class="card reveal d4"><div class="pct">¥1万</div><div><b>Học bổng tiến bộ (Progression)</b><p>10.000 RMB cho sinh viên đạt loại xuất sắc, 5.000 RMB cho loại giỏi theo kết quả năm học trước – xét tự động, không cần nộp đơn. Ngoài ra có giảm học phí cho anh chị em cùng học (5–15%).</p></div></div>
+        <div class="card reveal d4"><div class="pct">5~10%</div><div><b>Học bổng tiến bộ (Progression)</b><p>10.000 RMB cho sinh viên đạt loại xuất sắc, 5.000 RMB cho loại giỏi theo kết quả năm học trước – xét tự động, không cần nộp đơn. Ngoài ra có giảm học phí cho anh chị em cùng học (5–15%).</p></div></div>
       </div>
     </div>
   </div>
@@ -833,7 +857,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
       <div class="eyebrow">Tuyển sinh</div>
       <h2>Điều kiện tuyển sinh dành cho học sinh Việt Nam</h2>
       <p class="lead">Ba lối vào chương trình đại học: nhập học năm 1 bằng bằng tốt nghiệp THPT Việt Nam, chuyển tiếp năm 2 hoặc năm 3 từ đại học Việt Nam, hoặc xét tuyển thẳng năm 2 bằng bằng cấp quốc tế (IB, A-Level, SAT/AP). Chương trình thạc sĩ có trang thông tin riêng.</p>
-      <div style="margin-top:14px"><span class="verified"><span class="dot"></span>Yêu cầu cho kỳ <b>2026</b> · kiểm tra lần cuối <b>24/08/2026</b> · <a class="src" href="https://www.xjtlu.edu.cn/en/admissions/global/qualifications" target="_blank" rel="noopener">Yêu cầu theo quốc gia ↗</a></span></div>
+      <div style="margin-top:14px"><span class="verified"><span class="dot"></span>Yêu cầu cho kỳ <b>2026</b> · kiểm tra lần cuối <b>24/08/2026</b></span></div>
     </div>
 
     <div class="adm-tabs reveal" role="tablist">
@@ -853,13 +877,13 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
           <div class="req-row"><div class="k">Bằng cấp</div><div class="v"><b>Bằng tốt nghiệp THPT</b> (Bằng Tốt Nghiệp Phổ Thông Trung Học)</div></div>
           <div class="req-row"><div class="k">Học lực</div><div class="v">Điểm trung bình <b>từ 7,0/10</b>, có yêu cầu riêng với các môn liên quan đến ngành (ví dụ: Toán/Lý cho khối kỹ thuật – khoa học)</div></div>
           <div class="req-row"><div class="k">Kỳ thi quốc gia</div><div class="v">Kết quả <b>kỳ thi tốt nghiệp THPT quốc gia</b> với yêu cầu cụ thể theo ngành</div></div>
-          <div class="req-row"><div class="k">Tiếng Anh</div><div class="v"><b>IELTS 5.0</b> (không kỹ năng nào dưới 4.0) hoặc tương đương (TOEFL iBT, PTE, Duolingo…). Chưa đủ điểm? Có thể thi bài kiểm tra tiếng Anh của XJTLU hoặc học khóa tiếng Anh dự bị 4–6 tuần.</div></div>
+          <div class="req-row"><div class="k">Tiếng Anh</div><div class="v"><b>IELTS 5.0</b> (không kỹ năng nào dưới 4.0) hoặc tương đương (TOEFL iBT, PTE, Duolingo…). Chưa đủ điểm? Có thể thi bài kiểm tra tiếng Anh của XJTLU.</div></div>
           <div class="req-row"><div class="k">Hồ sơ</div><div class="v">Học bạ 3 năm THPT (bản dịch tiếng Anh công chứng), bằng/giấy chứng nhận tốt nghiệp, hộ chiếu, chứng chỉ tiếng Anh, thư giới thiệu (nếu có)</div></div>
         </div>
         <div class="req-side">
           <div class="card"><h4>✅ Ai phù hợp?</h4><p>Học sinh lớp 12 hoặc vừa tốt nghiệp THPT, học lực khá trở lên, muốn có bằng Anh Quốc với chi phí hợp lý và môi trường tiếng Anh ngay từ năm đầu.</p></div>
           <div class="card"><h4>💡 Lưu ý</h4><ul><li>Không cần biết tiếng Trung khi nhập học.</li><li>Học sinh lớp 12 có thể nộp hồ sơ bằng học bạ tạm thời và nhận thư mời có điều kiện.</li><li>Không có phí nộp hồ sơ.</li></ul></div>
-          <div class="card" style="background:var(--gold-3);border-color:var(--gold-2)"><h4>Không chắc mình đủ điều kiện?</h4><p>Gửi học bạ qua Zalo, TNS sẽ đánh giá sơ bộ miễn phí trong 1–2 ngày làm việc.</p><a class="btn btn-navy zalo-link" href="#" style="margin-top:14px;width:100%">Gửi học bạ qua Zalo</a></div>
+          <div class="card" style="background:var(--gold-3);border-color:var(--gold-2)"><h4>Không chắc mình đủ điều kiện?</h4><p>Gửi học bạ qua Zalo, SOS sẽ đánh giá sơ bộ miễn phí trong 1–2 ngày làm việc.</p><a class="btn btn-navy zalo-link" href="#" style="margin-top:14px;width:100%">Gửi học bạ qua Zalo</a></div>
         </div>
       </div>
     </div>
@@ -880,7 +904,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
         <div class="req-side">
           <div class="card"><h4>✅ Ai phù hợp?</h4><p>Sinh viên năm 1–2 đại học tại Việt Nam muốn "đổi hướng" sang bằng Anh Quốc mà không phải học lại từ đầu.</p></div>
           <div class="card"><h4>💡 Lưu ý</h4><ul><li>Việc xét tuyển dựa trên hồ sơ từng trường hợp; XJTLU không công nhận chuyển đổi tín chỉ tự động.</li><li>Nếu chưa đạt yêu cầu năm 2, bạn vẫn có thể được xét nhập học năm 1.</li></ul></div>
-          <div class="card" style="background:var(--gold-3);border-color:var(--gold-2)"><h4>Đánh giá hồ sơ chuyển tiếp</h4><p>Gửi bảng điểm đại học và học bạ THPT, TNS sẽ tư vấn ngành và năm nhập học phù hợp.</p><a class="btn btn-navy zalo-link" href="#" style="margin-top:14px;width:100%">Tư vấn qua Zalo</a></div>
+          <div class="card" style="background:var(--gold-3);border-color:var(--gold-2)"><h4>Đánh giá hồ sơ chuyển tiếp</h4><p>Gửi bảng điểm đại học và học bạ THPT, SOS sẽ tư vấn ngành và năm nhập học phù hợp.</p><a class="btn btn-navy zalo-link" href="#" style="margin-top:14px;width:100%">Tư vấn qua Zalo</a></div>
         </div>
       </div>
     </div>
@@ -901,7 +925,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
         <div class="req-side">
           <div class="card"><h4>✅ Ai phù hợp?</h4><p>Sinh viên năm 3 đại học muốn tốt nghiệp với bằng University of Liverpool chỉ sau 2 năm, đồng thời có thêm trải nghiệm Trung Quốc.</p></div>
           <div class="card"><h4>💡 Lưu ý</h4><ul><li>Việc được nhận vào năm 3 phụ thuộc vào mức độ tương thích chương trình – nộp đề cương môn học (syllabus) tiếng Anh để xét.</li><li>Nếu chỉ đủ điều kiện năm 2, XJTLU có thể đề xuất phương án thay thế.</li></ul></div>
-          <div class="card" style="background:var(--gold-3);border-color:var(--gold-2)"><h4>Đánh giá tương thích ngành</h4><p>Gửi bảng điểm + đề cương môn học, TNS sẽ tra cứu ngành tương ứng tại XJTLU trước khi bạn nộp hồ sơ.</p><a class="btn btn-navy zalo-link" href="#" style="margin-top:14px;width:100%">Tư vấn qua Zalo</a></div>
+          <div class="card" style="background:var(--gold-3);border-color:var(--gold-2)"><h4>Đánh giá tương thích ngành</h4><p>Gửi bảng điểm + đề cương môn học, SOS sẽ tra cứu ngành tương ứng tại XJTLU trước khi bạn nộp hồ sơ.</p><a class="btn btn-navy zalo-link" href="#" style="margin-top:14px;width:100%">Tư vấn qua Zalo</a></div>
         </div>
       </div>
     </div>
@@ -918,7 +942,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
       <div class="grid g3" style="margin-top:22px">
         <div class="card reveal"><div class="k" style="font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);text-transform:uppercase">Canada · OSSD</div><p style="margin-top:8px">OSSD trung bình 70% với 6 môn lớp 12 (U/M) – xét vào năm 2.</p></div>
         <div class="card reveal d1"><div class="k" style="font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);text-transform:uppercase">Úc · ATAR</div><p style="margin-top:8px">Hoàn thành lớp 12 với ATAR 86 – xét vào năm 2.</p></div>
-        <div class="card reveal d2"><div class="k" style="font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);text-transform:uppercase">Trường quốc tế tại Việt Nam</div><p style="margin-top:8px">Học sinh chương trình Cambridge / IB / Mỹ tại Việt Nam áp dụng các mức trên; TNS hỗ trợ đối chiếu.</p></div>
+        <div class="card reveal d2"><div class="k" style="font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);text-transform:uppercase">Trường quốc tế tại Việt Nam</div><p style="margin-top:8px">Học sinh chương trình Cambridge / IB / Mỹ tại Việt Nam áp dụng các mức trên; SOS hỗ trợ đối chiếu.</p></div>
       </div>
       <p class="note">Nguồn: <a class="src" href="https://www.xjtlu.edu.cn/en/admissions/ug/global/entry-requirements" target="_blank" rel="noopener">XJTLU International Entry Requirements ↗</a> · <a class="src" href="https://www.xjtlu.edu.cn/en/admissions/global/qualifications" target="_blank" rel="noopener">Country/Region qualifications ↗</a>. Yêu cầu có thể thay đổi theo năm.</p>
     </div>
@@ -934,14 +958,14 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
         <div class="tl-step"><div class="n">EB</div><b>Hạn Early Bird</b><small>15 tháng 4 · giảm 10%</small></div>
         <div class="tl-step final"><div class="n">5</div><b>Hạn cuối</b><small>15 tháng 5 · nhập học tháng 9</small></div>
       </div>
-      <p class="note">Học bổng đầu vào được xét theo từng đợt; nộp càng sớm cơ hội càng cao. Hồ sơ nộp sau 15/5 có thể được xem xét tùy chỉ tiêu – hãy hỏi TNS.</p>
+      <p class="note">Học bổng đầu vào được xét theo từng đợt; nộp càng sớm cơ hội càng cao. Hồ sơ nộp sau 15/5 có thể được xem xét tùy chỉ tiêu – hãy hỏi SOS.</p>
     </div>
 
     <!-- Process -->
     <div class="process reveal">
       <div class="tbl-title">Quy trình từ nộp hồ sơ đến nhập học</div>
       <div class="steps">
-        <div class="step"><div class="no">BƯỚC 1</div><b>Tư vấn &amp; đánh giá</b><p>Gửi học bạ/bảng điểm qua Zalo; TNS đánh giá điều kiện và chọn ngành.</p></div>
+        <div class="step"><div class="no">BƯỚC 1</div><b>Tư vấn &amp; đánh giá</b><p>Gửi học bạ/bảng điểm qua Zalo; Trung tâm SOS tại TP. Hồ Chí Minh &amp; Hà Nội đánh giá điều kiện và chọn ngành cùng bạn.</p></div>
         <div class="step"><div class="no">BƯỚC 2</div><b>Nộp hồ sơ online</b><p>Tạo tài khoản trên cổng XJTLU, tải hồ sơ đã dịch công chứng. Miễn phí.</p></div>
         <div class="step"><div class="no">BƯỚC 3</div><b>Nhận thư mời</b><p>Thư mời có điều kiện / vô điều kiện, kèm kết quả học bổng (nếu có).</p></div>
         <div class="step"><div class="no">BƯỚC 4</div><b>Đặt cọc 10.000 RMB</b><p>Giữ chỗ; được trừ vào học phí. Nhận hướng dẫn đặt ký túc xá &amp; đón sân bay.</p></div>
@@ -957,7 +981,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
   <div class="container">
     <div class="section-head reveal">
       <div class="eyebrow">Câu chuyện</div>
-      <h2>Vì sao sinh viên Đông Nam Á chọn XJTLU</h2>
+      <h2>Vì sao sinh viên châu Á chọn XJTLU</h2>
       <p class="lead">Cộng đồng Việt Nam tại XJTLU đang hình thành. Dưới đây là những câu chuyện có thật từ Việt Nam và các nước láng giềng, được tóm tắt từ bài viết chính thức của XJTLU – nhấn "Bài gốc" để đọc đầy đủ.</p>
     </div>
 
@@ -968,14 +992,17 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
       <div class="story reveal d2"><span class="tag">Việt Nam góp mặt</span><div class="who"><div class="av vn">VN</div><div><b>Summer School 2025</b><small>70 học viên · hơn 12 quốc gia, trong đó có Việt Nam</small></div></div><p>Khóa Summer School do IBSS đồng tổ chức năm 2025 quy tụ 70 học viên từ hơn 12 quốc gia; Việt Nam được nêu tên trong danh sách các nước tham dự – sự hiện diện của người Việt tại XJTLU đang tiếp nối qua từng năm.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2025/07/global-cohort-arrives-in-suzhou-for-ibss-co-hosted-summer-school-on-doing-business-in-a-changing-china" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
     </div>
 
-    <div class="vn-band reveal" style="margin-top:36px"><span class="pill jade">🌏 Đông Nam Á</span><span class="small muted">Lý do chọn trường mà học sinh Việt Nam sẽ thấy quen thuộc</span></div>
+    <div class="vn-band reveal" style="margin-top:36px"><span class="pill jade">Câu chuyện du học sinh</span><span class="small muted">Lý do chọn trường mà học sinh Việt Nam sẽ thấy quen thuộc</span></div>
     <div class="story-grid">
       <div class="story reveal"><span class="tag">Quy mô</span><div class="who"><div class="av id">ID</div><div><b>Indonesia</b><small>Cộng đồng sinh viên quốc tế lớn nhất tại XJTLU</small></div></div><p>Khoảng 700 sinh viên Indonesia đang theo học và hơn 1.500 hồ sơ nộp cho năm học mới (công bố 2026) – bằng chứng rõ nhất rằng mô hình "bằng Anh, học tại Trung Quốc" phù hợp với Đông Nam Á.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2026/06/xjtlu-holds-its-first-ever-indonesia-forum-to-discuss-how-collaboration-can-help-graduates-be-globally-competitive" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
       <div class="story reveal d1"><span class="tag">Lựa chọn châu Á</span><div class="who"><div class="av th">PC</div><div><b>Peesapat</b><small>Thái Lan · sinh viên XJTLU</small></div></div><p>Muốn học ở châu Á, bị thu hút bởi môi trường kinh doanh – công nghệ của Trung Quốc và sự kết nối với chương trình Liverpool; cuộc sống tại Tô Châu là lý do giữ chân.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2022/04/finding-yourself-in-times-of-uncertainty" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
-      <div class="story reveal d2"><span class="tag">Best of both worlds</span><div class="who"><div class="av th">NS</div><div><b>Nick</b><small>Thái Lan · Financial Mathematics</small></div></div><p>Cảm nhận mô hình Trung – Anh là "điều tốt nhất của cả hai thế giới": vừa hiểu cách làm kinh doanh ở Trung Quốc, vừa hướng tới sự nghiệp tài chính tại Thượng Hải.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2018/03/international-student-ambassadors-share-their-experiences" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
+      <div class="story reveal d2"><span class="tag">Best of both worlds</span><div class="who"><div class="av th">NS</div><div><b>Nick</b><small>Thái Lan · Financial Mathematics</small></div></div><p>Cảm nhận mô hình Anh – Trung là "điều tốt nhất của cả hai thế giới": vừa hiểu cách làm kinh doanh ở Trung Quốc, vừa hướng tới sự nghiệp tài chính tại Thượng Hải.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2018/03/international-student-ambassadors-share-their-experiences" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
       <div class="story reveal"><span class="tag">Từ hệ Anh – Úc</span><div class="who"><div class="av my">MY</div><div><b>Malaysia</b><small>Data Science · Actuarial Science · sau đại học</small></div></div><p>Sinh viên Malaysia – vốn quen với giáo dục Anh/Úc – chọn XJTLU vì các ngành dữ liệu, khoa học tính toán và cơ hội nghiên cứu, học lên cao học.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2022/04/step-into-the-future-with-courage" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
       <div class="story reveal d1"><span class="tag">Kết quả</span><div class="who"><div class="av sg">SG</div><div><b>Singapore</b><small>Điểm đến sự nghiệp của cựu sinh viên</small></div></div><p>Hơn 500 cựu sinh viên XJTLU đã sang Singapore học tập và làm việc; khoảng 150 người đang sinh sống tại đây – một đích đến quen thuộc với nhiều gia đình Việt Nam.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2026/04/building-bridges-in-southeast-asia" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
       <div class="story reveal d2"><span class="tag">2026</span><div class="who"><div class="av">SEA</div><div><b>Mở rộng tại Đông Nam Á</b><small>Indonesia · Thái Lan · Malaysia</small></div></div><p>XJTLU đang tăng cường gặp gỡ học sinh, phụ huynh tại Đông Nam Á; số hồ sơ quốc tế ở một số khoa tăng nhanh trong năm 2026. Việt Nam là thị trường tiếp theo.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2026/04/building-bridges-in-southeast-asia" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
+      <div class="story reveal"><span class="tag">Thành tích tiếng Trung thương mại</span><div class="who"><div class="av">3</div><div><b>3 câu chuyện du học và việc làm thành công</b><small>Ephraim Tjiunardi (Indonesia) · Yuseon Lee (Hàn Quốc) · Ulzii-Uchral Batbayar (Mông Cổ)</small></div></div><p>Đây là những sinh viên quốc tế đã học phần Business Chinese thiên về thực hành tại XJTLU. Nhờ đó, họ tự tin chuẩn bị CV bằng tiếng Trung và phỏng vấn tại ngày hội việc làm, đồng thời được hỗ trợ thiết thực khi làm việc tại các doanh nghiệp Trung Quốc sau khi tốt nghiệp.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2024/12/business-chinese-boosts-international-students-career-prospects" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
+      <div class="story reveal d1"><span class="tag">Quan hệ quốc tế</span><div class="who"><div class="av no">TA</div><div><b>Tiril Aasen</b><small>Na Uy · BA International Relations, tốt nghiệp 2024</small></div></div><p>So với các bạn cùng lớp thạc sĩ An ninh - Tình báo (học tại Anh, Ireland và Séc), Aasen cho biết tấm bằng lấy được tại Trung Quốc chính là lợi thế lớn nhất của cô.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2025/04/norwegian-students-global-journey-through-education" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
+      <div class="story reveal d2"><span class="tag">Sinh viên trao đổi</span><div class="who"><div class="av ru">VE</div><div><b>Vlada Entina</b><small>Nga · Trao đổi từ Higher School of Economics (Saint Petersburg)</small></div></div><p>"Không khí lớp học ở XJTLU rất cởi mở và tương tác, giảng viên thực sự coi trọng ý kiến của sinh viên" — một học kỳ trao đổi giúp Entina tự tin và chủ động hơn hẳn.</p><a class="src" href="https://www.xjtlu.edu.cn/en/news/2026/07/russian-students-exchange" target="_blank" rel="noopener">Bài gốc XJTLU ↗</a></div>
     </div>
 
     <!-- Faculty -->
@@ -1022,15 +1049,15 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
       <h2>Câu hỏi phụ huynh và học sinh Việt Nam hay hỏi</h2>
     </div>
     <div class="faq reveal">
-      <details class="qa" open><summary><span class="q">Q</span>XJTLU là trường Trung Quốc hay trường Anh?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">XJTLU là đại học liên doanh Trung – Anh (Sino-British joint venture) do Xi'an Jiaotong University và University of Liverpool đồng sáng lập, đặt tại Tô Châu. Trường được Bộ Giáo dục Trung Quốc cấp phép; chương trình giảng dạy bằng tiếng Anh theo cấu trúc bằng cấp của University of Liverpool. Không nên gọi là "cơ sở Trung Quốc của Liverpool" – chính xác là một trường độc lập do hai đại học hợp tác thành lập.</div></details>
-      <details class="qa"><summary><span class="q">Q</span>Tôi có nhận được bằng của University of Liverpool không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Có. Sinh viên tốt nghiệp đại học nhận bằng cử nhân của University of Liverpool cùng bằng của XJTLU. Năm 2026, 3.797 sinh viên đại học đã nhận đồng thời hai văn bằng. Điều kiện cụ thể theo từng ngành xem tại <a href="https://www.liverpool.ac.uk/xjtlu/the-xjtlu-partnership/" target="_blank" rel="noopener">trang của University of Liverpool</a>.</div></details>
-      <details class="qa"><summary><span class="q">Q</span>Có cần biết tiếng Trung để nhập học không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Không. Điều kiện ngôn ngữ đầu vào là tiếng Anh (IELTS 5.0 cho năm 1, 6.5 cho năm 2–3 hoặc tương đương). Tiếng Trung được học như một môn bổ trợ trong suốt quá trình – rất nhiều sinh viên quốc tế đạt HSK 4–5 sau vài năm mà không cần biết trước.</div></details>
+      <details class="qa" open><summary><span class="q">Q</span>XJTLU là trường Anh hay trường Trung Quốc?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">XJTLU là đại học liên doanh Anh – Trung (Sino-British joint venture) do University of Liverpool và Xi'an Jiaotong University đồng sáng lập, đặt tại Tô Châu. Chương trình giảng dạy bằng tiếng Anh theo cấu trúc bằng cấp của University of Liverpool; trường được Bộ Giáo dục Trung Quốc cấp phép.</div></details>
+      <details class="qa"><summary><span class="q">Q</span>Tôi có nhận được bằng của University of Liverpool không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Có. Sinh viên tốt nghiệp đại học nhận bằng cử nhân của University of Liverpool (Anh Quốc) cùng bằng của XJTLU (Trung Quốc). Năm 2026, 3.797 sinh viên đại học đã nhận đồng thời hai văn bằng. Điều kiện cụ thể theo từng ngành xem tại <a href="https://www.liverpool.ac.uk/xjtlu/the-xjtlu-partnership/" target="_blank" rel="noopener">trang của University of Liverpool</a>.</div></details>
+      <details class="qa"><summary><span class="q">Q</span>Có cần biết tiếng Trung để nhập học không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Không. Điều kiện ngôn ngữ đầu vào là tiếng Anh (IELTS 5.0 cho năm 1, 6.5 cho năm 2–3 hoặc tương đương). Tiếng Trung được học như một môn bổ trợ trong suốt quá trình – rất nhiều sinh viên quốc tế đạt HSK 4–6 sau vài năm mà không cần biết trước.</div></details>
       <details class="qa"><summary><span class="q">Q</span>Trường ở Thượng Hải à?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Cơ sở chính nằm tại Khu công nghiệp Tô Châu (Suzhou Industrial Park), tỉnh Giang Tô – cách Thượng Hải khoảng 30 phút tàu cao tốc. Cơ sở thứ hai (Entrepreneur College) ở Thái Thương, giáp Thượng Hải. Bạn sống ở một thành phố hiện đại, an toàn, chi phí hợp lý hơn Thượng Hải nhưng vẫn tiếp cận trung tâm tài chính lớn nhất Trung Quốc dễ dàng.</div></details>
       <details class="qa"><summary><span class="q">Q</span>Tổng chi phí một năm khoảng bao nhiêu?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Học phí 93.000 RMB/năm (≈ 335 triệu VND), ký túc xá khoảng 1.700 RMB/tháng, sinh hoạt phí tiết kiệm khoảng 3.700 RMB/tháng. Tổng ước tính 480–550 triệu VND/năm trước học bổng. Với học bổng đầu vào (đến 50%) và Early Bird (10%), chi phí có thể giảm đáng kể.</div></details>
       <details class="qa"><summary><span class="q">Q</span>Học tiếng Trung có giúp dễ xin việc hơn không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Thị trường lao động Việt Nam đang có tín hiệu tăng nhu cầu nhân sự biết tiếng Trung (tin tuyển dụng yêu cầu tiếng Trung tăng khoảng 49% trong năm 2025 theo JobOKO; nhiều doanh nghiệp FDI Trung Quốc yêu cầu cả tiếng Anh và tiếng Trung). Tuy nhiên, việc làm và mức lương của mỗi cá nhân không thể được bảo đảm – tiếng Trung là lợi thế cộng thêm trên nền tảng chuyên môn và tiếng Anh.</div></details>
-      <details class="qa"><summary><span class="q">Q</span>Có nhiều sinh viên Việt Nam ở XJTLU không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Cộng đồng Việt Nam tại XJTLU còn nhỏ và đang hình thành – đây chính là cơ hội "đi trước". Trường có hơn 26.000 sinh viên từ 90+ quốc gia, trong đó Đông Nam Á (đặc biệt Indonesia với ~700 sinh viên) là cộng đồng lớn và năng động. Bạn sẽ không cô đơn, và TNS kết nối các bạn Việt Nam nhập học cùng kỳ.</div></details>
-      <details class="qa"><summary><span class="q">Q</span>Sau 2 năm có thể chuyển sang học tại Anh không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Nhiều ngành có lộ trình 2+2 (hoặc 2+1+1): học 2 năm tại Tô Châu rồi chuyển sang University of Liverpool cho năm 3–4, được giảm 10% học phí tại Liverpool. Không phải mọi ngành đều áp dụng và cần đạt điều kiện học lực – hãy hỏi TNS về ngành bạn quan tâm.</div></details>
-      <details class="qa"><summary><span class="q">Q</span>Thủ tục visa du học Trung Quốc có phức tạp không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Sau khi đóng cọc, XJTLU cấp form JW202/DQ để bạn xin visa du học X1 tại Trung tâm tiếp nhận hồ sơ visa Trung Quốc ở Hà Nội hoặc TP.HCM. Sau khi nhập cảnh, trường hỗ trợ khám sức khỏe và đổi sang thẻ cư trú dài hạn. TNS hướng dẫn từng bước và kiểm tra hồ sơ trước khi nộp.</div></details>
+      <details class="qa"><summary><span class="q">Q</span>Có nhiều sinh viên Việt Nam ở XJTLU không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Cộng đồng Việt Nam tại XJTLU còn nhỏ và đang hình thành – đây chính là cơ hội "đi trước". Trường có hơn 28.000 sinh viên từ 90+ quốc gia, trong đó Đông Nam Á (đặc biệt Indonesia với ~700 sinh viên) là cộng đồng lớn và năng động. Bạn sẽ không cô đơn, và SOS kết nối các bạn Việt Nam nhập học cùng kỳ.</div></details>
+      <details class="qa"><summary><span class="q">Q</span>Sau 2 năm có thể chuyển sang học tại Anh không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Nhiều ngành có lộ trình 2+2 (hoặc 2+1+1): học 2 năm tại Tô Châu rồi chuyển sang University of Liverpool cho năm 3–4, được giảm 10% học phí tại Liverpool. Không phải mọi ngành đều áp dụng và cần đạt điều kiện học lực – hãy hỏi SOS về ngành bạn quan tâm.</div></details>
+      <details class="qa"><summary><span class="q">Q</span>Thủ tục visa du học Trung Quốc có phức tạp không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Thủ tục visa du học Trung Quốc rất đơn giản và tỷ lệ đậu cao. Sau khi đóng cọc, XJTLU cấp form JW202/DQ để bạn xin visa du học X1 tại Trung tâm tiếp nhận hồ sơ visa Trung Quốc ở Hà Nội hoặc TP.HCM. Sau khi nhập cảnh, trường hỗ trợ khám sức khỏe và đổi sang thẻ cư trú dài hạn. SOS hướng dẫn từng bước và kiểm tra hồ sơ trước khi nộp.</div></details>
     </div>
   </div>
 </section>
@@ -1041,24 +1068,24 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
     <div class="section-head reveal">
       <div class="eyebrow">Liên hệ</div>
       <h2>Bắt đầu bằng một tin nhắn Zalo</h2>
-      <p class="lead">TNS Worldwide là công ty tư vấn du học tại Seoul (Hàn Quốc), hợp tác tuyển sinh cho XJTLU và các đại học liên doanh tại Trung Quốc từ nhiều năm. Tư vấn hoàn toàn miễn phí, trao đổi bằng tiếng Việt, tiếng Anh hoặc tiếng Hàn.</p>
+      <p class="lead">Hãy liên hệ SOS International để được tư vấn. Có văn phòng tại TP. Hồ Chí Minh và Hà Nội, tư vấn hoàn toàn miễn phí bằng tiếng Việt, tiếng Anh hoặc tiếng Hàn.</p>
     </div>
     <div class="inq">
       <div class="inq-side reveal">
         <h3>Tư vấn 1:1 miễn phí</h3>
-        <p>Điều kiện nhập học · chọn ngành · học bổng · visa · ký túc xá. Gửi học bạ, TNS sẽ đánh giá sơ bộ trong 1–2 ngày làm việc.</p>
-        <a class="btn btn-zalo zalo-link" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>Chat Zalo với TNS</a>
+        <p>Điều kiện nhập học · chọn ngành · học bổng · visa · ký túc xá. Gửi học bạ, SOS sẽ đánh giá sơ bộ trong 1–2 ngày làm việc.</p>
+        <a class="btn btn-zalo zalo-link" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>Chat Zalo với SOS</a>
         <ul class="contact-list">
           <li><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 7l8 6 8-6"/></svg></div><div><small>Email</small><a href="mailto:khj@tnsuhak.com">khj@tnsuhak.com</a></div></li>
           <li><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.7a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.7a2 2 0 0 1 1.7 2z"/></svg></div><div><small>Điện thoại / WhatsApp (Hàn Quốc)</small><a href="tel:+821051500105">+82 10-5150-0105</a></div></li>
-          <li><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><small>Văn phòng</small>TNS Worldwide Co., Ltd. · Seoul, Hàn Quốc</div></li>
+          <li><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><small>Văn phòng · TP.HCM</small>Tầng 3, Bcons Tower II, 42/1 Ung Văn Khiêm, P. Thạnh Mỹ Tây, TP.HCM</div></li><li><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><small>Văn phòng · Hà Nội</small>Tầng 6, Tòa Veam Tây Hồ, Khu D1, P. Tây Hồ, Hà Nội</div></li>
           <li><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div><small>Giờ làm việc</small>Thứ 2 – Thứ 6 · 9:00–18:00 (giờ Hàn Quốc, GMT+9)</div></li>
         </ul>
       </div>
       <form class="form reveal d1" id="inquiryForm" name="xjtlu-vietnam-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/?success=true#inquiry">
         <input type="hidden" name="form-name" value="xjtlu-vietnam-inquiry">
         <p style="display:none"><label>Không điền ô này: <input name="bot-field"></label></p>
-        <h3>Để lại thông tin, TNS sẽ liên hệ lại</h3>
+        <h3>Để lại thông tin, SOS sẽ liên hệ lại</h3>
         <p class="hint">Bạn cũng có thể gửi email trực tiếp tới khj@tnsuhak.com. Thông tin chỉ dùng để tư vấn du học.</p>
         <div class="f-grid">
           <div class="f"><label for="fName">Họ và tên *</label><input id="fName" name="name" required placeholder="Nguyễn Văn A"></div>
@@ -1069,7 +1096,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
           <div class="f full"><label for="fMsg">Câu hỏi / thông tin học lực</label><textarea id="fMsg" name="message" placeholder="Điểm trung bình, IELTS (nếu có), thời điểm dự kiến nhập học…"></textarea></div>
         </div>
         <button class="btn btn-gold" type="submit">Gửi yêu cầu tư vấn</button>
-        <div class="form-ok" id="formOk">✅ Đã nhận thông tin. TNS sẽ liên hệ với bạn trong 1–2 ngày làm việc.</div>
+        <div class="form-ok" id="formOk">✅ Đã nhận thông tin. SOS sẽ liên hệ với bạn trong 1–2 ngày làm việc.</div>
       </form>
     </div>
   </div>
@@ -1088,8 +1115,8 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
   <div class="container">
     <div class="foot-grid">
       <div class="foot-brand">
-        <div class="brand"><div class="brand-mark">XJ</div><div class="brand-text"><b style="color:#fff">XJTLU Việt Nam</b><small style="color:#9fa9c0">by TNS Worldwide</small></div></div>
-        <p>Trang thông tin tiếng Việt về Xi'an Jiaotong-Liverpool University do TNS Worldwide (Seoul) – đối tác tuyển sinh – biên soạn. Số liệu dựa trên trang chính thức của XJTLU, kỳ nhập học 2026; vui lòng kiểm tra lại trước khi nộp hồ sơ.</p>
+        <div class="brand"><div class="brand-mark"><img src="data:image/webp;base64,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" alt="XJTLU logo"></div><div class="brand-text"><b style="color:#fff">XJTLU Việt Nam</b><small style="color:#9fa9c0">by SOS International</small></div></div>
+        <p>Trang thông tin tiếng Việt về Xi'an Jiaotong-Liverpool University do TNS Worldwide (Seoul) và đối tác tư vấn tại Việt Nam SOS International (TP. Hồ Chí Minh &amp; Hà Nội) cùng biên soạn. Số liệu dựa trên trang chính thức của XJTLU, kỳ nhập học 2026; vui lòng kiểm tra lại trước khi nộp hồ sơ.</p>
       </div>
       <div><h4>Nội dung</h4><ul><li><a href="#information">Giới thiệu</a></li><li><a href="#opportunity">Cơ hội</a></li><li><a href="#major">Ngành học</a></li><li><a href="#tuition">Học phí &amp; học bổng</a></li><li><a href="#rooms">Ký túc xá</a></li></ul></div>
       <div><h4>Tuyển sinh</h4><ul><li><a href="#admission">Điều kiện tuyển sinh</a></li><li><a href="#stories">Câu chuyện</a></li><li><a href="#reviews">Video</a></li><li><a href="#faq">Hỏi đáp</a></li><li><a href="#inquiry">Liên hệ</a></li></ul></div>
@@ -1097,7 +1124,6 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
     </div>
     <div class="foot-bottom">
       <span>TNS Worldwide Co., Ltd. (㈜티앤에스월드와이드) · Seoul, Korea · Tel. +82-2-3288-1733 · khj@tnsuhak.com</span>
-      <span>© 2026 TNS Worldwide. Trang này không phải trang web chính thức của XJTLU.</span>
     </div>
   </div>
 </footer>
