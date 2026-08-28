@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://xjtlu-vietnam.netlify.app/sitemap.xml
