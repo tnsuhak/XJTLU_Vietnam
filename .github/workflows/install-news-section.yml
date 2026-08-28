@@ -1,0 +1,29 @@
+name: Install News Section
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/install_news_section.py'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inject news section into homepage
+        run: python scripts/install_news_section.py
+      - name: Commit homepage update
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "No homepage changes"
+            exit 0
+          fi
+          git config user.name "TNS Site Manager"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add automated XJTLU news section"
+          git push
