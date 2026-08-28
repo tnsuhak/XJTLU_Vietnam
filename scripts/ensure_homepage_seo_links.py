@@ -4,47 +4,20 @@ PATH = Path("index.html")
 text = PATH.read_text(encoding="utf-8")
 original = text
 
-schema = r'''<!-- TNS_SEO_SCHEMA_START -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://xjtlu-vietnam.netlify.app/#website",
-      "url": "https://xjtlu-vietnam.netlify.app/",
-      "name": "XJTLU Vietnam",
-      "alternateName": "XJTLU Việt Nam",
-      "inLanguage": "vi-VN"
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://xjtlu-vietnam.netlify.app/#webpage",
-      "url": "https://xjtlu-vietnam.netlify.app/",
-      "name": "XJTLU Vietnam (Việt Nam) | Học phí, học bổng & tuyển sinh 2027",
-      "isPartOf": {"@id": "https://xjtlu-vietnam.netlify.app/#website"},
-      "inLanguage": "vi-VN",
-      "about": {
-        "@type": "CollegeOrUniversity",
-        "name": "Xi'an Jiaotong-Liverpool University",
-        "alternateName": "XJTLU",
-        "url": "https://www.xjtlu.edu.cn/"
-      }
-    }
-  ]
-}
-</script>
-<!-- TNS_SEO_SCHEMA_END -->'''
-
-if "<!-- TNS_SEO_SCHEMA_START -->" not in text:
-    if "</head>" not in text:
-        raise SystemExit("Could not find </head>")
-    text = text.replace("</head>", schema + "\n</head>", 1)
+# The homepage already contains a richer JSON-LD graph maintained in the
+# main source. Remove the temporary schema block added by this helper if it
+# exists so we do not duplicate WebSite/WebPage entities.
+start = "<!-- TNS_SEO_SCHEMA_START -->"
+end = "<!-- TNS_SEO_SCHEMA_END -->"
+if start in text and end in text:
+    before, rest = text.split(start, 1)
+    _, after = rest.split(end, 1)
+    text = before.rstrip() + "\n" + after.lstrip("\n")
 
 links_section = r'''<!-- TNS_SEO_GUIDES_START -->
 <section class="section ivory tns-seo-guides" id="xjtlu-guides">
   <style>
-    .tns-seo-guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.tns-seo-guide{display:flex;flex-direction:column;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}.tns-seo-guide:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(20,33,61,.12)}.tns-seo-guide h3{font-size:22px}.tns-seo-guide p{font-size:14px;color:var(--ink-2);margin:0}.tns-seo-guide .go{margin-top:auto;color:var(--jade);font-weight:800;font-size:14px}@media(max-width:900px){.tns-seo-guide-grid{grid-template-columns:1fr}} 
+    .tns-seo-guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.tns-seo-guide{display:flex;flex-direction:column;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}.tns-seo-guide:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(20,33,61,.12)}.tns-seo-guide h3{font-size:22px}.tns-seo-guide p{font-size:14px;color:var(--ink-2);margin:0}.tns-seo-guide .go{margin-top:auto;color:var(--jade);font-weight:800;font-size:14px}@media(max-width:900px){.tns-seo-guide-grid{grid-template-columns:1fr}}
   </style>
   <div class="container">
     <div class="section-head reveal">
@@ -84,6 +57,6 @@ if "<!-- TNS_SEO_GUIDES_START -->" not in text:
 
 if text != original:
     PATH.write_text(text, encoding="utf-8")
-    print("Homepage SEO structure updated")
+    print("Homepage SEO guide links updated")
 else:
-    print("Homepage SEO structure already current")
+    print("Homepage SEO guide links already current")
