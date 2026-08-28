@@ -1294,7 +1294,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
   <div class="container">
     <div class="foot-grid">
       <div class="foot-brand">
-        <div class="brand"><div class="brand-mark" aria-hidden="true">XJ</div><div class="brand-text"><b style="color:#fff">XJTLU Việt Nam</b><small style="color:#9fa9c0">by SOS International</small></div></div>
+        <div class="brand"><div class="brand-mark footer-brand-mark" aria-hidden="true">XJ</div><div class="brand-text"><b style="color:#fff">XJTLU Việt Nam</b><small style="color:#9fa9c0">by SOS International</small></div></div>
         <p>Trang thông tin tiếng Việt về Xi'an Jiaotong-Liverpool University do TNS Worldwide (Seoul) và đối tác tư vấn tại Việt Nam SOS International (TP. Hồ Chí Minh &amp; Hà Nội) cùng biên soạn. Số liệu dựa trên tài liệu chính thức của XJTLU cho kỳ nhập học 2027; vui lòng kiểm tra lại trước khi nộp hồ sơ.</p>
       </div>
       <div><h4>Nội dung</h4><ul><li><a href="#information">Giới thiệu</a></li><li><a href="#opportunity">Cơ hội</a></li><li><a href="#major">Ngành học</a></li><li><a href="#tuition">Học phí &amp; học bổng</a></li><li><a href="#rooms">Ký túc xá</a></li></ul></div>
@@ -1327,6 +1327,17 @@ const CONFIG = {
 (function(){
   // ---- Zalo links
   document.querySelectorAll('.zalo-link').forEach(a=>{a.href=CONFIG.ZALO_URL;a.target='_blank';a.rel='noopener';});
+
+  // ---- Keep footer brand mark visually identical to the header logo
+  const headerBrandLogo=document.querySelector('header.nav .brand-mark img');
+  const footerBrandMark=document.querySelector('footer .footer-brand-mark');
+  if(headerBrandLogo&&footerBrandMark){
+    const footerLogo=headerBrandLogo.cloneNode(true);
+    footerLogo.alt='';
+    footerLogo.setAttribute('aria-hidden','true');
+    footerBrandMark.textContent='';
+    footerBrandMark.appendChild(footerLogo);
+  }
 
   // ---- Nav scroll state + to-top
   const nav=document.getElementById('nav'), toTop=document.getElementById('toTop');
