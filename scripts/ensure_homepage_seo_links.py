@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 PATH = Path("index.html")
 text = PATH.read_text(encoding="utf-8")
@@ -13,6 +14,23 @@ if start in text and end in text:
     before, rest = text.split(start, 1)
     _, after = rest.split(end, 1)
     text = before.rstrip() + "\n" + after.lstrip("\n")
+
+# Do not advertise local social/icon assets that do not actually exist.
+# Broken og:image/favicon URLs create needless 404s for crawlers and social
+# preview bots. If assets are added later, these tags can be restored with
+# real files.
+optional_asset_patterns = [
+    r'^<meta property="og:image"[^>]*>\s*\n?',
+    r'^<meta property="og:image:width"[^>]*>\s*\n?',
+    r'^<meta property="og:image:height"[^>]*>\s*\n?',
+    r'^<meta property="og:image:alt"[^>]*>\s*\n?',
+    r'^<meta name="twitter:image"[^>]*>\s*\n?',
+    r'^<link rel="icon"[^>]*>\s*\n?',
+    r'^<link rel="apple-touch-icon"[^>]*>\s*\n?',
+]
+for pattern in optional_asset_patterns:
+    text = re.sub(pattern, "", text, flags=re.MULTILINE)
+text = text.replace('<meta name="twitter:card" content="summary_large_image">', '<meta name="twitter:card" content="summary">')
 
 links_section = r'''<!-- TNS_SEO_GUIDES_START -->
 <section class="section ivory tns-seo-guides" id="xjtlu-guides">
@@ -57,6 +75,6 @@ if "<!-- TNS_SEO_GUIDES_START -->" not in text:
 
 if text != original:
     PATH.write_text(text, encoding="utf-8")
-    print("Homepage SEO guide links updated")
+    print("Homepage SEO structure updated")
 else:
-    print("Homepage SEO guide links already current")
+    print("Homepage SEO structure already current")
