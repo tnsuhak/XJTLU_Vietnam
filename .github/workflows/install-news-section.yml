@@ -1,29 +1,32 @@
-name: Install News Section
+name: Render Static News
 
 on:
   workflow_dispatch:
   push:
     paths:
       - 'scripts/install_news_section.py'
+      - 'news/news-data.json'
+      - '.github/workflows/install-news-section.yml'
 
 permissions:
   contents: write
 
 jobs:
-  install:
+  render:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Inject news section into homepage
+      - name: Render crawlable news HTML
         run: python scripts/install_news_section.py
-      - name: Commit homepage update
+      - name: Commit rendered news pages
         run: |
-          if git diff --quiet -- index.html; then
-            echo "No homepage changes"
+          if [ -z "$(git status --porcelain -- index.html news/index.html)" ]; then
+            echo "No rendered news changes"
             exit 0
           fi
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
-          git add index.html
-          git commit -m "Add automated XJTLU news section"
+          git add index.html news/index.html
+          git commit -m "Render crawlable static XJTLU news"
           git push
