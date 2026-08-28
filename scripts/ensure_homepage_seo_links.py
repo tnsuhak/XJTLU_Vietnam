@@ -31,8 +31,7 @@ text = text.replace('<meta name="twitter:card" content="summary_large_image">', 
 
 # The same base64 logo was embedded twice (header and footer). Keep the
 # header copy because it is immediately visible, but replace the footer copy
-# with a lightweight text mark. This reduces HTML transfer/parse payload
-# without changing primary branding or adding another network request.
+# with a lightweight text mark.
 footer_marker = "<!-- ===================== FOOTER ===================== -->"
 if footer_marker in text:
     before_footer, footer = text.split(footer_marker, 1)
@@ -44,16 +43,19 @@ if footer_marker in text:
     )
     text = before_footer + footer_marker + footer
 
+# Keep separate landing pages only when search intent is clearly different.
+# General FAQ content is merged into the homepage/admissions content rather
+# than maintained as a thin overlapping page.
 links_section = r'''<!-- TNS_SEO_GUIDES_START -->
 <section class="section ivory tns-seo-guides" id="xjtlu-guides">
   <style>
-    .tns-seo-guide-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.tns-seo-guide{display:flex;flex-direction:column;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}.tns-seo-guide:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(20,33,61,.12)}.tns-seo-guide h3{font-size:22px}.tns-seo-guide p{font-size:14px;color:var(--ink-2);margin:0}.tns-seo-guide .go{margin-top:auto;color:var(--jade);font-weight:800;font-size:14px}@media(max-width:900px){.tns-seo-guide-grid{grid-template-columns:1fr}}
+    .tns-seo-guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.tns-seo-guide{display:flex;flex-direction:column;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}.tns-seo-guide:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(20,33,61,.12)}.tns-seo-guide h3{font-size:22px}.tns-seo-guide p{font-size:14px;color:var(--ink-2);margin:0}.tns-seo-guide .go{margin-top:auto;color:var(--jade);font-weight:800;font-size:14px}@media(max-width:900px){.tns-seo-guide-grid{grid-template-columns:1fr}}
   </style>
   <div class="container">
     <div class="section-head reveal">
       <div class="eyebrow">Hướng dẫn XJTLU 2027</div>
-      <h2>Thông tin XJTLU dành cho học sinh Việt Nam</h2>
-      <p class="lead">Các hướng dẫn chuyên sâu và câu trả lời trực tiếp về học phí, học bổng, điều kiện tuyển sinh, bằng cấp và lựa chọn học bằng tiếng Anh tại Trung Quốc.</p>
+      <h2>Thông tin chuyên sâu dành cho học sinh Việt Nam</h2>
+      <p class="lead">Chỉ tách thành trang riêng cho ba chủ đề có ý định tìm kiếm rõ ràng: học phí – học bổng, điều kiện tuyển sinh và du học Trung Quốc bằng tiếng Anh.</p>
     </div>
     <div class="tns-seo-guide-grid">
       <a class="tns-seo-guide reveal" href="/xjtlu-hoc-phi-hoc-bong-2027.html">
@@ -65,7 +67,7 @@ links_section = r'''<!-- TNS_SEO_GUIDES_START -->
       <a class="tns-seo-guide reveal d1" href="/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html">
         <span class="pill jade">Tuyển sinh</span>
         <h3>Điều kiện vào XJTLU cho học sinh Việt Nam</h3>
-        <p>Yêu cầu THPT, IELTS/TOEFL, lộ trình năm 1 và các lựa chọn chuyển tiếp dành cho hồ sơ từ Việt Nam.</p>
+        <p>Yêu cầu THPT, IELTS/TOEFL, chuyển tiếp, hồ sơ và thời gian xét tuyển dành cho ứng viên Việt Nam.</p>
         <span class="go">Xem điều kiện →</span>
       </a>
       <a class="tns-seo-guide reveal d2" href="/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html">
@@ -73,12 +75,6 @@ links_section = r'''<!-- TNS_SEO_GUIDES_START -->
         <h3>Du học Trung Quốc bằng tiếng Anh tại XJTLU</h3>
         <p>Vì sao XJTLU kết hợp môi trường Trung Quốc, chương trình tiếng Anh và bằng cấp gắn với University of Liverpool.</p>
         <span class="go">Tìm hiểu thêm →</span>
-      </a>
-      <a class="tns-seo-guide reveal" href="/xjtlu-cau-hoi-thuong-gap-vietnam.html">
-        <span class="pill jade">FAQ · Trả lời nhanh</span>
-        <h3>XJTLU là trường gì? 10 câu hỏi thường gặp</h3>
-        <p>Câu trả lời ngắn, có nguồn chính thức về tiếng Anh, bằng Liverpool, IELTS, điều kiện Việt Nam, 2+2 và hồ sơ.</p>
-        <span class="go">Xem 10 câu trả lời →</span>
       </a>
     </div>
   </div>
