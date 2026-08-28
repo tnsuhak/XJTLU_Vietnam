@@ -1,6 +1,18 @@
 {
   "site": "xjtlu-vietnam",
   "language": "vi",
-  "updated_at": null,
-  "items": []
+  "updated_at": "2026-08-28T22:00:00+09:00",
+  "items": [
+    {
+      "id": "xjtlu-indonesia-700-students-2026",
+      "title": "700 sinh viên Indonesia tại XJTLU: vì sao mô hình Anh–Trung đang thu hút Đông Nam Á?",
+      "summary": "XJTLU hiện có khoảng 700 sinh viên Indonesia và hơn 1.500 hồ sơ từ Indonesia cho năm học mới. Đây là một tín hiệu đáng chú ý về sức hút của mô hình học bằng tiếng Anh tại Trung Quốc đối với sinh viên Đông Nam Á.",
+      "date": "28/08/2026",
+      "source_date": "25/06/2026",
+      "url": "/news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html",
+      "source_url": "https://www.xjtlu.edu.cn/en/news/2026/06/xjtlu-holds-its-first-ever-indonesia-forum-to-discuss-how-collaboration-can-help-graduates-be-globally-competitive",
+      "image": null,
+      "category": "Đông Nam Á · Sinh viên quốc tế"
+    }
+  ]
 }
