@@ -29,19 +29,36 @@ for pattern in optional_asset_patterns:
     text = re.sub(pattern, "", text, flags=re.MULTILINE)
 text = text.replace('<meta name="twitter:card" content="summary_large_image">', '<meta name="twitter:card" content="summary">')
 
-# The same base64 logo was embedded twice (header and footer). Keep the
-# header copy because it is immediately visible, but replace the footer copy
-# with a lightweight text mark.
+# Keep the header logo as the single embedded Base64 payload. The footer uses
+# a small fallback mark in raw HTML, then copies the exact header logo at
+# runtime so both locations look identical without duplicating the image data.
 footer_marker = "<!-- ===================== FOOTER ===================== -->"
 if footer_marker in text:
     before_footer, footer = text.split(footer_marker, 1)
     footer = re.sub(
-        r'<div class="brand-mark"><img src="data:image/webp;base64,[^"]+"[^>]*></div>',
-        '<div class="brand-mark" aria-hidden="true">XJ</div>',
+        r'<div class="brand-mark(?: footer-brand-mark)?"(?: aria-hidden="true")?(?:><img src="data:image/webp;base64,[^"]+"[^>]*></div>|>XJ</div>)',
+        '<div class="brand-mark footer-brand-mark" aria-hidden="true">XJ</div>',
         footer,
         count=1,
     )
     text = before_footer + footer_marker + footer
+
+logo_sync = '''  // ---- Keep footer brand mark visually identical to the header logo
+  const headerBrandLogo=document.querySelector('header.nav .brand-mark img');
+  const footerBrandMark=document.querySelector('footer .footer-brand-mark');
+  if(headerBrandLogo&&footerBrandMark){
+    const footerLogo=headerBrandLogo.cloneNode(true);
+    footerLogo.alt='';
+    footerLogo.setAttribute('aria-hidden','true');
+    footerBrandMark.textContent='';
+    footerBrandMark.appendChild(footerLogo);
+  }
+
+'''
+logo_sync_marker = "  // ---- Keep footer brand mark visually identical to the header logo"
+nav_marker = "  // ---- Nav scroll state + to-top"
+if logo_sync_marker not in text and nav_marker in text:
+    text = text.replace(nav_marker, logo_sync + nav_marker, 1)
 
 # Keep separate landing pages only when search intent is clearly different.
 # General FAQ content is merged into the homepage/admissions content rather
