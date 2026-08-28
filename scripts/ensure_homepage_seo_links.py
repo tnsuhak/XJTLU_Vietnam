@@ -6,8 +6,8 @@ text = PATH.read_text(encoding="utf-8")
 original = text
 
 # The homepage already contains a richer JSON-LD graph maintained in the
-# main source. Remove the temporary schema block added by this helper if it
-# exists so we do not duplicate WebSite/WebPage entities.
+# main source. Remove any older helper-managed schema block so WebSite/WebPage
+# entities are not duplicated.
 start = "<!-- TNS_SEO_SCHEMA_START -->"
 end = "<!-- TNS_SEO_SCHEMA_END -->"
 if start in text and end in text:
@@ -16,9 +16,6 @@ if start in text and end in text:
     text = before.rstrip() + "\n" + after.lstrip("\n")
 
 # Do not advertise local social/icon assets that do not actually exist.
-# Broken og:image/favicon URLs create needless 404s for crawlers and social
-# preview bots. If assets are added later, these tags can be restored with
-# real files.
 optional_asset_patterns = [
     r'^<meta property="og:image"[^>]*>\s*\n?',
     r'^<meta property="og:image:width"[^>]*>\s*\n?',
@@ -32,16 +29,31 @@ for pattern in optional_asset_patterns:
     text = re.sub(pattern, "", text, flags=re.MULTILINE)
 text = text.replace('<meta name="twitter:card" content="summary_large_image">', '<meta name="twitter:card" content="summary">')
 
+# The same base64 logo was embedded twice (header and footer). Keep the
+# header copy because it is immediately visible, but replace the footer copy
+# with a lightweight text mark. This reduces HTML transfer/parse payload
+# without changing primary branding or adding another network request.
+footer_marker = "<!-- ===================== FOOTER ===================== -->"
+if footer_marker in text:
+    before_footer, footer = text.split(footer_marker, 1)
+    footer = re.sub(
+        r'<div class="brand-mark"><img src="data:image/webp;base64,[^"]+"[^>]*></div>',
+        '<div class="brand-mark" aria-hidden="true">XJ</div>',
+        footer,
+        count=1,
+    )
+    text = before_footer + footer_marker + footer
+
 links_section = r'''<!-- TNS_SEO_GUIDES_START -->
 <section class="section ivory tns-seo-guides" id="xjtlu-guides">
   <style>
-    .tns-seo-guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.tns-seo-guide{display:flex;flex-direction:column;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}.tns-seo-guide:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(20,33,61,.12)}.tns-seo-guide h3{font-size:22px}.tns-seo-guide p{font-size:14px;color:var(--ink-2);margin:0}.tns-seo-guide .go{margin-top:auto;color:var(--jade);font-weight:800;font-size:14px}@media(max-width:900px){.tns-seo-guide-grid{grid-template-columns:1fr}}
+    .tns-seo-guide-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.tns-seo-guide{display:flex;flex-direction:column;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}.tns-seo-guide:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(20,33,61,.12)}.tns-seo-guide h3{font-size:22px}.tns-seo-guide p{font-size:14px;color:var(--ink-2);margin:0}.tns-seo-guide .go{margin-top:auto;color:var(--jade);font-weight:800;font-size:14px}@media(max-width:900px){.tns-seo-guide-grid{grid-template-columns:1fr}}
   </style>
   <div class="container">
     <div class="section-head reveal">
       <div class="eyebrow">Hướng dẫn XJTLU 2027</div>
       <h2>Thông tin XJTLU dành cho học sinh Việt Nam</h2>
-      <p class="lead">Xem nhanh các hướng dẫn chuyên sâu về học phí, học bổng, điều kiện tuyển sinh và lựa chọn du học Trung Quốc bằng tiếng Anh.</p>
+      <p class="lead">Các hướng dẫn chuyên sâu và câu trả lời trực tiếp về học phí, học bổng, điều kiện tuyển sinh, bằng cấp và lựa chọn học bằng tiếng Anh tại Trung Quốc.</p>
     </div>
     <div class="tns-seo-guide-grid">
       <a class="tns-seo-guide reveal" href="/xjtlu-hoc-phi-hoc-bong-2027.html">
@@ -59,15 +71,27 @@ links_section = r'''<!-- TNS_SEO_GUIDES_START -->
       <a class="tns-seo-guide reveal d2" href="/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html">
         <span class="pill navy">English-taught</span>
         <h3>Du học Trung Quốc bằng tiếng Anh tại XJTLU</h3>
-        <p>Vì sao XJTLU là lựa chọn khác biệt giữa giáo dục Anh Quốc, cơ hội tại Trung Quốc và môi trường quốc tế.</p>
+        <p>Vì sao XJTLU kết hợp môi trường Trung Quốc, chương trình tiếng Anh và bằng cấp gắn với University of Liverpool.</p>
         <span class="go">Tìm hiểu thêm →</span>
+      </a>
+      <a class="tns-seo-guide reveal" href="/xjtlu-cau-hoi-thuong-gap-vietnam.html">
+        <span class="pill jade">FAQ · Trả lời nhanh</span>
+        <h3>XJTLU là trường gì? 10 câu hỏi thường gặp</h3>
+        <p>Câu trả lời ngắn, có nguồn chính thức về tiếng Anh, bằng Liverpool, IELTS, điều kiện Việt Nam, 2+2 và hồ sơ.</p>
+        <span class="go">Xem 10 câu trả lời →</span>
       </a>
     </div>
   </div>
 </section>
 <!-- TNS_SEO_GUIDES_END -->'''
 
-if "<!-- TNS_SEO_GUIDES_START -->" not in text:
+guide_start = "<!-- TNS_SEO_GUIDES_START -->"
+guide_end = "<!-- TNS_SEO_GUIDES_END -->"
+if guide_start in text and guide_end in text:
+    before, rest = text.split(guide_start, 1)
+    _, after = rest.split(guide_end, 1)
+    text = before.rstrip() + "\n" + links_section + after
+else:
     marker = "<!-- TNS_AUTO_NEWS_START -->"
     if marker not in text:
         raise SystemExit("Could not find news insertion marker")
@@ -75,6 +99,6 @@ if "<!-- TNS_SEO_GUIDES_START -->" not in text:
 
 if text != original:
     PATH.write_text(text, encoding="utf-8")
-    print("Homepage SEO structure updated")
+    print("Homepage SEO/performance structure updated")
 else:
-    print("Homepage SEO structure already current")
+    print("Homepage SEO/performance structure already current")
