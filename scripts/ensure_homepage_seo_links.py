@@ -29,6 +29,13 @@ for pattern in optional_asset_patterns:
     text = re.sub(pattern, "", text, flags=re.MULTILINE)
 text = text.replace('<meta name="twitter:card" content="summary_large_image">', '<meta name="twitter:card" content="summary">')
 
+# Use the SOS International Ho Chi Minh City representative as the single
+# Zalo destination across the Vietnam site so every consultation CTA reaches
+# the same local admissions contact.
+zalo_url = "https://zalo.me/0336737617"
+text = re.sub(r'ZALO_URL:\s*"https://zalo\.me/[^"]+"', f'ZALO_URL: "{zalo_url}"', text)
+text = re.sub(r'href="https://zalo\.me/[^"]+"', f'href="{zalo_url}"', text)
+
 # Keep the header logo as the single embedded Base64 payload. The footer uses
 # a small fallback mark in raw HTML, then copies the exact header logo at
 # runtime so both locations look identical without duplicating the image data.
