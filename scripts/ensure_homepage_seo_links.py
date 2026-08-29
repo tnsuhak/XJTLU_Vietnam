@@ -96,8 +96,8 @@ links_section = r'''<!-- TNS_SEO_GUIDES_START -->
       </a>
       <a class="tns-seo-guide reveal d2" href="/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html">
         <span class="pill navy">English-taught</span>
-        <h3>Du học Trung Quốc bằng tiếng Anh tại XJTLU</h3>
-        <p>Vì sao XJTLU kết hợp môi trường Trung Quốc, chương trình tiếng Anh và bằng cấp gắn với University of Liverpool.</p>
+        <h3>Đại học Liverpool tại Trung Quốc? Tìm hiểu XJTLU</h3>
+        <p>XJTLU là đại học liên doanh Anh–Trung tại Tô Châu, do University of Liverpool và Xi'an Jiaotong University cùng thành lập, với chương trình đại học bằng tiếng Anh.</p>
         <span class="go">Tìm hiểu thêm →</span>
       </a>
     </div>
