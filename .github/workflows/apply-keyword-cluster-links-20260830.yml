@@ -1,0 +1,51 @@
+name: Apply Keyword Cluster Links 2026-08-30
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "scripts/apply_keyword_cluster_links_20260830.py"
+      - ".github/workflows/apply-keyword-cluster-links-20260830.yml"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: apply-keyword-cluster-links-20260830
+  cancel-in-progress: false
+
+jobs:
+  apply-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply keyword-cluster links
+        run: python scripts/apply_keyword_cluster_links_20260830.py
+
+      - name: Commit HTML changes
+        run: |
+          git config user.name "TNS SEO Bot"
+          git config user.email "seo-bot@users.noreply.github.com"
+          git add xjtlu-hoc-phi-hoc-bong-2027.html xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html
+          if git diff --cached --quiet; then
+            echo "No internal-link changes to commit."
+          else
+            git commit -m "feat(seo): align internal links with validated keyword map"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+
+      - name: Trigger GSC and Lighthouse validation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run "GSC SEO Monitor" --ref main
