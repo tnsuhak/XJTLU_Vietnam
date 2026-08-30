@@ -7,29 +7,36 @@
   "language": "Vietnamese",
   "locale": "vi-VN",
   "research_rule": "Use observed Keyword Planner / Search Console data. Never invent search volume.",
-  "seed_keywords": [
-    "xjtlu",
+  "validated_priority_keywords": [
+    {"keyword": "du học trung quốc", "avg_monthly_searches": 5000, "target": "/du-hoc-trung-quoc-2027.html"},
+    {"keyword": "điều kiện du học trung quốc", "avg_monthly_searches": 500, "target": "/du-hoc-trung-quoc-2027.html#requirements"},
+    {"keyword": "chi phí du học trung quốc", "avg_monthly_searches": 500, "target": "/du-hoc-trung-quoc-2027.html#cost"},
+    {"keyword": "học bổng du học trung quốc", "avg_monthly_searches": 500, "target": "/du-hoc-trung-quoc-2027.html#scholarship"},
+    {"keyword": "visa du học trung quốc", "avg_monthly_searches": 500, "target": "/du-hoc-trung-quoc-2027.html#visa"},
+    {"keyword": "tư vấn du học trung quốc", "avg_monthly_searches": 500, "target": "/du-hoc-trung-quoc-2027.html"},
+    {"keyword": "xi an jiaotong liverpool university", "avg_monthly_searches": 500, "target": "/"},
+    {"keyword": "xjtlu", "avg_monthly_searches": 50, "target": "/"},
+    {"keyword": "xjtlu ranking", "avg_monthly_searches": 50, "target": "/xjtlu-ranking-2027.html"},
+    {"keyword": "du học trung quốc bằng tiếng anh", "avg_monthly_searches": 50, "target": "/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html"}
+  ],
+  "brand_conversion_keywords": [
+    {"keyword": "học phí xjtlu", "target": "/xjtlu-hoc-phi-hoc-bong-2027.html"},
+    {"keyword": "học bổng xjtlu", "target": "/xjtlu-hoc-phi-hoc-bong-2027.html"},
+    {"keyword": "điều kiện tuyển sinh xjtlu", "target": "/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html"}
+  ],
+  "research_backlog": [
     "xjtlu vietnam",
     "đại học xjtlu",
-    "xi'an jiaotong-liverpool university",
-    "học phí xjtlu",
-    "học bổng xjtlu",
-    "điều kiện tuyển sinh xjtlu",
     "xjtlu ngành học",
-    "xjtlu ranking",
     "xjtlu 2027",
-    "du học trung quốc",
-    "du học trung quốc 2027",
-    "du học trung quốc bằng tiếng anh",
     "học đại học bằng tiếng anh ở trung quốc",
     "đại học trung quốc bằng tiếng anh",
     "đại học quốc tế ở trung quốc",
     "đại học anh quốc ở trung quốc",
     "đại học liverpool trung quốc",
     "university of liverpool china",
-    "học bổng du học trung quốc",
-    "chi phí du học trung quốc",
     "du học tô châu",
     "du học suzhou"
-  ]
+  ],
+  "architecture_rule": "One primary intent per page. Do not make the homepage compete with the generic China-study hub. Split generic cost/scholarship/visa/requirements pages only after GSC validates demand."
 }
