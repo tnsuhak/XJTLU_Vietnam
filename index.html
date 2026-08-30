@@ -509,6 +509,18 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+/* TNS PERF: mobile hero text stability */
+@media(max-width:980px){
+  .hero .sub{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    font-size:17.5px;
+    line-height:1.7;
+    font-synthesis:none;
+  }
+  .hero .sub b{font-family:inherit;font-weight:600}
+}
+
 </style>
 <script type="application/ld+json">
 {
