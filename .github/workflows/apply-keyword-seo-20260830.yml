@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: apply-keyword-seo-20260830
@@ -28,8 +29,13 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Apply keyword-demand SEO patch
-        run: python scripts/apply_keyword_seo_20260830.py
+      - name: Apply keyword-demand SEO patch when needed
+        run: |
+          if grep -Fq "<title>Xi'an Jiaotong-Liverpool University (XJTLU) | Vietnam 2027</title>" index.html; then
+            echo "Keyword-demand homepage patch is already applied."
+          else
+            python scripts/apply_keyword_seo_20260830.py
+          fi
 
       - name: Commit homepage changes
         run: |
@@ -38,8 +44,13 @@ jobs:
           git add index.html
           if git diff --cached --quiet; then
             echo "No homepage SEO changes to commit."
-            exit 0
+          else
+            git commit -m "feat(seo): align homepage with Vietnam keyword demand"
+            git pull --rebase origin main
+            git push origin HEAD:main
           fi
-          git commit -m "feat(seo): align homepage with Vietnam keyword demand"
-          git pull --rebase origin main
-          git push origin HEAD:main
+
+      - name: Trigger GSC and Lighthouse validation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run seo-gsc-monitor.yml --ref main
