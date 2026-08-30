@@ -528,6 +528,63 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+/* TNS_MOBILE_DENSITY_AUDIT */
+@media(max-width:640px){
+  body{font-size:15px;line-height:1.58}
+  .section{padding:54px 0}
+  .section-head{margin-bottom:26px}
+  h2{font-size:28px;line-height:1.16;margin-bottom:12px}
+  h3{font-size:20px}
+  .lead{font-size:15px;line-height:1.58}
+  .eyebrow{font-size:10.5px;letter-spacing:.14em;margin-bottom:10px}
+
+  /* Admissions: one compact horizontal row of tabs on bar phones. */
+  .adm-tabs{width:100%;max-width:100%;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none;border-radius:16px;margin-bottom:18px;padding:4px;gap:4px}
+  .adm-tabs::-webkit-scrollbar{display:none}
+  .adm-tab{flex:0 0 auto;scroll-snap-align:start;padding:10px 14px;font-size:13px;line-height:1.25;white-space:nowrap}
+  #admission .adm-panel>.lead{font-size:14.5px;line-height:1.55;margin-bottom:16px!important}
+  .req-main{padding:20px}
+  .req-main h3{font-size:22px;line-height:1.22}
+  .req-main .sub{font-size:13.5px;line-height:1.55;margin-bottom:14px}
+  .req-row{padding:11px 0;font-size:13.5px;line-height:1.55}
+  .req-side{gap:10px}
+  .req-side .card{padding:18px}
+  .req-side .card p,.req-side .card li{font-size:13.5px;line-height:1.55}
+  .intl{gap:10px}
+  .intl .card{padding:18px}
+  .intl .v{font-size:26px}
+  .intl p{font-size:13px;line-height:1.55}
+  .timeline,.process{margin-top:38px}
+
+  /* FAQ: all closed initially; compact typography when a user opens one. */
+  .faq{gap:8px}
+  .qa summary{padding:15px 16px;gap:10px;font-size:14px;line-height:1.45}
+  .qa summary .q{font-size:18px;width:18px}
+  .qa summary .chev{width:19px;height:19px}
+  .qa .a{padding:0 16px 17px 44px;font-size:13.5px;line-height:1.58}
+
+  /* Repeated cards/long-form sections: denser mobile reading rhythm. */
+  .story{padding:20px;gap:10px}
+  .story p{font-size:13.5px;line-height:1.58}
+  .partner-card{padding:20px 18px}
+  .partner-card p{font-size:13.5px;line-height:1.58}
+  .faculty{padding:24px;gap:20px}
+  .faculty h3{font-size:24px}
+  .faculty p{font-size:14px;line-height:1.58}
+  .cta-band{padding:48px 0}
+  .inq-side{padding:26px 22px}
+  .inq-side h3{font-size:26px}
+  .inq-side p{font-size:14px;line-height:1.58}
+  .contact-list li{font-size:13.5px}
+
+  /* News styles are declared later in the body; stronger selectors keep the
+     mobile cards compact without changing desktop presentation. */
+  body .tns-news-body{padding:18px}
+  body .tns-news-body h3{font-size:18px;line-height:1.35}
+  body .tns-news-body p{font-size:13.5px;line-height:1.55}
+}
+
 </style>
 <script type="application/ld+json">
 {
@@ -1054,7 +1111,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
         <div class="req-main">
           <span class="pill">Học sinh tốt nghiệp THPT Việt Nam</span>
           <h3 style="margin-top:12px">Nhập học năm 1 (chương trình 4 năm)</h3>
-          <p class="sub">Năm 1 là năm nền tảng (Foundation Year) giúp bạn làm quen với phương pháp học tập của Anh Quốc, tiếng Anh học thuật và các môn cơ sở; từ năm 2 bắt đầu chuyên ngành theo chương trình 3 năm của Liverpool.</p>
+          <p class="sub">Năm 1 là năm nền tảng; từ năm 2 bắt đầu học chuyên ngành.</p>
           <div class="req-row"><div class="k">Bằng cấp</div><div class="v"><b>Bằng tốt nghiệp THPT</b> (Bằng Tốt Nghiệp Phổ Thông Trung Học)</div></div>
           <div class="req-row"><div class="k">Học lực</div><div class="v">Điểm trung bình <b>từ 7,0/10</b>, có yêu cầu riêng với các môn liên quan đến ngành (ví dụ: Toán/Lý cho khối kỹ thuật – khoa học)</div></div>
           <div class="req-row"><div class="k">Kỳ thi quốc gia</div><div class="v">Kết quả <b>kỳ thi tốt nghiệp THPT quốc gia</b> với yêu cầu cụ thể theo ngành</div></div>
@@ -1075,7 +1132,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
         <div class="req-main">
           <span class="pill">Sinh viên đại học Việt Nam</span>
           <h3 style="margin-top:12px">Chuyển tiếp vào năm 2 (còn 3 năm)</h3>
-          <p class="sub">Dành cho sinh viên đã hoàn thành ít nhất năm 1 tại một trường đại học được công nhận. Bạn vào thẳng năm chuyên ngành đầu tiên của chương trình Liverpool.</p>
+          <p class="sub">Dành cho sinh viên đã hoàn thành ít nhất 1 năm đại học; xét theo hồ sơ và độ phù hợp ngành.</p>
           <div class="req-row"><div class="k">Quá trình học</div><div class="v">Hoàn thành <b>tối thiểu 1 năm đại học</b> (bảng điểm chính thức)</div></div>
           <div class="req-row"><div class="k">Học lực</div><div class="v">GPA <b>khá – giỏi (tương đương B+ trở lên)</b>; kết quả THPT cũng được xem xét</div></div>
           <div class="req-row"><div class="k">Ngành học</div><div class="v">Ưu tiên ngành cùng hoặc gần với ngành đăng ký; khối kỹ thuật – khoa học cần nền tảng Toán/Lý phù hợp</div></div>
@@ -1096,7 +1153,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
         <div class="req-main">
           <span class="pill">Sinh viên đại học Việt Nam</span>
           <h3 style="margin-top:12px">Chuyển tiếp vào năm 3 (còn 2 năm)</h3>
-          <p class="sub">Dành cho sinh viên đã hoàn thành 2 năm trở lên cùng ngành hoặc ngành rất gần. Hạn nộp hồ sơ chuyển tiếp năm 3 thường sớm hơn (giữa tháng 5).</p>
+          <p class="sub">Dành cho sinh viên đã hoàn thành ít nhất 2 năm cùng ngành hoặc ngành gần.</p>
           <div class="req-row"><div class="k">Quá trình học</div><div class="v">Hoàn thành <b>tối thiểu 2 năm đại học</b> (thường là hết năm 2 hoặc năm 3)</div></div>
           <div class="req-row"><div class="k">Học lực</div><div class="v">GPA <b>khá – giỏi (tương đương B+ trở lên)</b></div></div>
           <div class="req-row"><div class="k">Ngành học</div><div class="v"><b>Cùng ngành hoặc rất gần</b> – khoa chuyên môn sẽ đối chiếu chương trình đã học với chương trình năm 1–2 của XJTLU</div></div>
@@ -1113,7 +1170,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
 
     <!-- International qualifications -->
     <div class="adm-panel" data-adm-panel="intl">
-      <p class="lead" style="margin-bottom:22px">Học sinh có bằng cấp quốc tế được <b>xét tuyển thẳng vào năm 2</b> (chương trình 3 năm). Nếu gần đạt, bạn vẫn có thể được nhận vào năm 1. Tiếng Anh cho năm 2: IELTS 6.5 (không kỹ năng nào dưới 5.5) hoặc TOEFL iBT 90; một số bằng có thể được miễn.</p>
+      <p class="lead" style="margin-bottom:22px">Bằng quốc tế đạt yêu cầu có thể <b>vào thẳng năm 2</b>. Tiếng Anh: IELTS 6.5 (mỗi kỹ năng ≥ 5.5) hoặc TOEFL iBT 90; một số bằng có thể được miễn.</p>
       <div class="intl">
         <div class="card reveal"><div class="k">A-Level</div><div class="v">BBB</div><p>Ba môn A-Level đạt BBB, có yêu cầu môn liên quan theo ngành. AS-Level được xét vào năm 1.</p></div>
         <div class="card reveal d1"><div class="k">IB Diploma</div><div class="v">30 điểm</div><p>Tối thiểu 30 điểm IB Diploma; một số ngành yêu cầu môn HL cụ thể.</p></div>
@@ -1237,7 +1294,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
       <h2>Câu hỏi phụ huynh và học sinh Việt Nam hay hỏi</h2>
     </div>
     <div class="faq reveal">
-      <details class="qa" open><summary><span class="q">Q</span>XJTLU là trường Anh hay trường Trung Quốc?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">XJTLU là đại học liên doanh Anh – Trung (Sino-British joint venture) do University of Liverpool và Xi'an Jiaotong University đồng sáng lập, đặt tại Tô Châu. Chương trình giảng dạy bằng tiếng Anh theo cấu trúc bằng cấp của University of Liverpool; trường được Bộ Giáo dục Trung Quốc cấp phép.</div></details>
+      <details class="qa"><summary><span class="q">Q</span>XJTLU là trường Anh hay trường Trung Quốc?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">XJTLU là đại học liên doanh Anh – Trung (Sino-British joint venture) do University of Liverpool và Xi'an Jiaotong University đồng sáng lập, đặt tại Tô Châu. Chương trình giảng dạy bằng tiếng Anh theo cấu trúc bằng cấp của University of Liverpool; trường được Bộ Giáo dục Trung Quốc cấp phép.</div></details>
       <details class="qa"><summary><span class="q">Q</span>Tôi có nhận được bằng của University of Liverpool không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Có. Sinh viên tốt nghiệp đại học nhận bằng cử nhân của University of Liverpool (Anh Quốc) cùng bằng của XJTLU (Trung Quốc). Năm 2026, 3.797 sinh viên đại học đã nhận đồng thời hai văn bằng. Điều kiện cụ thể theo từng ngành nên được kiểm tra lại trước khi nộp hồ sơ.</div></details>
       <details class="qa"><summary><span class="q">Q</span>Có cần biết tiếng Trung để nhập học không?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Không. Điều kiện ngôn ngữ đầu vào là tiếng Anh (IELTS 5.0 / TOEFL iBT 62 cho năm 1; IELTS 6.5 / TOEFL iBT 90 cho năm 2–3). Tiếng Trung được học như một môn bổ trợ trong suốt quá trình – rất nhiều sinh viên quốc tế đạt HSK 4–6 sau vài năm mà không cần biết trước.</div></details>
       <details class="qa"><summary><span class="q">Q</span>Trường ở Thượng Hải à?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Cơ sở chính nằm tại Khu công nghiệp Tô Châu (Suzhou Industrial Park), tỉnh Giang Tô – cách Thượng Hải khoảng 30 phút tàu cao tốc. Cơ sở thứ hai (Entrepreneur College) ở Thái Thương, giáp Thượng Hải. Bạn sống ở một thành phố hiện đại, an toàn, chi phí hợp lý hơn Thượng Hải nhưng vẫn tiếp cận trung tâm tài chính lớn nhất Trung Quốc dễ dàng.</div></details>
