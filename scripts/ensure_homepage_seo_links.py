@@ -1,13 +1,16 @@
 from pathlib import Path
 import re
 
-PATH = Path("index.html")
-text = PATH.read_text(encoding="utf-8")
+INDEX = Path("index.html")
+SITEMAP = Path("sitemap.xml")
+NEWS = Path("news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html")
+TODAY = "2026-08-30"
+
+text = INDEX.read_text(encoding="utf-8")
 original = text
 
-# The homepage already contains a richer JSON-LD graph maintained in the
-# main source. Remove any older helper-managed schema block so WebSite/WebPage
-# entities are not duplicated.
+# Remove any obsolete helper-managed schema block. The homepage already has
+# the richer maintained JSON-LD graph.
 start = "<!-- TNS_SEO_SCHEMA_START -->"
 end = "<!-- TNS_SEO_SCHEMA_END -->"
 if start in text and end in text:
@@ -15,8 +18,8 @@ if start in text and end in text:
     _, after = rest.split(end, 1)
     text = before.rstrip() + "\n" + after.lstrip("\n")
 
-# Do not advertise local social/icon assets that do not actually exist.
-optional_asset_patterns = [
+# Do not advertise optional local image/icon assets that are not present.
+for pattern in [
     r'^<meta property="og:image"[^>]*>\s*\n?',
     r'^<meta property="og:image:width"[^>]*>\s*\n?',
     r'^<meta property="og:image:height"[^>]*>\s*\n?',
@@ -24,21 +27,44 @@ optional_asset_patterns = [
     r'^<meta name="twitter:image"[^>]*>\s*\n?',
     r'^<link rel="icon"[^>]*>\s*\n?',
     r'^<link rel="apple-touch-icon"[^>]*>\s*\n?',
-]
-for pattern in optional_asset_patterns:
+]:
     text = re.sub(pattern, "", text, flags=re.MULTILINE)
-text = text.replace('<meta name="twitter:card" content="summary_large_image">', '<meta name="twitter:card" content="summary">')
+text = text.replace(
+    '<meta name="twitter:card" content="summary_large_image">',
+    '<meta name="twitter:card" content="summary">',
+)
 
-# Use the SOS International Ho Chi Minh City representative as the single
-# Zalo destination across the Vietnam site so every consultation CTA reaches
-# the same local admissions contact.
+# Keep all consultation CTAs on the SOS HCMC representative's Zalo.
 zalo_url = "https://zalo.me/0336737617"
 text = re.sub(r'ZALO_URL:\s*"https://zalo\.me/[^"]+"', f'ZALO_URL: "{zalo_url}"', text)
 text = re.sub(r'href="https://zalo\.me/[^"]+"', f'href="{zalo_url}"', text)
 
-# Keep the header logo as the single embedded Base64 payload. The footer uses
-# a small fallback mark in raw HTML, then copies the exact header logo at
-# runtime so both locations look identical without duplicating the image data.
+# The Netlify form is not currently registered on the site. Remove the visible
+# form rather than collecting inquiries through an unverified route; retain
+# the direct Zalo/phone/email consultation block.
+text = re.sub(
+    r'\n\s*<form class="form reveal d1" id="inquiryForm".*?</form>',
+    "",
+    text,
+    count=1,
+    flags=re.DOTALL,
+)
+text = re.sub(r'<div class="inq(?: tns-contact-only)?">', '<div class="inq tns-contact-only">', text, count=1)
+contact_style = '''<style id="tns-contact-only-style">
+.inq.tns-contact-only{display:block}.inq.tns-contact-only .inq-side{max-width:820px}
+</style>
+'''
+inquiry_marker = "<!-- ===================== INQUIRY ===================== -->"
+if 'id="tns-contact-only-style"' not in text and inquiry_marker in text:
+    text = text.replace(inquiry_marker, contact_style + inquiry_marker, 1)
+text = re.sub(
+    r'\n\s*// ---- Form: Netlify handles POST;[^\n]*\n\s*if\(new URLSearchParams\(location\.search\).*?\n',
+    "\n",
+    text,
+    count=1,
+)
+
+# Keep one embedded header logo payload and copy it into the footer at runtime.
 footer_marker = "<!-- ===================== FOOTER ===================== -->"
 if footer_marker in text:
     before_footer, footer = text.split(footer_marker, 1)
@@ -48,7 +74,26 @@ if footer_marker in text:
         footer,
         count=1,
     )
+    # Homepage conversion policy: keep official source links on detail/news
+    # pages, not as a prominent outbound-link column on the homepage footer.
+    footer = re.sub(
+        r'\s*<div><h4>Trang chính thức</h4><ul>.*?</ul></div>',
+        "",
+        footer,
+        count=1,
+        flags=re.DOTALL,
+    )
+    footer = footer.replace('<div class="foot-grid">', '<div class="foot-grid tns-three-col">', 1)
     text = before_footer + footer_marker + footer
+
+footer_style = '''<style id="tns-footer-three-col-style">
+.foot-grid.tns-three-col{grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr))}
+@media(max-width:900px){.foot-grid.tns-three-col{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.foot-grid.tns-three-col{grid-template-columns:1fr}}
+</style>
+'''
+if 'id="tns-footer-three-col-style"' not in text and footer_marker in text:
+    text = text.replace(footer_marker, footer_style + footer_marker, 1)
 
 logo_sync = '''  // ---- Keep footer brand mark visually identical to the header logo
   const headerBrandLogo=document.querySelector('header.nav .brand-mark img');
@@ -62,63 +107,59 @@ logo_sync = '''  // ---- Keep footer brand mark visually identical to the header
   }
 
 '''
-logo_sync_marker = "  // ---- Keep footer brand mark visually identical to the header logo"
-nav_marker = "  // ---- Nav scroll state + to-top"
-if logo_sync_marker not in text and nav_marker in text:
-    text = text.replace(nav_marker, logo_sync + nav_marker, 1)
+if "// ---- Keep footer brand mark visually identical to the header logo" not in text:
+    nav_marker = "  // ---- Nav scroll state + to-top"
+    if nav_marker in text:
+        text = text.replace(nav_marker, logo_sync + nav_marker, 1)
 
-# Keep separate landing pages only when search intent is clearly different.
-# General FAQ content is merged into the homepage/admissions content rather
-# than maintained as a thin overlapping page.
-links_section = r'''<!-- TNS_SEO_GUIDES_START -->
-<section class="section ivory tns-seo-guides" id="xjtlu-guides">
-  <style>
-    .tns-seo-guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.tns-seo-guide{display:flex;flex-direction:column;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}.tns-seo-guide:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(20,33,61,.12)}.tns-seo-guide h3{font-size:22px}.tns-seo-guide p{font-size:14px;color:var(--ink-2);margin:0}.tns-seo-guide .go{margin-top:auto;color:var(--jade);font-weight:800;font-size:14px}@media(max-width:900px){.tns-seo-guide-grid{grid-template-columns:1fr}}
-  </style>
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="eyebrow">Hướng dẫn XJTLU 2027</div>
-      <h2>Thông tin chuyên sâu dành cho học sinh Việt Nam</h2>
-      <p class="lead">Chỉ tách thành trang riêng cho ba chủ đề có ý định tìm kiếm rõ ràng: học phí – học bổng, điều kiện tuyển sinh và du học Trung Quốc bằng tiếng Anh.</p>
-    </div>
-    <div class="tns-seo-guide-grid">
-      <a class="tns-seo-guide reveal" href="/xjtlu-hoc-phi-hoc-bong-2027.html">
-        <span class="pill">Học phí · Học bổng</span>
-        <h3>Học phí XJTLU 2027 & học bổng</h3>
-        <p>Mức học phí, Entry Scholarship, ưu đãi nộp sớm và các khoản chi cần chuẩn bị cho sinh viên Việt Nam.</p>
-        <span class="go">Xem hướng dẫn →</span>
-      </a>
-      <a class="tns-seo-guide reveal d1" href="/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html">
-        <span class="pill jade">Tuyển sinh</span>
-        <h3>Điều kiện vào XJTLU cho học sinh Việt Nam</h3>
-        <p>Yêu cầu THPT, IELTS/TOEFL, chuyển tiếp, hồ sơ và thời gian xét tuyển dành cho ứng viên Việt Nam.</p>
-        <span class="go">Xem điều kiện →</span>
-      </a>
-      <a class="tns-seo-guide reveal d2" href="/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html">
-        <span class="pill navy">English-taught</span>
-        <h3>Đại học Liverpool tại Trung Quốc? Tìm hiểu XJTLU</h3>
-        <p>XJTLU là đại học liên doanh Anh–Trung tại Tô Châu, do University of Liverpool và Xi'an Jiaotong University cùng thành lập, với chương trình đại học bằng tiếng Anh.</p>
-        <span class="go">Tìm hiểu thêm →</span>
-      </a>
-    </div>
-  </div>
-</section>
-<!-- TNS_SEO_GUIDES_END -->'''
-
-guide_start = "<!-- TNS_SEO_GUIDES_START -->"
-guide_end = "<!-- TNS_SEO_GUIDES_END -->"
-if guide_start in text and guide_end in text:
-    before, rest = text.split(guide_start, 1)
-    _, after = rest.split(guide_end, 1)
-    text = before.rstrip() + "\n" + links_section + after
-else:
-    marker = "<!-- TNS_AUTO_NEWS_START -->"
-    if marker not in text:
-        raise SystemExit("Could not find news insertion marker")
-    text = text.replace(marker, links_section + "\n\n" + marker, 1)
+# Preserve the three distinct-intent internal guides and the current Liverpool
+# in China wording. Do not create an additional overlapping landing page.
+if "<!-- TNS_SEO_GUIDES_START -->" not in text or "<!-- TNS_SEO_GUIDES_END -->" not in text:
+    raise SystemExit("Homepage SEO guide section is missing")
+text = text.replace(
+    '<h3>Du học Trung Quốc bằng tiếng Anh tại XJTLU</h3>',
+    '<h3>Đại học Liverpool tại Trung Quốc? Tìm hiểu XJTLU</h3>',
+)
+text = text.replace(
+    '<p>Vì sao XJTLU kết hợp môi trường Trung Quốc, chương trình tiếng Anh và bằng cấp gắn với University of Liverpool.</p>',
+    '<p>XJTLU là đại học liên doanh Anh–Trung tại Tô Châu, do University of Liverpool và Xi\'an Jiaotong University cùng thành lập, với chương trình đại học bằng tiếng Anh.</p>',
+)
 
 if text != original:
-    PATH.write_text(text, encoding="utf-8")
-    print("Homepage SEO/performance structure updated")
+    INDEX.write_text(text, encoding="utf-8")
+    print("Homepage UX/SEO structure updated")
 else:
-    print("Homepage SEO/performance structure already current")
+    print("Homepage UX/SEO structure already current")
+
+# Update sitemap lastmod for pages changed in this review batch.
+sitemap = SITEMAP.read_text(encoding="utf-8")
+sitemap_original = sitemap
+for url in [
+    "https://xjtlu-vietnam.netlify.app/",
+    "https://xjtlu-vietnam.netlify.app/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html",
+    "https://xjtlu-vietnam.netlify.app/news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html",
+]:
+    pattern = rf'(<loc>{re.escape(url)}</loc>\s*<lastmod>)[^<]+(</lastmod>)'
+    sitemap = re.sub(pattern, rf'\g<1>{TODAY}\2', sitemap, count=1)
+if sitemap != sitemap_original:
+    SITEMAP.write_text(sitemap, encoding="utf-8")
+    print("Sitemap lastmod updated")
+
+# Strengthen internal linking from the news article back to evergreen guides.
+news = NEWS.read_text(encoding="utf-8")
+news_original = news
+news = news.replace('"dateModified":"2026-08-28"', f'"dateModified":"{TODAY}"')
+if 'class="related-guides"' not in news:
+    news_style = '.related-guides{margin-top:30px;padding:22px 24px;border:1px solid var(--line);border-radius:16px;background:#fff}.related-guides b{display:block;color:var(--navy);margin-bottom:10px}.related-guides a{display:inline-block;margin:6px 12px 0 0;color:var(--jade);font-weight:800;text-decoration:none}'
+    news = news.replace('</style>', news_style + '\n</style>', 1)
+    related = '''    <div class="related-guides">
+      <b>Tìm hiểu thêm về XJTLU</b>
+      <a href="/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html">Điều kiện tuyển sinh 2027 →</a>
+      <a href="/xjtlu-hoc-phi-hoc-bong-2027.html">Học phí & học bổng →</a>
+      <a href="/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html">Đại học Liverpool tại Trung Quốc / XJTLU →</a>
+    </div>
+'''
+    news = news.replace('    <a class="back" href="/news/">', related + '    <a class="back" href="/news/">', 1)
+if news != news_original:
+    NEWS.write_text(news, encoding="utf-8")
+    print("News internal links updated")
