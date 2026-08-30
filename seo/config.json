@@ -1,0 +1,13 @@
+{
+  "site_url": "https://xjtlu-vietnam.netlify.app/",
+  "target_country": "vnm",
+  "target_country_name": "Vietnam",
+  "days": 28,
+  "data_lag_days": 3,
+  "opportunity_min_impressions": 10,
+  "opportunity_min_position": 4,
+  "opportunity_max_position": 20,
+  "low_ctr_max_position": 10,
+  "low_ctr_threshold": 0.03,
+  "report_limit": 20
+}
