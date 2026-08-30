@@ -12,6 +12,13 @@ on:
       - "css/**"
       - "js/**"
       - "seo/scripts/**"
+  workflow_run:
+    workflows:
+      - "Apply Keyword SEO 2026-08-30"
+      - "Apply Keyword Cluster Links 2026-08-30"
+      - "Apply AEO GEO 2026-08-30"
+    types:
+      - completed
   schedule:
     # Every Monday 09:15 Korea time (00:15 UTC)
     - cron: "15 0 * * 1"
@@ -25,6 +32,7 @@ concurrency:
 
 jobs:
   collect-search-console:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
 
     steps:
@@ -63,7 +71,7 @@ jobs:
         run: python seo/scripts/fetch_gsc.py
 
       - name: Wait for Netlify production deploy
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'workflow_run'
         run: |
           echo "Waiting for Netlify to publish the latest main-branch change..."
           sleep 90
