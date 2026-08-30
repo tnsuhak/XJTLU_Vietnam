@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - "scripts/apply_aeo_geo_20260830.py"
+      - "scripts/refine_aeo_visual_20260830.py"
       - ".github/workflows/apply-aeo-geo-20260830.yml"
 
 permissions:
@@ -31,6 +32,9 @@ jobs:
       - name: Apply AEO/GEO direct-answer layer
         run: python scripts/apply_aeo_geo_20260830.py
 
+      - name: Refine homepage AEO/GEO placement
+        run: python scripts/refine_aeo_visual_20260830.py
+
       - name: Commit AEO/GEO changes
         run: |
           git config user.name "TNS SEO Bot"
@@ -40,6 +44,6 @@ jobs:
             echo "No AEO/GEO changes to commit."
             exit 0
           fi
-          git commit -m "feat(aeo-geo): add direct answers and source signals"
+          git commit -m "fix(aeo-geo): visually integrate direct-answer content"
           git pull --rebase origin main
           git push origin HEAD:main
