@@ -53,26 +53,26 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Audit | Mobile | Desktop |
 | --- | ---: | ---: |
-| Performance | 63 | 88 |
+| Performance | 69 | 100 |
 | SEO | 100 | 100 |
-| Accessibility | 95 | 95 |
+| Accessibility | 100 | 100 |
 | Best Practices | 96 | 96 |
 
 ### Core loading metrics (lab data)
 
 | Metric | Mobile | Desktop |
 | --- | --- | --- |
-| First Contentful Paint | 4.2 s | 1.1 s |
-| Largest Contentful Paint | 4.2 s | 1.1 s |
+| First Contentful Paint | 4.2 s | 0.5 s |
+| Largest Contentful Paint | 4.2 s | 0.5 s |
 | Total Blocking Time | 0 ms | 0 ms |
-| Cumulative Layout Shift | 0.257 | 0.166 |
-| Speed Index | 4.2 s | 1.1 s |
+| Cumulative Layout Shift | 0.158 | 0 |
+| Speed Index | 4.2 s | 0.5 s |
 
 ### GPT priority flags
 
-- Mobile Performance is 63/100; prioritize mobile loading work before cosmetic SEO changes.
-- Mobile LCP is 4.16s (>2.5s target). Inspect the LCP element, image priority/preload, server response and render-blocking resources.
-- Mobile CLS is 0.257 (>0.10 target). Reserve dimensions for images/embeds and inspect late-loading fonts or injected content.
+- Mobile Performance is 69/100; prioritize mobile loading work before cosmetic SEO changes.
+- Mobile LCP is 4.19s (>2.5s target). Inspect the LCP element, image priority/preload, server response and render-blocking resources.
+- Mobile CLS is 0.158 (>0.10 target). Reserve dimensions for images/embeds and inspect late-loading fonts or injected content.
 
 ### LCP element / likely LCP-related nodes
 
@@ -80,18 +80,18 @@ Automated weekly Lighthouse audit of the production homepage.
 
 ### CLS / layout-shift culprits
 
-- `XJTLU Vietnam cung cấp thông tin dành cho học sinh và phụ huynh Việt Nam về học… | section#hero > div.container > div > p.sub | <p class="sub">`
+- `học phí XJTLU, học bổng, điều kiện tuyển sinh 2027, ngành học và ký túc xá | div.container > div > p.sub > b | <b>`
+- `head > link | head > link | <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">`
 
 ### Mobile performance diagnostics
 
-- **Render-blocking requests** — Est savings of 2,520 ms
 - **Avoids enormous network payloads** — Total size was 277 KiB
 - **Avoid long main-thread tasks** — 7 long tasks found
-- **Minimize main-thread work** — 2.9 s
+- **Minimize main-thread work** — 3.2 s
 
 ### Largest estimated mobile savings opportunities
 
-- Initial server response time was short (~0.06s potential savings)
+_No material time/transfer savings opportunities reported._
 
 ### Heaviest network resources (mobile run)
 
@@ -115,9 +115,7 @@ _None — Lighthouse SEO category passed._
 
 ### Accessibility issues worth reviewing
 
-- Elements with an ARIA `[role]` that require children to contain a specific `[role]` are missing some or all of those required children.
-- Document does not have a main landmark.
-- `<td>` elements in a large `<table>` do not have table headers.
+_No failed weighted accessibility audits._
 
 ### GPT maintenance rule
 
