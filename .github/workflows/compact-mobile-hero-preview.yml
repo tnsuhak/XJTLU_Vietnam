@@ -1,4 +1,4 @@
-name: Compact Mobile Hero Preview
+name: XJTLU Vietnam Preview Refinements
 
 on:
   workflow_dispatch:
@@ -7,13 +7,14 @@ on:
       - preview/liverpool-china-seo
     paths:
       - "scripts/compact_mobile_hero_20260830.py"
+      - "scripts/mobile_density_audit_20260830.py"
       - ".github/workflows/compact-mobile-hero-preview.yml"
 
 permissions:
   contents: write
 
 jobs:
-  compact-mobile-hero:
+  refine-preview:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout preview branch
@@ -26,18 +27,21 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Compact hero
+      - name: Apply hero and route refinements
         run: python scripts/compact_mobile_hero_20260830.py
 
-      - name: Commit preview change
+      - name: Apply mobile density audit
+        run: python scripts/mobile_density_audit_20260830.py
+
+      - name: Commit preview changes
         run: |
           git config user.name "TNS Preview Bot"
           git config user.email "preview-bot@users.noreply.github.com"
           git add index.html
           if git diff --cached --quiet; then
-            echo "No hero changes to commit."
+            echo "No preview changes to commit."
             exit 0
           fi
-          git commit -m "feat(preview): shorten mobile hero"
+          git commit -m "refactor(preview): compact mobile content density"
           git pull --rebase origin preview/liverpool-china-seo
           git push origin HEAD:preview/liverpool-china-seo
