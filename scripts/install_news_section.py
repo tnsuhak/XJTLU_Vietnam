@@ -11,6 +11,7 @@ NEWS_DATA = Path("news/news-data.json")
 START = "<!-- TNS_AUTO_NEWS_START -->"
 END = "<!-- TNS_AUTO_NEWS_END -->"
 BASE = "https://xjtlu-vietnam.netlify.app/"
+HOMEPAGE_LATEST_COUNT = 4
 
 
 def esc(value: object) -> str:
@@ -43,14 +44,14 @@ def homepage_card(item: dict) -> str:
 
 
 def render_homepage(items: list[dict]) -> None:
-    cards = "".join(homepage_card(x) for x in items[:3])
+    cards = "".join(homepage_card(x) for x in items[:HOMEPAGE_LATEST_COUNT])
     if not cards:
         cards = '<div class="tns-news-empty"><b>Chưa có bản tin được chọn.</b><br>Hệ thống kiểm tra nguồn chính thức của XJTLU vào mỗi thứ Hai.</div>'
 
     section = f'''{START}
 <section class="section mist tns-news-section" id="news">
   <style>
-    .tns-news-top{{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:34px}}.tns-news-top .section-head{{margin-bottom:0}}.tns-news-all{{font-size:14px;font-weight:800;color:var(--jade);white-space:nowrap}}.tns-news-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}}.tns-news-card{{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:100%}}.tns-news-thumb{{aspect-ratio:16/9;background:var(--navy);overflow:hidden}}.tns-news-thumb img{{width:100%;height:100%;object-fit:cover}}.tns-news-body{{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}}.tns-news-meta{{font-size:12px;color:var(--muted);font-weight:700}}.tns-news-body h3{{font-size:21px;line-height:1.3}}.tns-news-body p{{font-size:14px;color:var(--ink-2);margin:0}}.tns-news-link{{margin-top:auto;color:var(--jade);font-weight:800;font-size:14px}}.tns-news-empty{{grid-column:1/-1;padding:34px;border:1px dashed #c8cfda;border-radius:var(--r-lg);background:#fff;text-align:center;color:var(--muted)}}@media(max-width:900px){{.tns-news-grid{{grid-template-columns:1fr 1fr}}}}@media(max-width:640px){{.tns-news-top{{align-items:start;flex-direction:column}}.tns-news-grid{{grid-template-columns:1fr}}}}
+    .tns-news-top{{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:34px}}.tns-news-top .section-head{{margin-bottom:0}}.tns-news-all{{font-size:14px;font-weight:800;color:var(--jade);white-space:nowrap}}.tns-news-grid{{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}}.tns-news-card{{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:100%}}.tns-news-thumb{{aspect-ratio:16/9;background:var(--navy);overflow:hidden}}.tns-news-thumb img{{width:100%;height:100%;object-fit:cover}}.tns-news-body{{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}}.tns-news-meta{{font-size:12px;color:var(--muted);font-weight:700}}.tns-news-body h3{{font-size:21px;line-height:1.3}}.tns-news-body p{{font-size:14px;color:var(--ink-2);margin:0}}.tns-news-link{{margin-top:auto;color:var(--jade);font-weight:800;font-size:14px}}.tns-news-empty{{grid-column:1/-1;padding:34px;border:1px dashed #c8cfda;border-radius:var(--r-lg);background:#fff;text-align:center;color:var(--muted)}}@media(max-width:1050px){{.tns-news-grid{{grid-template-columns:1fr 1fr}}}}@media(max-width:640px){{.tns-news-top{{align-items:start;flex-direction:column}}.tns-news-grid{{grid-template-columns:1fr}}}}
   </style>
   <div class="container">
     <div class="tns-news-top reveal">
