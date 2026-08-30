@@ -1,0 +1,45 @@
+name: Apply AEO GEO 2026-08-30
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "scripts/apply_aeo_geo_20260830.py"
+      - ".github/workflows/apply-aeo-geo-20260830.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-aeo-geo-20260830
+  cancel-in-progress: false
+
+jobs:
+  apply-aeo-geo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply AEO/GEO direct-answer layer
+        run: python scripts/apply_aeo_geo_20260830.py
+
+      - name: Commit AEO/GEO changes
+        run: |
+          git config user.name "TNS SEO Bot"
+          git config user.email "seo-bot@users.noreply.github.com"
+          git add index.html du-hoc-trung-quoc-2027.html du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html xjtlu-hoc-phi-hoc-bong-2027.html xjtlu-ranking-2027.html
+          if git diff --cached --quiet; then
+            echo "No AEO/GEO changes to commit."
+            exit 0
+          fi
+          git commit -m "feat(aeo-geo): add direct answers and source signals"
+          git pull --rebase origin main
+          git push origin HEAD:main
