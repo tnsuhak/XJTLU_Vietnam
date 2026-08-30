@@ -112,17 +112,90 @@ if "// ---- Keep footer brand mark visually identical to the header logo" not in
     if nav_marker in text:
         text = text.replace(nav_marker, logo_sync + nav_marker, 1)
 
-# Preserve the three distinct-intent internal guides and the current Liverpool
-# in China wording. Do not create an additional overlapping landing page.
-if "<!-- TNS_SEO_GUIDES_START -->" not in text or "<!-- TNS_SEO_GUIDES_END -->" not in text:
-    raise SystemExit("Homepage SEO guide section is missing")
-text = text.replace(
-    '<h3>Du học Trung Quốc bằng tiếng Anh tại XJTLU</h3>',
-    '<h3>Đại học Liverpool tại Trung Quốc? Tìm hiểu XJTLU</h3>',
+# The original SEO guide cards were added late in the homepage and repeated
+# topics users had already read above. Match the Korea-site pattern instead:
+# keep the evergreen landing pages, but link to each one contextually from the
+# relevant homepage section.
+text = re.sub(
+    r'\n?<!-- TNS_SEO_GUIDES_START -->.*?<!-- TNS_SEO_GUIDES_END -->\n?',
+    "\n",
+    text,
+    count=1,
+    flags=re.DOTALL,
 )
-text = text.replace(
-    '<p>Vì sao XJTLU kết hợp môi trường Trung Quốc, chương trình tiếng Anh và bằng cấp gắn với University of Liverpool.</p>',
-    '<p>XJTLU là đại học liên doanh Anh–Trung tại Tô Châu, do University of Liverpool và Xi\'an Jiaotong University cùng thành lập, với chương trình đại học bằng tiếng Anh.</p>',
+
+# Rebuild helper-managed contextual links idempotently.
+text = re.sub(
+    r'\n?<!-- TNS_INLINE_GUIDE_[A-Z_]+_START -->.*?<!-- TNS_INLINE_GUIDE_[A-Z_]+_END -->\n?',
+    "\n",
+    text,
+    flags=re.DOTALL,
+)
+text = re.sub(
+    r'\n?<style id="tns-inline-guide-style">.*?</style>\n?',
+    "\n",
+    text,
+    count=1,
+    flags=re.DOTALL,
+)
+
+inline_style = '''<style id="tns-inline-guide-style">
+.tns-inline-guide{margin-top:28px;padding:20px 0 0;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:22px}.tns-inline-guide-copy{max-width:760px}.tns-inline-guide small{display:block;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}.tns-inline-guide strong{display:block;color:var(--navy);font-family:var(--font-display);font-size:19px;line-height:1.3}.tns-inline-guide p{margin:6px 0 0;color:var(--muted);font-size:13.5px;line-height:1.65}.tns-inline-guide a{flex:none;color:var(--jade);font-size:14px;font-weight:800;white-space:nowrap}.tns-inline-guide a:hover{text-decoration:underline}@media(max-width:700px){.tns-inline-guide{display:block}.tns-inline-guide a{display:inline-block;margin-top:12px;white-space:normal}}
+</style>
+'''
+about_marker = "<!-- ===================== ABOUT / WHY XJTLU ===================== -->"
+if about_marker not in text:
+    raise SystemExit("Could not find homepage About marker")
+text = text.replace(about_marker, inline_style + about_marker, 1)
+
+
+def add_context_link(section_id, marker_name, href, title, description, action):
+    global text
+    block = f'''\n<!-- TNS_INLINE_GUIDE_{marker_name}_START -->
+<div class="tns-inline-guide reveal">
+  <div class="tns-inline-guide-copy">
+    <small>Hướng dẫn chi tiết</small>
+    <strong>{title}</strong>
+    <p>{description}</p>
+  </div>
+  <a href="{href}">{action} →</a>
+</div>
+<!-- TNS_INLINE_GUIDE_{marker_name}_END -->\n'''
+    pattern = rf'(<section\b[^>]*\bid="{re.escape(section_id)}"[^>]*>.*?)(</section>)'
+    text, count = re.subn(
+        pattern,
+        lambda m: m.group(1).rstrip() + block + m.group(2),
+        text,
+        count=1,
+        flags=re.DOTALL,
+    )
+    if count != 1:
+        raise SystemExit(f"Could not place contextual guide in section #{section_id}")
+
+
+add_context_link(
+    "information",
+    "LIVERPOOL",
+    "/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html",
+    "Đại học Liverpool tại Trung Quốc? Tìm hiểu mô hình XJTLU",
+    "Giải thích rõ mối quan hệ với University of Liverpool, chương trình học bằng tiếng Anh và lộ trình 2+2 dành cho sinh viên quốc tế.",
+    "Tìm hiểu XJTLU & Liverpool",
+)
+add_context_link(
+    "tuition",
+    "TUITION",
+    "/xjtlu-hoc-phi-hoc-bong-2027.html",
+    "Học phí và học bổng XJTLU 2027",
+    "Xem riêng học phí, Entry Scholarship, Early Bird và các khoản chi cần chuẩn bị cho sinh viên Việt Nam.",
+    "Xem hướng dẫn học phí",
+)
+add_context_link(
+    "admission",
+    "ADMISSION",
+    "/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html",
+    "Điều kiện tuyển sinh XJTLU 2027 cho học sinh Việt Nam",
+    "Xem yêu cầu THPT, IELTS/TOEFL, hồ sơ, chuyển tiếp năm 2–3 và thời gian xét tuyển.",
+    "Xem điều kiện chi tiết",
 )
 
 if text != original:
