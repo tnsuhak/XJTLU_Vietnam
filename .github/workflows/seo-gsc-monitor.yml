@@ -11,6 +11,7 @@ on:
       - "assets/**"
       - "css/**"
       - "js/**"
+      - "seo/scripts/**"
   schedule:
     # Every Monday 09:15 Korea time (00:15 UTC)
     - cron: "15 0 * * 1"
@@ -88,6 +89,9 @@ jobs:
 
       - name: Build Lighthouse summary
         run: python seo/scripts/summarize_lighthouse.py
+
+      - name: Append deep Lighthouse diagnostics
+        run: python seo/scripts/append_lighthouse_diagnostics.py
 
       - name: Commit refreshed SEO data
         run: |
