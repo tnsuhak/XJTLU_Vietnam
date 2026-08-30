@@ -4,7 +4,7 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Audit | Mobile | Desktop |
 | --- | ---: | ---: |
-| Performance | 69 | 100 |
+| Performance | 76 | 100 |
 | SEO | 100 | 100 |
 | Accessibility | 100 | 100 |
 | Best Practices | 96 | 96 |
@@ -16,14 +16,13 @@ Automated weekly Lighthouse audit of the production homepage.
 | First Contentful Paint | 4.2 s | 0.5 s |
 | Largest Contentful Paint | 4.2 s | 0.5 s |
 | Total Blocking Time | 0 ms | 0 ms |
-| Cumulative Layout Shift | 0.158 | 0 |
+| Cumulative Layout Shift | 0 | 0.003 |
 | Speed Index | 4.2 s | 0.5 s |
 
 ### GPT priority flags
 
-- Mobile Performance is 69/100; prioritize mobile loading work before cosmetic SEO changes.
-- Mobile LCP is 4.19s (>2.5s target). Inspect the LCP element, image priority/preload, server response and render-blocking resources.
-- Mobile CLS is 0.158 (>0.10 target). Reserve dimensions for images/embeds and inspect late-loading fonts or injected content.
+- Mobile Performance is 76/100; prioritize mobile loading work before cosmetic SEO changes.
+- Mobile LCP is 4.20s (>2.5s target). Inspect the LCP element, image priority/preload, server response and render-blocking resources.
 
 ### LCP element / likely LCP-related nodes
 
@@ -31,18 +30,17 @@ Automated weekly Lighthouse audit of the production homepage.
 
 ### CLS / layout-shift culprits
 
-- `học phí XJTLU, học bổng, điều kiện tuyển sinh 2027, ngành học và ký túc xá | div.container > div > p.sub > b | <b>`
-- `head > link | head > link | <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">`
+_No specific layout-shift node was exposed in this run._
 
 ### Mobile performance diagnostics
 
-- **Avoids enormous network payloads** — Total size was 277 KiB
-- **Avoid long main-thread tasks** — 7 long tasks found
-- **Minimize main-thread work** — 3.2 s
+- **Avoids enormous network payloads** — Total size was 268 KiB
+- **Avoid long main-thread tasks** — 8 long tasks found
+- **Minimize main-thread work** — 6.3 s
 
 ### Largest estimated mobile savings opportunities
 
-_No material time/transfer savings opportunities reported._
+- Initial server response time was short (~0.15s potential savings)
 
 ### Heaviest network resources (mobile run)
 
