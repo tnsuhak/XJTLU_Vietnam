@@ -26,10 +26,16 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install google-api-python-client google-auth
+          npm install --global lighthouse
 
       - name: Validate Search Console secret
         env:
@@ -46,6 +52,28 @@ jobs:
           GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
         run: python seo/scripts/fetch_gsc.py
 
+      - name: Run Lighthouse mobile audit
+        run: |
+          lighthouse "https://xjtlu-vietnam.netlify.app/" \
+            --output=json \
+            --output-path=seo-data/lighthouse-mobile.json \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --chrome-flags="--headless --no-sandbox --disable-gpu" \
+            --quiet
+
+      - name: Run Lighthouse desktop audit
+        run: |
+          lighthouse "https://xjtlu-vietnam.netlify.app/" \
+            --preset=desktop \
+            --output=json \
+            --output-path=seo-data/lighthouse-desktop.json \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --chrome-flags="--headless --no-sandbox --disable-gpu" \
+            --quiet
+
+      - name: Build Lighthouse summary
+        run: python seo/scripts/summarize_lighthouse.py
+
       - name: Commit refreshed SEO data
         run: |
           git config user.name "TNS SEO Bot"
@@ -55,6 +83,6 @@ jobs:
             echo "No SEO data changes to commit."
             exit 0
           fi
-          git commit -m "chore(seo): refresh Search Console data"
+          git commit -m "chore(seo): refresh Search Console and Lighthouse data"
           git pull --rebase origin main
           git push origin HEAD:main
