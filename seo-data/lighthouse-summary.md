@@ -4,7 +4,7 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Audit | Mobile | Desktop |
 | --- | ---: | ---: |
-| Performance | 76 | 100 |
+| Performance | 73 | 100 |
 | SEO | 100 | 100 |
 | Accessibility | 100 | 100 |
 | Best Practices | 96 | 96 |
@@ -13,16 +13,16 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Metric | Mobile | Desktop |
 | --- | --- | --- |
-| First Contentful Paint | 4.2 s | 0.5 s |
-| Largest Contentful Paint | 4.2 s | 0.5 s |
+| First Contentful Paint | 4.4 s | 0.4 s |
+| Largest Contentful Paint | 4.4 s | 0.6 s |
 | Total Blocking Time | 0 ms | 0 ms |
-| Cumulative Layout Shift | 0 | 0.003 |
-| Speed Index | 4.2 s | 0.5 s |
+| Cumulative Layout Shift | 0.001 | 0.002 |
+| Speed Index | 4.4 s | 0.4 s |
 
 ### GPT priority flags
 
-- Mobile Performance is 76/100; prioritize mobile loading work before cosmetic SEO changes.
-- Mobile LCP is 4.20s (>2.5s target). Inspect the LCP element, image priority/preload, server response and render-blocking resources.
+- Mobile Performance is 73/100; prioritize mobile loading work before cosmetic SEO changes.
+- Mobile LCP is 4.44s (>2.5s target). Inspect the LCP element, image priority/preload, server response and render-blocking resources.
 
 ### LCP element / likely LCP-related nodes
 
@@ -30,17 +30,18 @@ Automated weekly Lighthouse audit of the production homepage.
 
 ### CLS / layout-shift culprits
 
-_No specific layout-shift node was exposed in this run._
+- `Chat Zalo | body > header#nav > div.container > div.nav-cta | <div class="nav-cta">`
+- `head > link | head > link | <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">`
 
 ### Mobile performance diagnostics
 
-- **Avoids enormous network payloads** — Total size was 268 KiB
+- **Avoids enormous network payloads** — Total size was 263 KiB
 - **Avoid long main-thread tasks** — 8 long tasks found
-- **Minimize main-thread work** — 6.3 s
+- **Minimize main-thread work** — 3.5 s
 
 ### Largest estimated mobile savings opportunities
 
-- Initial server response time was short (~0.15s potential savings)
+_No material time/transfer savings opportunities reported._
 
 ### Heaviest network resources (mobile run)
 
@@ -71,3 +72,40 @@ _No failed weighted accessibility audits._
 When asked to improve technical SEO/performance, inspect the cited DOM selector/snippet and the corresponding repository code before editing. Prefer fixes with measurable impact (LCP/CLS/image weight/render blocking). Re-run this workflow after changes and compare scores/metrics. Do not treat a single Lighthouse run as field performance evidence.
 
 > Lighthouse scores are synthetic lab measurements and can vary between runs. Use them for diagnostics and trend monitoring; use Search Console/CrUX field data for actual organic/user performance when available.
+## 9. Deep Lighthouse diagnostics
+
+This section exposes the underlying mobile Lighthouse timing breakdown so future GPT edits can target measured bottlenecks rather than guessed causes.
+
+### Main-thread work breakdown
+
+- Other: **1.23s**
+- Style & Layout: **1.14s**
+- Script Evaluation: **0.62s**
+- Rendering: **0.36s**
+- Parse HTML & CSS: **0.11s**
+- Script Parsing & Compilation: **0.01s**
+
+### Longest main-thread tasks
+
+- 0.36s · `xjtlu-vietnam.netlify.app/`
+- 0.29s · `xjtlu-vietnam.netlify.app/`
+- 0.18s · `xjtlu-vietnam.netlify.app/`
+- 0.15s · `Unattributable`
+- 0.09s · `xjtlu-vietnam.netlify.app/`
+- 0.09s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
+- 0.08s · `xjtlu-vietnam.netlify.app/`
+- 0.06s · `xjtlu-vietnam.netlify.app/`
+
+### JavaScript boot-up cost
+
+- 2.93s · `xjtlu-vietnam.netlify.app/` (eval 0.54s, parse 0.00s)
+- 0.33s · `Unattributable` (eval 0.02s)
+- 0.18s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.06s, parse 0.00s)
+
+### LCP phase timing
+
+_LCP phase detail unavailable in this Lighthouse version/run._
+
+### Interpretation rule
+
+Prioritize the largest measured category/task first. If Style & Layout dominates, reduce above-the-fold DOM/CSS complexity. If Script Evaluation dominates, defer non-critical startup JavaScript. If Rendering/Paint dominates, simplify expensive visual effects in the first viewport. Preserve SEO copy and conversion content unless the data clearly justifies a content change.
