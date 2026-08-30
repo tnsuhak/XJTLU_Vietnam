@@ -53,8 +53,7 @@ text = re.sub(
 
 # Convert source links outside the student-story area into plain source labels.
 # This applies to market-signal sources, partnership sources, admissions source
-# notes, faculty-profile source links, etc. Facts remain visible without giving
-# the homepage another exit path.
+# notes, etc. Facts remain visible without giving the homepage another exit path.
 def src_to_span(match: re.Match[str]) -> str:
     label = re.sub(r'\s*↗\s*$', '', match.group(1).strip())
     return f'<span class="src">{label}</span>'
@@ -78,6 +77,14 @@ text = re.sub(
 # attribution and the user explicitly wants to keep them.
 if stories_html:
     text = text.replace(placeholder, stories_html, 1)
+
+# The faculty profile sits inside the broader story section but is not a
+# student-story source. Keep the profile facts on-page without another exit.
+text = re.sub(
+    r'<a\s+class="src"\s+style="color:var\(--gold-2\)"\s+href="https://scholar\.xjtlu\.edu\.cn/[^"]+"[^>]*>scholar\.xjtlu\.edu\.cn\s*↗</a>',
+    '<span class="src" style="color:var(--gold-2)">hồ sơ XJTLU</span>',
+    text,
+)
 
 # Any remaining clickable external link on the homepage must open in a new tab
 # and protect window.opener. (This covers story originals and Zalo links.)
