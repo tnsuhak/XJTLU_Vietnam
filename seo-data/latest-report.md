@@ -53,7 +53,7 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Audit | Mobile | Desktop |
 | --- | ---: | ---: |
-| Performance | 77 | 100 |
+| Performance | 94 | 100 |
 | SEO | 100 | 100 |
 | Accessibility | 100 | 100 |
 | Best Practices | 96 | 96 |
@@ -62,16 +62,15 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Metric | Mobile | Desktop |
 | --- | --- | --- |
-| First Contentful Paint | 4.0 s | 0.5 s |
-| Largest Contentful Paint | 4.0 s | 0.5 s |
-| Total Blocking Time | 0 ms | 0 ms |
-| Cumulative Layout Shift | 0 | 0.004 |
-| Speed Index | 4.0 s | 0.5 s |
+| First Contentful Paint | 2.1 s | 0.5 s |
+| Largest Contentful Paint | 2.1 s | 0.5 s |
+| Total Blocking Time | 210 ms | 0 ms |
+| Cumulative Layout Shift | 0.008 | 0 |
+| Speed Index | 2.1 s | 0.5 s |
 
 ### GPT priority flags
 
-- Mobile Performance is 77/100; prioritize mobile loading work before cosmetic SEO changes.
-- Mobile LCP is 4.04s (>2.5s target). Inspect the LCP element, image priority/preload, server response and render-blocking resources.
+- Total Blocking Time is elevated; inspect long tasks, unused JavaScript and third-party scripts.
 
 ### LCP element / likely LCP-related nodes
 
@@ -79,17 +78,17 @@ Automated weekly Lighthouse audit of the production homepage.
 
 ### CLS / layout-shift culprits
 
-_No specific layout-shift node was exposed in this run._
+- `body > iframe#nl-badge-frame | body > iframe#nl-badge-frame | <iframe sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox" id="nl-badge-frame" srcdoc="&…`
 
 ### Mobile performance diagnostics
 
-- **Avoids enormous network payloads** — Total size was 263 KiB
-- **Avoid long main-thread tasks** — 2 long tasks found
-- **Minimizes main-thread work** — 2.0 s
+- **Avoids enormous network payloads** — Total size was 268 KiB
+- **Avoid long main-thread tasks** — 8 long tasks found
+- **Minimize main-thread work** — 3.7 s
 
 ### Largest estimated mobile savings opportunities
 
-- Initial server response time was short (~0.17s potential savings)
+- Initial server response time was short (~0.23s potential savings)
 
 ### Heaviest network resources (mobile run)
 
@@ -113,7 +112,7 @@ _None — Lighthouse SEO category passed._
 
 ### Accessibility issues worth reviewing
 
-- `<td>` elements in a large `<table>` do not have table headers.
+_No failed weighted accessibility audits._
 
 ### GPT maintenance rule
 
@@ -126,23 +125,29 @@ This section exposes the underlying mobile Lighthouse timing breakdown so future
 
 ### Main-thread work breakdown
 
-- Style & Layout: **0.81s**
-- Other: **0.66s**
-- Rendering: **0.32s**
-- Script Evaluation: **0.14s**
-- Parse HTML & CSS: **0.05s**
+- Style & Layout: **1.27s**
+- Other: **1.13s**
+- Script Evaluation: **0.62s**
+- Rendering: **0.51s**
+- Parse HTML & CSS: **0.12s**
 - Script Parsing & Compilation: **0.01s**
 
 ### Longest main-thread tasks
 
-- 0.17s · `xjtlu-vietnam.netlify.app/`
-- 0.15s · `xjtlu-vietnam.netlify.app/`
+- 0.31s · `xjtlu-vietnam.netlify.app/`
+- 0.25s · `xjtlu-vietnam.netlify.app/`
+- 0.18s · `Unattributable`
+- 0.14s · `xjtlu-vietnam.netlify.app/`
+- 0.13s · `xjtlu-vietnam.netlify.app/`
+- 0.08s · `xjtlu-vietnam.netlify.app/`
+- 0.06s · `xjtlu-vietnam.netlify.app/`
+- 0.05s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
 
 ### JavaScript boot-up cost
 
-- 1.73s · `xjtlu-vietnam.netlify.app/` (eval 0.11s, parse 0.00s)
-- 0.18s · `Unattributable` (eval 0.01s)
-- 0.05s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.02s, parse 0.00s)
+- 3.15s · `xjtlu-vietnam.netlify.app/` (eval 0.54s, parse 0.00s)
+- 0.39s · `Unattributable` (eval 0.02s)
+- 0.06s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.05s, parse 0.01s)
 
 ### LCP phase timing
 
