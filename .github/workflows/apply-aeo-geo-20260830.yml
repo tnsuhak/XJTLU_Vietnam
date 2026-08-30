@@ -1,5 +1,6 @@
 name: Apply AEO GEO 2026-08-30
 
+# SEO/AEO/GEO validation is chained by workflow_run in seo-gsc-monitor.yml.
 on:
   workflow_dispatch:
   push:
