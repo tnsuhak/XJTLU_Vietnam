@@ -53,7 +53,7 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Audit | Mobile | Desktop |
 | --- | ---: | ---: |
-| Performance | 70 | 86 |
+| Performance | 63 | 88 |
 | SEO | 100 | 100 |
 | Accessibility | 95 | 95 |
 | Best Practices | 96 | 96 |
@@ -62,16 +62,16 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Metric | Mobile | Desktop |
 | --- | --- | --- |
-| First Contentful Paint | 3.6 s | 1.3 s |
-| Largest Contentful Paint | 3.6 s | 1.3 s |
+| First Contentful Paint | 4.2 s | 1.1 s |
+| Largest Contentful Paint | 4.2 s | 1.1 s |
 | Total Blocking Time | 0 ms | 0 ms |
-| Cumulative Layout Shift | 0.257 | 0.17 |
-| Speed Index | 3.6 s | 1.3 s |
+| Cumulative Layout Shift | 0.257 | 0.166 |
+| Speed Index | 4.2 s | 1.1 s |
 
 ### GPT priority flags
 
-- Mobile Performance is 70/100; prioritize mobile loading work before cosmetic SEO changes.
-- Mobile LCP is 3.57s (>2.5s target). Inspect the LCP element, image priority/preload, server response and render-blocking resources.
+- Mobile Performance is 63/100; prioritize mobile loading work before cosmetic SEO changes.
+- Mobile LCP is 4.16s (>2.5s target). Inspect the LCP element, image priority/preload, server response and render-blocking resources.
 - Mobile CLS is 0.257 (>0.10 target). Reserve dimensions for images/embeds and inspect late-loading fonts or injected content.
 
 ### LCP element / likely LCP-related nodes
@@ -84,14 +84,14 @@ Automated weekly Lighthouse audit of the production homepage.
 
 ### Mobile performance diagnostics
 
-- **Render-blocking requests** — Est savings of 2,140 ms
-- **Avoids enormous network payloads** — Total size was 270 KiB
+- **Render-blocking requests** — Est savings of 2,520 ms
+- **Avoids enormous network payloads** — Total size was 277 KiB
 - **Avoid long main-thread tasks** — 7 long tasks found
-- **Minimize main-thread work** — 3.0 s
+- **Minimize main-thread work** — 2.9 s
 
 ### Largest estimated mobile savings opportunities
 
-- Initial server response time was short (~0.31s potential savings)
+- Initial server response time was short (~0.06s potential savings)
 
 ### Heaviest network resources (mobile run)
 
