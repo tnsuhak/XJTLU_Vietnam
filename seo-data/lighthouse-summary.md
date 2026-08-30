@@ -4,7 +4,7 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Audit | Mobile | Desktop |
 | --- | ---: | ---: |
-| Performance | 77 | 100 |
+| Performance | 86 | 100 |
 | SEO | 100 | 100 |
 | Accessibility | 100 | 100 |
 | Best Practices | 96 | 96 |
@@ -13,16 +13,16 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Metric | Mobile | Desktop |
 | --- | --- | --- |
-| First Contentful Paint | 4.1 s | 0.5 s |
-| Largest Contentful Paint | 4.1 s | 0.5 s |
-| Total Blocking Time | 0 ms | 0 ms |
-| Cumulative Layout Shift | 0.001 | 0.004 |
-| Speed Index | 4.1 s | 0.5 s |
+| First Contentful Paint | 1.8 s | 0.5 s |
+| Largest Contentful Paint | 1.8 s | 0.5 s |
+| Total Blocking Time | 490 ms | 0 ms |
+| Cumulative Layout Shift | 0 | 0.004 |
+| Speed Index | 1.8 s | 0.5 s |
 
 ### GPT priority flags
 
-- Mobile Performance is 77/100; prioritize mobile loading work before cosmetic SEO changes.
-- Mobile LCP is 4.13s (>2.5s target). Inspect the LCP element, image priority/preload, server response and render-blocking resources.
+- Mobile Performance is 86/100; prioritize mobile loading work before cosmetic SEO changes.
+- Total Blocking Time is elevated; inspect long tasks, unused JavaScript and third-party scripts.
 
 ### LCP element / likely LCP-related nodes
 
@@ -30,18 +30,17 @@ Automated weekly Lighthouse audit of the production homepage.
 
 ### CLS / layout-shift culprits
 
-- `Chat Zalo | body > header#nav > div.container > div.nav-cta | <div class="nav-cta">`
-- `head > link | head > link | <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">`
+_No specific layout-shift node was exposed in this run._
 
 ### Mobile performance diagnostics
 
-- **Avoids enormous network payloads** — Total size was 272 KiB
-- **Avoid long main-thread tasks** — 4 long tasks found
-- **Minimizes main-thread work** — 1.9 s
+- **Avoids enormous network payloads** — Total size was 268 KiB
+- **Avoid long main-thread tasks** — 8 long tasks found
+- **Minimize main-thread work** — 4.0 s
 
 ### Largest estimated mobile savings opportunities
 
-- Initial server response time was short (~0.10s potential savings)
+- Initial server response time was short (~0.06s potential savings)
 
 ### Heaviest network resources (mobile run)
 
@@ -78,25 +77,29 @@ This section exposes the underlying mobile Lighthouse timing breakdown so future
 
 ### Main-thread work breakdown
 
-- Style & Layout: **0.89s**
-- Other: **0.53s**
-- Rendering: **0.26s**
-- Script Evaluation: **0.16s**
-- Parse HTML & CSS: **0.05s**
+- Other: **1.42s**
+- Style & Layout: **1.20s**
+- Script Evaluation: **0.79s**
+- Rendering: **0.49s**
+- Parse HTML & CSS: **0.14s**
 - Script Parsing & Compilation: **0.01s**
 
 ### Longest main-thread tasks
 
-- 0.16s · `xjtlu-vietnam.netlify.app/`
+- 0.35s · `Unattributable`
+- 0.27s · `xjtlu-vietnam.netlify.app/`
+- 0.26s · `xjtlu-vietnam.netlify.app/`
+- 0.25s · `xjtlu-vietnam.netlify.app/`
+- 0.11s · `xjtlu-vietnam.netlify.app/`
 - 0.10s · `xjtlu-vietnam.netlify.app/`
-- 0.10s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
-- 0.06s · `xjtlu-vietnam.netlify.app/`
+- 0.09s · `xjtlu-vietnam.netlify.app/`
+- 0.05s · `xjtlu-vietnam.netlify.app/`
 
 ### JavaScript boot-up cost
 
-- 1.47s · `xjtlu-vietnam.netlify.app/` (eval 0.11s, parse 0.00s)
-- 0.24s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.04s, parse 0.00s)
-- 0.18s · `Unattributable` (eval 0.01s)
+- 3.35s · `xjtlu-vietnam.netlify.app/` (eval 0.72s, parse 0.00s)
+- 0.61s · `Unattributable` (eval 0.03s)
+- 0.06s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.04s, parse 0.00s)
 
 ### LCP phase timing
 
