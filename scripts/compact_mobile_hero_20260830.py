@@ -31,9 +31,28 @@ new_mobile = '''@media(max-width:560px){
 if old_mobile in s:
     s = s.replace(old_mobile, new_mobile, 1)
 
+# Bar-type phones need a slightly different map-card layout. Keep tablet,
+# foldable and desktop positions unchanged, while separating all three cards
+# from each other and from the key city labels on 430px-and-narrower screens.
+bar_phone_marker = '/* TNS_BAR_PHONE_ROUTE_LAYOUT */'
+if bar_phone_marker not in s:
+    anchor = '@media(max-width:640px){.btn{white-space:normal;text-align:center}.nav .btn,.fab{white-space:nowrap}}'
+    bar_phone_css = '''/* TNS_BAR_PHONE_ROUTE_LAYOUT */
+@media(max-width:430px){
+  .route-card{font-size:10.8px;padding:9px 11px}
+  .route-card b{font-size:12.2px}
+  .route-card.b{left:0;top:-2%;max-width:174px}
+  .route-card.c{right:0;top:24%;max-width:188px}
+  .route-card.a{right:0;bottom:1%;max-width:205px}
+}
+'''
+    if anchor not in s:
+        raise SystemExit('Bar-phone CSS anchor not found')
+    s = s.replace(anchor, bar_phone_css + anchor, 1)
+
 # Keep the mobile 2+2 route card concise so it does not collide visually
 # with the adjacent 4+0 card.
 s = s.replace('2 năm Trung Quốc → 2 năm Liverpool (tùy ngành)', '2 năm Trung Quốc → 2 năm Liverpool', 1)
 
 p.write_text(s, encoding='utf-8')
-print('Compacted XJTLU Vietnam mobile hero and shortened 2+2 route card.')
+print('Compacted XJTLU Vietnam mobile hero and separated route cards for bar phones.')
