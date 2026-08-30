@@ -1,19 +1,8 @@
 {
   "site": "xjtlu-vietnam",
   "language": "vi",
-  "updated_at": "2026-08-30T00:00:00+09:00",
+  "updated_at": "2026-08-30T15:42:00+09:00",
   "items": [
-    {
-      "id": "xjtlu-harvard-full-scholarship-2026",
-      "title": "Từ XJTLU đến Harvard với học bổng toàn phần – cùng offer Stanford, Yale và Oxford",
-      "summary": "Cựu sinh viên Biomedical Statistics Jiayi Li nhận học bổng toàn phần cho chương trình thạc sĩ tại Harvard, đồng thời nhận offer từ Stanford, Yale và Oxford.",
-      "date": "30/08/2026",
-      "source_date": "10/01/2026",
-      "url": "/news/xjtlu-harvard-full-scholarship-stanford-yale-oxford.html",
-      "source_url": "https://www.xjtlu.edu.cn/en/news/2026/01/from-xjtlu-to-harvard-jiayi-lis-research-journey",
-      "image": null,
-      "category": "Học thuật · Đại học hàng đầu"
-    },
     {
       "id": "xjtlu-indonesia-to-tsinghua-2026",
       "title": "Từ XJTLU đến Đại học Thanh Hoa: hành trình của một sinh viên Indonesia",
@@ -37,15 +26,26 @@
       "category": "Tốt nghiệp · University of Liverpool"
     },
     {
-      "id": "xjtlu-harvard-cambridge-linguistics-2026",
-      "title": "Từ XJTLU đến Harvard rồi Cambridge: một lộ trình học thuật từ Linguistics",
-      "summary": "Cựu sinh viên XJTLU Yiran Du hoàn thành thạc sĩ Education tại Harvard và hiện theo học PhD Education tại University of Cambridge.",
+      "id": "xjtlu-della-vivo-southeast-asia-2026",
+      "title": "Từ XJTLU đến Vivo: cựu sinh viên Indonesia phụ trách cả thị trường Việt Nam",
+      "summary": "Della Senjaya tốt nghiệp BA Marketing tại XJTLU và hiện làm Internet Product Assistant tại Vivo Indonesia, hỗ trợ các thị trường Indonesia, Malaysia, Việt Nam và Philippines.",
       "date": "30/08/2026",
-      "source_date": "03/04/2026",
-      "url": "/news/xjtlu-harvard-cambridge-linguistics.html",
-      "source_url": "https://www.xjtlu.edu.cn/en/news/2026/04/from-xjtlu-to-harvard-and-cambridge-how-far-can-a-linguistics-path-take-you",
+      "source_date": "03/07/2026",
+      "url": "/news/xjtlu-della-vivo-vietnam-southeast-asia.html",
+      "source_url": "https://www.xjtlu.edu.cn/en/news/2026/07/next-together-alumni-stories-della-senjaya-internet-product-assistant-at-vivo",
       "image": null,
-      "category": "Harvard · Cambridge · Học thuật"
+      "category": "Đông Nam Á · Việc làm · Vivo"
+    },
+    {
+      "id": "xjtlu-indonesia-700-students-2026",
+      "title": "700 sinh viên Indonesia tại XJTLU: vì sao mô hình Anh–Trung đang thu hút Đông Nam Á?",
+      "summary": "XJTLU hiện có khoảng 700 sinh viên Indonesia và hơn 1.500 hồ sơ từ Indonesia cho năm học mới. Đây là tín hiệu đáng chú ý về sức hút tại Đông Nam Á.",
+      "date": "28/08/2026",
+      "source_date": "25/06/2026",
+      "url": "/news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html",
+      "source_url": "https://www.xjtlu.edu.cn/en/news/2026/06/xjtlu-holds-its-first-ever-indonesia-forum-to-discuss-how-collaboration-can-help-graduates-be-globally-competitive",
+      "image": null,
+      "category": "Đông Nam Á · Sinh viên quốc tế"
     },
     {
       "id": "xjtlu-thai-graduate-cp-group-2026",
@@ -59,15 +59,26 @@
       "category": "Đông Nam Á · Việc làm"
     },
     {
-      "id": "xjtlu-indonesia-700-students-2026",
-      "title": "700 sinh viên Indonesia tại XJTLU: vì sao mô hình Anh–Trung đang thu hút Đông Nam Á?",
-      "summary": "XJTLU hiện có khoảng 700 sinh viên Indonesia và hơn 1.500 hồ sơ từ Indonesia cho năm học mới. Đây là tín hiệu đáng chú ý về sức hút tại Đông Nam Á.",
-      "date": "28/08/2026",
-      "source_date": "25/06/2026",
-      "url": "/news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html",
-      "source_url": "https://www.xjtlu.edu.cn/en/news/2026/06/xjtlu-holds-its-first-ever-indonesia-forum-to-discuss-how-collaboration-can-help-graduates-be-globally-competitive",
+      "id": "xjtlu-harvard-cambridge-linguistics-2026",
+      "title": "Từ XJTLU đến Harvard rồi Cambridge: một lộ trình học thuật từ Linguistics",
+      "summary": "Cựu sinh viên XJTLU Yiran Du hoàn thành thạc sĩ Education tại Harvard và hiện theo học PhD Education tại University of Cambridge.",
+      "date": "30/08/2026",
+      "source_date": "03/04/2026",
+      "url": "/news/xjtlu-harvard-cambridge-linguistics.html",
+      "source_url": "https://www.xjtlu.edu.cn/en/news/2026/04/from-xjtlu-to-harvard-and-cambridge-how-far-can-a-linguistics-path-take-you",
       "image": null,
-      "category": "Đông Nam Á · Sinh viên quốc tế"
+      "category": "Harvard · Cambridge · Học thuật"
+    },
+    {
+      "id": "xjtlu-harvard-full-scholarship-2026",
+      "title": "Từ XJTLU đến Harvard với học bổng toàn phần – cùng offer Stanford, Yale và Oxford",
+      "summary": "Cựu sinh viên Biomedical Statistics Jiayi Li nhận học bổng toàn phần cho chương trình thạc sĩ tại Harvard, đồng thời nhận offer từ Stanford, Yale và Oxford.",
+      "date": "30/08/2026",
+      "source_date": "10/01/2026",
+      "url": "/news/xjtlu-harvard-full-scholarship-stanford-yale-oxford.html",
+      "source_url": "https://www.xjtlu.edu.cn/en/news/2026/01/from-xjtlu-to-harvard-jiayi-lis-research-journey",
+      "image": null,
+      "category": "Học thuật · Đại học hàng đầu"
     },
     {
       "id": "xjtlu-to-oxford-english-2025",
