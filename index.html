@@ -1184,6 +1184,9 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
   </div>
 </section>
 
+<style id="tns-contact-only-style">
+.inq.tns-contact-only{display:block}.inq.tns-contact-only .inq-side{max-width:820px}
+</style>
 <!-- ===================== INQUIRY ===================== -->
 <section class="section" id="inquiry">
   <div class="container">
@@ -1192,7 +1195,7 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
       <h2>Bắt đầu bằng một tin nhắn Zalo</h2>
       <p class="lead">Hãy liên hệ SOS International để được tư vấn. Có văn phòng tại TP. Hồ Chí Minh và Hà Nội, tư vấn hoàn toàn miễn phí bằng tiếng Việt, tiếng Anh hoặc tiếng Hàn.</p>
     </div>
-    <div class="inq">
+    <div class="inq tns-contact-only">
       <div class="inq-side reveal">
         <h3>Tư vấn 1:1 miễn phí</h3>
         <p>Điều kiện nhập học · chọn ngành · học bổng · visa · ký túc xá. Gửi học bạ, SOS sẽ đánh giá sơ bộ trong 1–2 ngày làm việc.</p>
@@ -1208,22 +1211,6 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
           <li><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div><small>Giờ làm việc</small>Thứ 2 – Thứ 6 · 9:00–18:00 (giờ Hàn Quốc, GMT+9)</div></li>
         </ul>
       </div>
-      <form class="form reveal d1" id="inquiryForm" name="xjtlu-vietnam-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/?success=true#inquiry">
-        <input type="hidden" name="form-name" value="xjtlu-vietnam-inquiry">
-        <p style="display:none"><label>Không điền ô này: <input name="bot-field"></label></p>
-        <h3>Để lại thông tin, SOS sẽ liên hệ lại</h3>
-        <p class="hint">Bạn cũng có thể gửi email trực tiếp tới khj@tnsuhak.com. Thông tin chỉ dùng để tư vấn du học.</p>
-        <div class="f-grid">
-          <div class="f"><label for="fName">Họ và tên *</label><input id="fName" name="name" required placeholder="Nguyễn Văn A"></div>
-          <div class="f"><label for="fPhone">Số điện thoại / Zalo *</label><input id="fPhone" name="phone" required placeholder="09xx xxx xxx"></div>
-          <div class="f"><label for="fEmail">Email</label><input id="fEmail" name="email" type="email" placeholder="ban@email.com"></div>
-          <div class="f"><label for="fEntry">Bạn muốn nhập học</label><select id="fEntry" name="entry"><option>Năm 1 (tốt nghiệp THPT)</option><option>Chuyển tiếp năm 2</option><option>Chuyển tiếp năm 3</option><option>Bằng quốc tế (IB / A-Level / SAT-AP)</option><option>Thạc sĩ</option><option>Chưa rõ – cần tư vấn</option></select></div>
-          <div class="f full"><label for="fMajor">Ngành quan tâm</label><input id="fMajor" name="major" placeholder="Ví dụ: Artificial Intelligence, Economics and Finance…"></div>
-          <div class="f full"><label for="fMsg">Câu hỏi / thông tin học lực</label><textarea id="fMsg" name="message" placeholder="Điểm trung bình, IELTS (nếu có), thời điểm dự kiến nhập học…"></textarea></div>
-        </div>
-        <button class="btn btn-gold" type="submit">Gửi yêu cầu tư vấn</button>
-        <div class="form-ok" id="formOk">✅ Đã nhận thông tin. SOS sẽ liên hệ với bạn trong 1–2 ngày làm việc.</div>
-      </form>
     </div>
   </div>
 </section>
@@ -1289,17 +1276,21 @@ footer{background:var(--deep);color:#9fa9c0;padding:56px 0 30px;font-size:13.5px
 </section>
 <!-- TNS_AUTO_NEWS_END -->
 
+<style id="tns-footer-three-col-style">
+.foot-grid.tns-three-col{grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr))}
+@media(max-width:900px){.foot-grid.tns-three-col{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.foot-grid.tns-three-col{grid-template-columns:1fr}}
+</style>
 <!-- ===================== FOOTER ===================== -->
 <footer>
   <div class="container">
-    <div class="foot-grid">
+    <div class="foot-grid tns-three-col">
       <div class="foot-brand">
         <div class="brand"><div class="brand-mark footer-brand-mark" aria-hidden="true">XJ</div><div class="brand-text"><b style="color:#fff">XJTLU Việt Nam</b><small style="color:#9fa9c0">by SOS International</small></div></div>
         <p>Trang thông tin tiếng Việt về Xi'an Jiaotong-Liverpool University do TNS Worldwide (Seoul) và đối tác tư vấn tại Việt Nam SOS International (TP. Hồ Chí Minh &amp; Hà Nội) cùng biên soạn. Số liệu dựa trên tài liệu chính thức của XJTLU cho kỳ nhập học 2027; vui lòng kiểm tra lại trước khi nộp hồ sơ.</p>
       </div>
       <div><h4>Nội dung</h4><ul><li><a href="#information">Giới thiệu</a></li><li><a href="#opportunity">Cơ hội</a></li><li><a href="#major">Ngành học</a></li><li><a href="#tuition">Học phí &amp; học bổng</a></li><li><a href="#rooms">Ký túc xá</a></li></ul></div>
       <div><h4>Tuyển sinh</h4><ul><li><a href="#admission">Điều kiện tuyển sinh</a></li><li><a href="#stories">Câu chuyện</a></li><li><a href="#news">Tin tức</a></li><li><a href="#reviews">Video</a></li><li><a href="#faq">Hỏi đáp</a></li><li><a href="#inquiry">Liên hệ</a></li></ul></div>
-      <div><h4>Trang chính thức</h4><ul><li><a href="https://www.xjtlu.edu.cn/en" target="_blank" rel="noopener">XJTLU ↗</a></li><li><a href="https://www.liverpool.ac.uk/xjtlu/" target="_blank" rel="noopener">University of Liverpool – XJTLU ↗</a></li><li><a href="https://www.xjtlu.edu.cn/en/admissions/global/qualifications" target="_blank" rel="noopener">Yêu cầu đầu vào theo quốc gia ↗</a></li><li><a href="https://www.xjtlu.edu.cn/en/admissions/global/fees-and-scholarships/" target="_blank" rel="noopener">Học phí &amp; học bổng ↗</a></li><li><a href="https://xjtlu-korea.netlify.app/" target="_blank" rel="noopener">🇰🇷 XJTLU Korea</a></li></ul></div>
     </div>
     <div class="foot-bottom">
       <span>TNS Worldwide Co., Ltd. (㈜티앤에스월드와이드) · Seoul, Korea · Tel. +82-2-3288-1733 · khj@tnsuhak.com</span>
@@ -1391,9 +1382,6 @@ const CONFIG = {
     const play=()=>{if(v.querySelector('iframe'))return;const id=v.dataset.yt;const f=document.createElement('iframe');f.src=`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';f.allowFullscreen=true;f.title='YouTube video';v.appendChild(f);};
     v.addEventListener('click',play);v.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();play();}});
   });
-
-  // ---- Form: Netlify handles POST; show success flag when returning with ?success=true
-  if(new URLSearchParams(location.search).get('success')==='true'){const ok=document.getElementById('formOk');if(ok){ok.style.display='block';document.getElementById('inquiry').scrollIntoView();}}
 })();
 </script>
 </body>
