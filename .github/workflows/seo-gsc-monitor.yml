@@ -2,6 +2,15 @@ name: GSC SEO Monitor
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "index.html"
+      - "**/*.html"
+      - "assets/**"
+      - "css/**"
+      - "js/**"
   schedule:
     # Every Monday 09:15 Korea time (00:15 UTC)
     - cron: "15 0 * * 1"
@@ -51,6 +60,12 @@ jobs:
         env:
           GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
         run: python seo/scripts/fetch_gsc.py
+
+      - name: Wait for Netlify production deploy
+        if: github.event_name == 'push'
+        run: |
+          echo "Waiting for Netlify to publish the latest main-branch change..."
+          sleep 90
 
       - name: Run Lighthouse mobile audit
         run: |
