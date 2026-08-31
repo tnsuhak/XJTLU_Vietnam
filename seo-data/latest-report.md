@@ -2,8 +2,8 @@
 
 - Property: `https://xjtlu-vietnam.netlify.app/`
 - Primary market filter: **Vietnam** (`vnm`)
-- Current period: **2026-07-31 → 2026-08-27**
-- Comparison period: **2026-07-03 → 2026-07-30**
+- Current period: **2026-08-01 → 2026-08-28**
+- Comparison period: **2026-07-04 → 2026-07-31**
 - Search Console settling lag applied: **3 days**
 
 ## 1. Vietnam organic search summary
@@ -11,18 +11,18 @@
 | Metric | Current | Previous | Change |
 | --- | --- | --- | --- |
 | Clicks | 0 | 0 | 0.0% |
-| Impressions | 0 | 0 | 0.0% |
+| Impressions | 1 | 0 | +100.0% |
 | CTR | 0.00% | 0.00% | +0.00 pp |
-| Avg position | 0.00 | 0.00 | +0.00 better |
+| Avg position | 65.00 | 0.00 | -65.00 better |
 
 ## 2. All-country summary
 
 | Metric | Current | Previous | Change |
 | --- | --- | --- | --- |
 | Clicks | 0 | 0 | 0.0% |
-| Impressions | 0 | 0 | 0.0% |
+| Impressions | 1 | 0 | +100.0% |
 | CTR | 0.00% | 0.00% | +0.00 pp |
-| Avg position | 0.00 | 0.00 | +0.00 better |
+| Avg position | 65.00 | 0.00 | -65.00 better |
 
 ## 3. SEO opportunities — positions 4–20
 
@@ -53,7 +53,7 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Audit | Mobile | Desktop |
 | --- | ---: | ---: |
-| Performance | 94 | 100 |
+| Performance | 99 | 100 |
 | SEO | 100 | 100 |
 | Accessibility | 100 | 100 |
 | Best Practices | 96 | 96 |
@@ -62,15 +62,15 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Metric | Mobile | Desktop |
 | --- | --- | --- |
-| First Contentful Paint | 2.1 s | 0.5 s |
-| Largest Contentful Paint | 2.1 s | 0.5 s |
-| Total Blocking Time | 210 ms | 0 ms |
-| Cumulative Layout Shift | 0.008 | 0 |
-| Speed Index | 2.1 s | 0.5 s |
+| First Contentful Paint | 1.8 s | 0.5 s |
+| Largest Contentful Paint | 1.8 s | 0.5 s |
+| Total Blocking Time | 50 ms | 0 ms |
+| Cumulative Layout Shift | 0 | 0 |
+| Speed Index | 2.0 s | 0.5 s |
 
 ### GPT priority flags
 
-- Total Blocking Time is elevated; inspect long tasks, unused JavaScript and third-party scripts.
+_No priority performance thresholds exceeded._
 
 ### LCP element / likely LCP-related nodes
 
@@ -78,17 +78,17 @@ Automated weekly Lighthouse audit of the production homepage.
 
 ### CLS / layout-shift culprits
 
-- `body > iframe#nl-badge-frame | body > iframe#nl-badge-frame | <iframe sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox" id="nl-badge-frame" srcdoc="&…`
+_No specific layout-shift node was exposed in this run._
 
 ### Mobile performance diagnostics
 
 - **Avoids enormous network payloads** — Total size was 268 KiB
 - **Avoid long main-thread tasks** — 8 long tasks found
-- **Minimize main-thread work** — 3.7 s
+- **Minimize main-thread work** — 2.9 s
 
 ### Largest estimated mobile savings opportunities
 
-- Initial server response time was short (~0.23s potential savings)
+- Initial server response time was short (~0.48s potential savings)
 
 ### Heaviest network resources (mobile run)
 
@@ -125,29 +125,29 @@ This section exposes the underlying mobile Lighthouse timing breakdown so future
 
 ### Main-thread work breakdown
 
-- Style & Layout: **1.27s**
-- Other: **1.13s**
-- Script Evaluation: **0.62s**
-- Rendering: **0.51s**
+- Style & Layout: **1.03s**
+- Other: **0.85s**
+- Script Evaluation: **0.58s**
+- Rendering: **0.36s**
 - Parse HTML & CSS: **0.12s**
 - Script Parsing & Compilation: **0.01s**
 
 ### Longest main-thread tasks
 
-- 0.31s · `xjtlu-vietnam.netlify.app/`
-- 0.25s · `xjtlu-vietnam.netlify.app/`
-- 0.18s · `Unattributable`
-- 0.14s · `xjtlu-vietnam.netlify.app/`
-- 0.13s · `xjtlu-vietnam.netlify.app/`
-- 0.08s · `xjtlu-vietnam.netlify.app/`
+- 0.27s · `xjtlu-vietnam.netlify.app/`
+- 0.18s · `xjtlu-vietnam.netlify.app/`
+- 0.15s · `xjtlu-vietnam.netlify.app/`
+- 0.11s · `xjtlu-vietnam.netlify.app/`
+- 0.09s · `xjtlu-vietnam.netlify.app/`
+- 0.06s · `xjtlu-vietnam.netlify.app/`
 - 0.06s · `xjtlu-vietnam.netlify.app/`
 - 0.05s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
 
 ### JavaScript boot-up cost
 
-- 3.15s · `xjtlu-vietnam.netlify.app/` (eval 0.54s, parse 0.00s)
-- 0.39s · `Unattributable` (eval 0.02s)
-- 0.06s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.05s, parse 0.01s)
+- 2.61s · `xjtlu-vietnam.netlify.app/` (eval 0.52s, parse 0.00s)
+- 0.24s · `Unattributable` (eval 0.00s)
+- 0.08s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.05s, parse 0.01s)
 
 ### LCP phase timing
 
