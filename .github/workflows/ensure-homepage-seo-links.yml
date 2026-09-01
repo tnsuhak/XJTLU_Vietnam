@@ -5,7 +5,10 @@ on:
   push:
     paths:
       - 'index.html'
+      - 'sitemap.xml'
+      - 'news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html'
       - 'scripts/ensure_homepage_seo_links.py'
+      - 'scripts/refine_homepage_conversion_links.py'
       - '.github/workflows/ensure-homepage-seo-links.yml'
 
 permissions:
@@ -30,19 +33,27 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Normalize homepage SEO structure
+      - name: Normalize homepage and related SEO structure
         run: python scripts/ensure_homepage_seo_links.py
 
-      - name: Commit normalized homepage
+      - name: Refine homepage conversion links and graduate outcomes
+        run: python scripts/refine_homepage_conversion_links.py
+
+      - name: Commit normalized pages
         run: |
-          if [ -z "$(git status --porcelain -- index.html)" ]; then
-            echo "Homepage SEO structure already current"
+          FILES=(
+            index.html
+            sitemap.xml
+            news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html
+          )
+          if [ -z "$(git status --porcelain -- "${FILES[@]}")" ]; then
+            echo "SEO/UX structure already current"
             exit 0
           fi
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
-          git add index.html
-          git commit -m "Normalize homepage SEO structure"
+          git add "${FILES[@]}"
+          git commit -m "Normalize preview SEO and consultation UX"
           BRANCH="${GITHUB_REF_NAME}"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
