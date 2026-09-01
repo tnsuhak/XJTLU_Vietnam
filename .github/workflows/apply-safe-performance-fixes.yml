@@ -1,0 +1,35 @@
+name: Apply Safe Performance Fixes
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply-fixes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply safe performance/accessibility fixes
+        run: python seo/scripts/apply_safe_performance_fixes.py
+
+      - name: Commit fixes
+        run: |
+          git config user.name "TNS SEO Bot"
+          git config user.email "seo-bot@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "perf: reduce render blocking and improve semantics"
+          git pull --rebase origin main
+          git push origin HEAD:main

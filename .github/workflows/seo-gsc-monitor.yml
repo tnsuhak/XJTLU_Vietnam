@@ -1,0 +1,115 @@
+name: GSC SEO Monitor
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "index.html"
+      - "**/*.html"
+      - "assets/**"
+      - "css/**"
+      - "js/**"
+      - "seo/scripts/**"
+  workflow_run:
+    workflows:
+      - "Apply Keyword SEO 2026-08-30"
+      - "Apply Keyword Cluster Links 2026-08-30"
+      - "Apply AEO GEO 2026-08-30"
+    types:
+      - completed
+  schedule:
+    # Every Monday 09:15 Korea time (00:15 UTC)
+    - cron: "15 0 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gsc-seo-monitor
+  cancel-in-progress: false
+
+jobs:
+  collect-search-console:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-api-python-client google-auth
+          npm install --global lighthouse
+
+      - name: Validate Search Console secret
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -z "$GSC_SERVICE_ACCOUNT_JSON" ]; then
+            echo "::error::Missing repository secret GSC_SERVICE_ACCOUNT_JSON"
+            echo "Add the Google service-account JSON under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+      - name: Collect Google Search Console data
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+        run: python seo/scripts/fetch_gsc.py
+
+      - name: Wait for Netlify production deploy
+        if: github.event_name == 'push' || github.event_name == 'workflow_run'
+        run: |
+          echo "Waiting for Netlify to publish the latest main-branch change..."
+          sleep 90
+
+      - name: Run Lighthouse mobile audit
+        run: |
+          lighthouse "https://xjtlu-vietnam.netlify.app/" \
+            --output=json \
+            --output-path=seo-data/lighthouse-mobile.json \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --chrome-flags="--headless --no-sandbox --disable-gpu" \
+            --quiet
+
+      - name: Run Lighthouse desktop audit
+        run: |
+          lighthouse "https://xjtlu-vietnam.netlify.app/" \
+            --preset=desktop \
+            --output=json \
+            --output-path=seo-data/lighthouse-desktop.json \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --chrome-flags="--headless --no-sandbox --disable-gpu" \
+            --quiet
+
+      - name: Build Lighthouse summary
+        run: python seo/scripts/summarize_lighthouse.py
+
+      - name: Append deep Lighthouse diagnostics
+        run: python seo/scripts/append_lighthouse_diagnostics.py
+
+      - name: Commit refreshed SEO data
+        run: |
+          git config user.name "TNS SEO Bot"
+          git config user.email "seo-bot@users.noreply.github.com"
+          git add seo-data/
+          if git diff --cached --quiet; then
+            echo "No SEO data changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(seo): refresh Search Console and Lighthouse data"
+          git pull --rebase origin main
+          git push origin HEAD:main

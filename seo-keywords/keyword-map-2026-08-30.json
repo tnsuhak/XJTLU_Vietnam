@@ -1,0 +1,68 @@
+{
+  "source": "Google Ads Keyword Planner exports supplied 2026-08-30",
+  "market": "Vietnam",
+  "language": "Vietnamese",
+  "search_engine": "Google",
+  "rule": "Search volumes are estimates for prioritization, not guaranteed exact demand.",
+  "pages": [
+    {
+      "url": "/",
+      "role": "brand_entity_homepage",
+      "primary_keywords": [
+        {"keyword": "xi an jiaotong liverpool university", "avg_monthly_searches": 500},
+        {"keyword": "xjtlu", "avg_monthly_searches": 50}
+      ],
+      "secondary_keywords": ["xjtlu vietnam", "đại học xjtlu", "xjtlu 2027"],
+      "do_not_target": ["du học trung quốc", "chi phí du học trung quốc", "học bổng du học trung quốc"]
+    },
+    {
+      "url": "/du-hoc-trung-quoc-2027.html",
+      "role": "generic_china_study_discovery_hub",
+      "primary_keywords": [
+        {"keyword": "du học trung quốc", "avg_monthly_searches": 5000}
+      ],
+      "secondary_keywords": [
+        {"keyword": "điều kiện du học trung quốc", "avg_monthly_searches": 500},
+        {"keyword": "chi phí du học trung quốc", "avg_monthly_searches": 500},
+        {"keyword": "học bổng du học trung quốc", "avg_monthly_searches": 500},
+        {"keyword": "visa du học trung quốc", "avg_monthly_searches": 500},
+        {"keyword": "tư vấn du học trung quốc", "avg_monthly_searches": 500}
+      ],
+      "conversion_path": ["/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html", "/xjtlu-hoc-phi-hoc-bong-2027.html", "/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html", "/"]
+    },
+    {
+      "url": "/xjtlu-ranking-2027.html",
+      "role": "brand_ranking_intent",
+      "primary_keywords": [
+        {"keyword": "xjtlu ranking", "avg_monthly_searches": 50}
+      ],
+      "secondary_keywords": ["xi an jiaotong liverpool university ranking", "xjtlu qs ranking", "xjtlu world ranking"]
+    },
+    {
+      "url": "/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html",
+      "role": "english_taught_china_study_intent",
+      "primary_keywords": [
+        {"keyword": "du học trung quốc bằng tiếng anh", "avg_monthly_searches": 50}
+      ],
+      "secondary_keywords": ["đại học trung quốc bằng tiếng anh", "học đại học bằng tiếng anh ở trung quốc"]
+    },
+    {
+      "url": "/xjtlu-hoc-phi-hoc-bong-2027.html",
+      "role": "brand_fee_scholarship_conversion",
+      "primary_keywords": ["học phí xjtlu", "học bổng xjtlu"],
+      "secondary_keywords": ["xjtlu tuition", "xjtlu scholarship", "xjtlu 2027"]
+    },
+    {
+      "url": "/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html",
+      "role": "brand_admission_conversion",
+      "primary_keywords": ["điều kiện tuyển sinh xjtlu"],
+      "secondary_keywords": ["xjtlu entry requirements vietnam", "đại học xjtlu điều kiện"]
+    }
+  ],
+  "excluded_intents": [
+    "du học nghề trung quốc",
+    "Korea-study queries",
+    "Chinese-language-only one-year study unless XJTLU has a matching product"
+  ],
+  "split_rule": "Do not create separate generic cost, scholarship, visa or requirements pages until Search Console demonstrates enough impressions or unique intent to justify them."
+}

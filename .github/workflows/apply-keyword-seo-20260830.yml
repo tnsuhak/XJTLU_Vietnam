@@ -1,0 +1,56 @@
+name: Apply Keyword SEO 2026-08-30
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "scripts/apply_keyword_seo_20260830.py"
+      - ".github/workflows/apply-keyword-seo-20260830.yml"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: apply-keyword-seo-20260830
+  cancel-in-progress: false
+
+jobs:
+  apply-keyword-seo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply keyword-demand SEO patch when needed
+        run: |
+          if grep -Fq "<title>Xi'an Jiaotong-Liverpool University (XJTLU) | Vietnam 2027</title>" index.html; then
+            echo "Keyword-demand homepage patch is already applied."
+          else
+            python scripts/apply_keyword_seo_20260830.py
+          fi
+
+      - name: Commit homepage changes
+        run: |
+          git config user.name "TNS SEO Bot"
+          git config user.email "seo-bot@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No homepage SEO changes to commit."
+          else
+            git commit -m "feat(seo): align homepage with Vietnam keyword demand"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+
+      - name: Trigger GSC and Lighthouse validation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run seo-gsc-monitor.yml --ref main
