@@ -5,10 +5,17 @@ on:
   push:
     paths:
       - 'index.html'
+      - '*.html'
+      - 'news/*.html'
       - 'sitemap.xml'
-      - 'news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html'
       - 'scripts/ensure_homepage_seo_links.py'
-      - 'scripts/refine_homepage_conversion_links.py'
+      - 'scripts/lighten_homepage_student_life_20260905.py'
+      - 'scripts/lighten_homepage_stories_20260905.py'
+      - 'scripts/enforce_light_homepage_20260905.py'
+      - 'scripts/unify_site_navigation_20260905.py'
+      - 'scripts/add_liverpool_vietnam_guide_20260905.py'
+      - 'scripts/enrich_liverpool_vietnam_guide_20260905.py'
+      - 'scripts/refine_vietnam_relevance_home_20260905.py'
       - '.github/workflows/ensure-homepage-seo-links.yml'
 
 permissions:
@@ -36,24 +43,53 @@ jobs:
       - name: Normalize homepage and related SEO structure
         run: python scripts/ensure_homepage_seo_links.py
 
-      - name: Refine homepage conversion links and graduate outcomes
-        run: python scripts/refine_homepage_conversion_links.py
+      - name: Enforce light homepage and student-life routing
+        run: python scripts/enforce_light_homepage_20260905.py
+
+      - name: Enforce homepage/subpage navigation
+        run: python scripts/unify_site_navigation_20260905.py
+
+      - name: Add Liverpool Vietnam detail guide
+        run: python scripts/add_liverpool_vietnam_guide_20260905.py
+
+      - name: Enrich Liverpool Vietnam detail guide
+        run: python scripts/enrich_liverpool_vietnam_guide_20260905.py
+
+      - name: Combine Vietnam relevance into one light homepage section
+        run: python scripts/refine_vietnam_relevance_home_20260905.py
+
+      - name: Keep Liverpool Vietnam in grouped menus
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          anchor = '<a href="/university-of-liverpool-vietnam.html">Liverpool & Việt Nam</a>'
+          before = '<a href="/xjtlu-2plus2-liverpool.html">Bằng University of Liverpool & lộ trình 2+2</a><a href="/xjtlu-ranking-2027.html">Xếp hạng XJTLU</a>'
+          after = '<a href="/xjtlu-2plus2-liverpool.html">Bằng University of Liverpool & lộ trình 2+2</a>' + anchor + '<a href="/xjtlu-ranking-2027.html">Xếp hạng XJTLU</a>'
+
+          legacy_before = '<li><a href="/xjtlu-2plus2-liverpool.html">2+2 & University of Liverpool</a></li><li><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html">Đời sống sinh viên</a></li>'
+          legacy_after = '<li><a href="/xjtlu-2plus2-liverpool.html">2+2 & University of Liverpool</a></li><li><a href="/university-of-liverpool-vietnam.html">Liverpool & Việt Nam</a></li><li><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html">Đời sống sinh viên</a></li>'
+
+          pages = list(Path('.').glob('*.html')) + list(Path('news').glob('*.html'))
+          for p in pages:
+              text = p.read_text(encoding='utf-8')
+              if anchor not in text and before in text:
+                  text = text.replace(before, after)
+              if legacy_before in text and '<li><a href="/university-of-liverpool-vietnam.html">Liverpool & Việt Nam</a></li>' not in text:
+                  text = text.replace(legacy_before, legacy_after)
+              p.write_text(text, encoding='utf-8')
+          PY
 
       - name: Commit normalized pages
         run: |
-          FILES=(
-            index.html
-            sitemap.xml
-            news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html
-          )
-          if [ -z "$(git status --porcelain -- "${FILES[@]}")" ]; then
-            echo "SEO/UX structure already current"
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "SEO/UX/navigation structure already current"
             exit 0
           fi
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
-          git add "${FILES[@]}"
-          git commit -m "Normalize preview SEO and consultation UX"
+          git add index.html *.html news/*.html sitemap.xml
+          git commit -m "Combine Liverpool and China advantage on homepage"
           BRANCH="${GITHUB_REF_NAME}"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"

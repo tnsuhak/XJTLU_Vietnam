@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://xjtlu-vietnam.netlify.app/</loc><lastmod>2026-08-30</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-hoc-phi-hoc-bong-2027.html</loc><lastmod>2026-08-28</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html</loc><lastmod>2026-08-29</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html</loc><lastmod>2026-08-30</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/du-hoc-trung-quoc-2027.html</loc><lastmod>2026-08-30</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-hoc-phi-hoc-bong-2027.html</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-2plus2-liverpool.html</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-nganh-hoc-nghe-nghiep.html</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-ranking-2027.html</loc><lastmod>2026-08-30</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-ket-qua-hoc-len-sau-tot-nghiep-2025.html</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-alumni-australia-2026.html</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-to-tsinghua-indonesian-student.html</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-class-2026-liverpool-degrees.html</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-della-vivo-vietnam-southeast-asia.html</loc><lastmod>2026-08-30</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html</loc><lastmod>2026-08-30</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html</loc><lastmod>2026-09-05</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-alumni-singapore-2026.html</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-thai-graduate-cp-group.html</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-harvard-cambridge-linguistics.html</loc><lastmod>2026-08-30</lastmod></url>
@@ -17,5 +22,11 @@
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-to-upenn-behavioral-decision-sciences.html</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-to-oxford-english-literature.html</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-filmmaking-to-columbia-university.html</loc><lastmod>2026-08-30</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-ket-qua-hoc-len-sau-tot-nghiep-2025.html</loc><lastmod>2026-08-30</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html</loc><lastmod>2026-09-05</lastmod></url>
+  <url>
+    <loc>https://xjtlu-vietnam.netlify.app/university-of-liverpool-vietnam.html</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
 </urlset>

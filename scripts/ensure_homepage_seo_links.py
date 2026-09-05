@@ -4,7 +4,7 @@ import re
 INDEX = Path("index.html")
 SITEMAP = Path("sitemap.xml")
 NEWS = Path("news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html")
-TODAY = "2026-08-30"
+TODAY = "2026-09-05"
 
 text = INDEX.read_text(encoding="utf-8")
 original = text
@@ -38,6 +38,16 @@ text = text.replace(
 zalo_url = "https://zalo.me/0336737617"
 text = re.sub(r'ZALO_URL:\s*"https://zalo\.me/[^"]+"', f'ZALO_URL: "{zalo_url}"', text)
 text = re.sub(r'href="https://zalo\.me/[^"]+"', f'href="{zalo_url}"', text)
+
+# Keep current academic-unit names visible in the programme section.
+text = text.replace(
+    "School of Advanced Technology · Taicang",
+    "Academy of Artificial Intelligence and Advanced Technology",
+)
+text = text.replace(
+    "School of Science · Academy of Pharmacy",
+    "Academy of Life and Natural Sciences",
+)
 
 # The Netlify form is not currently registered on the site. Remove the visible
 # form rather than collecting inquiries through an unverified route; retain
@@ -74,8 +84,6 @@ if footer_marker in text:
         footer,
         count=1,
     )
-    # Homepage conversion policy: keep official source links on detail/news
-    # pages, not as a prominent outbound-link column on the homepage footer.
     footer = re.sub(
         r'\s*<div><h4>Trang chính thức</h4><ul>.*?</ul></div>',
         "",
@@ -112,10 +120,8 @@ if "// ---- Keep footer brand mark visually identical to the header logo" not in
     if nav_marker in text:
         text = text.replace(nav_marker, logo_sync + nav_marker, 1)
 
-# The original SEO guide cards were added late in the homepage and repeated
-# topics users had already read above. Match the Korea-site pattern instead:
-# keep the evergreen landing pages, but link to each one contextually from the
-# relevant homepage section.
+# Keep evergreen detail links short and contextual on the homepage instead of
+# adding a large repeated guide directory.
 text = re.sub(
     r'\n?<!-- TNS_SEO_GUIDES_START -->.*?<!-- TNS_SEO_GUIDES_END -->\n?',
     "\n",
@@ -123,8 +129,6 @@ text = re.sub(
     count=1,
     flags=re.DOTALL,
 )
-
-# Rebuild helper-managed contextual links idempotently.
 text = re.sub(
     r'\n?<!-- TNS_INLINE_GUIDE_[A-Z_]+_START -->.*?<!-- TNS_INLINE_GUIDE_[A-Z_]+_END -->\n?',
     "\n",
@@ -140,7 +144,7 @@ text = re.sub(
 )
 
 inline_style = '''<style id="tns-inline-guide-style">
-.tns-inline-guide{margin-top:28px;padding:20px 0 0;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:22px}.tns-inline-guide-copy{max-width:760px}.tns-inline-guide small{display:block;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}.tns-inline-guide strong{display:block;color:var(--navy);font-family:var(--font-display);font-size:19px;line-height:1.3}.tns-inline-guide p{margin:6px 0 0;color:var(--muted);font-size:13.5px;line-height:1.65}.tns-inline-guide a{flex:none;color:var(--jade);font-size:14px;font-weight:800;white-space:nowrap}.tns-inline-guide a:hover{text-decoration:underline}@media(max-width:700px){.tns-inline-guide{display:block}.tns-inline-guide a{display:inline-block;margin-top:12px;white-space:normal}}
+.tns-inline-guide{margin-top:28px;padding:20px 0 0;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:22px}.tns-inline-guide-copy{max-width:760px}.tns-inline-guide small{display:block;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}.tns-inline-guide strong{display:block;color:var(--navy);font-family:var(--font-display);font-size:19px;line-height:1.3}.tns-inline-guide p{margin:6px 0 0;color:var(--muted);font-size:13.5px;line-height:1.65}.tns-inline-guide a{flex:none;color:var(--jade);font-size:14px;font-weight:800;white-space:nowrap}.tns-inline-guide a:hover{text-decoration:underline}@media(max-width:700px){.tns-inline-guide{display:block}.tns-inline-guide p{font-size:13px}.tns-inline-guide a{display:inline-block;margin-top:10px;white-space:normal}}
 </style>
 '''
 about_marker = "<!-- ===================== ABOUT / WHY XJTLU ===================== -->"
@@ -177,25 +181,33 @@ add_context_link(
     "information",
     "LIVERPOOL",
     "/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html",
-    "Đại học Liverpool tại Trung Quốc? Tìm hiểu mô hình XJTLU",
-    "Giải thích rõ mối quan hệ với University of Liverpool, chương trình học bằng tiếng Anh và lộ trình 2+2 dành cho sinh viên quốc tế.",
-    "Tìm hiểu XJTLU & Liverpool",
+    "XJTLU & University of Liverpool",
+    "Mô hình Anh - Trung, học bằng tiếng Anh và bằng University of Liverpool.",
+    "Xem chi tiết",
+)
+add_context_link(
+    "major",
+    "PROGRAMMES",
+    "/xjtlu-nganh-hoc-nghe-nghiep.html",
+    "Ngành học XJTLU & hướng nghề nghiệp",
+    "So sánh nhóm ngành, hướng học lên, việc làm và khả năng 2+2.",
+    "Xem ngành & nghề nghiệp",
 )
 add_context_link(
     "tuition",
     "TUITION",
     "/xjtlu-hoc-phi-hoc-bong-2027.html",
     "Học phí và học bổng XJTLU 2027",
-    "Xem riêng học phí, Entry Scholarship, Early Bird và các khoản chi cần chuẩn bị cho sinh viên Việt Nam.",
-    "Xem hướng dẫn học phí",
+    "Học phí, Entry Scholarship, Early Bird và các khoản chi chính.",
+    "Xem học phí",
 )
 add_context_link(
     "admission",
     "ADMISSION",
     "/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html",
-    "Điều kiện tuyển sinh XJTLU 2027 cho học sinh Việt Nam",
-    "Xem yêu cầu THPT, IELTS/TOEFL, hồ sơ, chuyển tiếp năm 2–3 và thời gian xét tuyển.",
-    "Xem điều kiện chi tiết",
+    "Điều kiện tuyển sinh XJTLU 2027",
+    "THPT, IELTS/TOEFL, chuyển tiếp và mốc hồ sơ dành cho Việt Nam.",
+    "Xem điều kiện",
 )
 
 if text != original:
@@ -229,7 +241,8 @@ if 'class="related-guides"' not in news:
       <b>Tìm hiểu thêm về XJTLU</b>
       <a href="/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html">Điều kiện tuyển sinh 2027 →</a>
       <a href="/xjtlu-hoc-phi-hoc-bong-2027.html">Học phí & học bổng →</a>
-      <a href="/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html">Đại học Liverpool tại Trung Quốc / XJTLU →</a>
+      <a href="/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html">XJTLU & University of Liverpool →</a>
+      <a href="/xjtlu-nganh-hoc-nghe-nghiep.html">Ngành học & nghề nghiệp →</a>
     </div>
 '''
     news = news.replace('    <a class="back" href="/news/">', related + '    <a class="back" href="/news/">', 1)
