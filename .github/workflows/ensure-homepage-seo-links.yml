@@ -50,6 +50,28 @@ jobs:
       - name: Add compact Liverpool Vietnam section and detail guide
         run: python scripts/add_liverpool_vietnam_guide_20260905.py
 
+      - name: Keep Liverpool Vietnam in grouped menus
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          anchor = '<a href="/university-of-liverpool-vietnam.html">Liverpool & Việt Nam</a>'
+          before = '<a href="/xjtlu-2plus2-liverpool.html">Bằng University of Liverpool & lộ trình 2+2</a><a href="/xjtlu-ranking-2027.html">Xếp hạng XJTLU</a>'
+          after = '<a href="/xjtlu-2plus2-liverpool.html">Bằng University of Liverpool & lộ trình 2+2</a>' + anchor + '<a href="/xjtlu-ranking-2027.html">Xếp hạng XJTLU</a>'
+
+          legacy_before = '<li><a href="/xjtlu-2plus2-liverpool.html">2+2 & University of Liverpool</a></li><li><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html">Đời sống sinh viên</a></li>'
+          legacy_after = '<li><a href="/xjtlu-2plus2-liverpool.html">2+2 & University of Liverpool</a></li><li><a href="/university-of-liverpool-vietnam.html">Liverpool & Việt Nam</a></li><li><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html">Đời sống sinh viên</a></li>'
+
+          pages = list(Path('.').glob('*.html')) + list(Path('news').glob('*.html'))
+          for p in pages:
+              text = p.read_text(encoding='utf-8')
+              if anchor not in text and before in text:
+                  text = text.replace(before, after)
+              if legacy_before in text and '<li><a href="/university-of-liverpool-vietnam.html">Liverpool & Việt Nam</a></li>' not in text:
+                  text = text.replace(legacy_before, legacy_after)
+              p.write_text(text, encoding='utf-8')
+          PY
+
       - name: Commit normalized pages
         run: |
           if [ -z "$(git status --porcelain)" ]; then
