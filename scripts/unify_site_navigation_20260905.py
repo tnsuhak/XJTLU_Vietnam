@@ -3,6 +3,7 @@ import re
 
 ROOT = Path('.')
 MAIN = ROOT / 'index.html'
+# Shared navigation source for homepage, guides and news pages in this preview.
 
 NAV_LINKS = [
     ('Trang chủ', '/'),
@@ -78,23 +79,19 @@ SUB_HEADER = f'''<header class="tns-guide-nav"><div class="wrap tns-guide-nav__i
 def update_main():
     text = MAIN.read_text(encoding='utf-8')
 
-    # Left-side brand always returns to homepage, including when this markup is reused.
     text = re.sub(r'<a class="brand" href="[^"]*" aria-label="XJTLU Việt Nam">',
                   '<a class="brand" href="/" aria-label="Trang chủ XJTLU Việt Nam">', text, count=1)
 
-    # Remove consultation actions from the fixed header/top bar. In-page and floating consultation remain untouched.
     text = re.sub(r'\s*<a class="zalo-link" href="#">💬\s*Zalo tư vấn</a>', '', text, count=1)
     text = re.sub(r'\s*<a class="btn btn-outline" href="#admission">.*?</a>', '', text, count=1, flags=re.S)
     text = re.sub(r'\s*<a class="btn btn-zalo zalo-link" href="#">.*?</a>', '', text, count=1, flags=re.S)
 
-    # Replace section-anchor navigation with direct links to useful subpages.
     text, n = re.subn(r'<ul class="menu(?: [^"]*)?" id="menu">.*?</ul>',
                       f'<ul class="menu tns-subpage-menu" id="menu">{menu_items}</ul>',
                       text, count=1, flags=re.S)
     if n != 1:
         raise SystemExit('Homepage menu markup not found')
 
-    # One visible Menu control on the right at all viewport sizes.
     text = re.sub(
         r'<button class="hamburger(?: [^"]*)?" id="hamburger" aria-label="[^"]*" aria-expanded="false"><span></span></button>',
         '<button class="hamburger tns-menu-toggle" id="hamburger" aria-label="Mở menu trang" aria-expanded="false"><b>Menu</b><span></span></button>',
@@ -104,7 +101,6 @@ def update_main():
     if 'id="tns-subpage-navigation-20260905"' not in text:
         text = text.replace('</head>', MAIN_STYLE + '</head>', 1)
 
-    # Old scroll-spy assumes every menu href is a CSS #selector. It must ignore direct subpage URLs.
     spy_pattern = re.compile(
         r"  // ---- Active section highlighting\n  const links=\[\.\.\.menu\.querySelectorAll\('a'\)\];\n  const sections=links\.map\(a=>document\.querySelector\(a\.getAttribute\('href'\)\)\)\.filter\(Boolean\);\n  const spy=new IntersectionObserver\(entries=>\{.*?\n  sections\.forEach\(s=>spy\.observe\(s\)\);",
         re.S,
@@ -134,10 +130,8 @@ def update_subpage(path: Path):
     if 'id="tns-guide-navigation-20260905"' not in text:
         text = text.replace('</head>', SUB_STYLE + '</head>', 1)
 
-    # Most guide/news pages currently use a simple one-link .top bar. Replace it with the shared navigation.
     text, n = re.subn(r'<div class="top"><div class="wrap">.*?</div></div>', SUB_HEADER, text, count=1, flags=re.S)
     if n == 0 and 'class="tns-guide-nav"' not in text:
-        # For a standalone page without the old .top block, add the common header immediately after <body>.
         text = re.sub(r'(<body[^>]*>)', r'\1' + SUB_HEADER, text, count=1)
 
     path.write_text(text, encoding='utf-8')
