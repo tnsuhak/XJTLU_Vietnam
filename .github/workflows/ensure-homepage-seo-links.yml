@@ -9,6 +9,7 @@ on:
       - 'news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html'
       - 'scripts/ensure_homepage_seo_links.py'
       - 'scripts/refine_homepage_conversion_links.py'
+      - 'scripts/lighten_homepage_student_life_20260905.py'
       - '.github/workflows/ensure-homepage-seo-links.yml'
 
 permissions:
@@ -39,6 +40,9 @@ jobs:
       - name: Refine homepage conversion links and graduate outcomes
         run: python scripts/refine_homepage_conversion_links.py
 
+      - name: Keep homepage light and route details to subpages
+        run: python scripts/lighten_homepage_student_life_20260905.py
+
       - name: Commit normalized pages
         run: |
           FILES=(
@@ -53,7 +57,7 @@ jobs:
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
           git add "${FILES[@]}"
-          git commit -m "Normalize preview SEO and consultation UX"
+          git commit -m "Refine light homepage and student-life routing"
           BRANCH="${GITHUB_REF_NAME}"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
