@@ -39,14 +39,13 @@ COMBINED = r'''<!-- ===================== VIETNAM RELEVANCE ====================
       <article class="vn-relevance-card primary reveal">
         <span class="vn-relevance-kicker">Liverpool × Việt Nam</span>
         <h3>Liverpool đang ngày càng gần Việt Nam</h3>
-        <p class="vn-relevance-intro">Không chỉ là cái tên trên bằng cấp: trong 2025–2026, Liverpool và University of Liverpool xuất hiện rõ hơn trong các kết nối giáo dục, y tế và công nghệ với Việt Nam.</p>
+        <p class="vn-relevance-intro">University of Liverpool – một trong hai trường đồng sáng lập XJTLU – đang mở rộng kết nối với Việt Nam trong giáo dục, y tế, AI và nghiên cứu.</p>
         <div class="vn-proof-list">
-          <div class="vn-proof"><i>🇬🇧🇻🇳</i><div><b>UK × Việt Nam</b><span>Đối tác Chiến lược Toàn diện · 10/2025</span></div></div>
-          <div class="vn-proof"><i>🏙️</i><div><b>Liverpool × TP.HCM</b><span>Giáo dục · y tế · khoa học-công nghệ</span></div></div>
-          <div class="vn-proof"><i>🎓</i><div><b>University of Liverpool × UMP</b><span>AI · dữ liệu · y tế số · 01/2026</span></div></div>
+          <div class="vn-proof"><i>🏙️</i><div><b>Liverpool × TP.HCM</b><span>Giáo dục · y tế · khoa học-công nghệ · 10/2025</span></div></div>
+          <div class="vn-proof"><i>🎓</i><div><b>University of Liverpool × UMP TP.HCM</b><span>AI · khoa học dữ liệu · y tế số · 01/2026</span></div></div>
         </div>
-        <a class="vn-relevance-link" href="/university-of-liverpool-vietnam.html">Xem Liverpool kết nối với Việt Nam →</a>
-        <p class="vn-relevance-note">Các mốc trên không phải thỏa thuận tuyển sinh trực tiếp của XJTLU; trang chi tiết giải thích rõ mối liên hệ.</p>
+        <a class="vn-relevance-link" href="/university-of-liverpool-vietnam.html">Xem chi tiết Liverpool × Việt Nam →</a>
+        <p class="vn-relevance-note">Đây là bối cảnh về mạng lưới Liverpool tại Việt Nam, không phải thỏa thuận tuyển sinh trực tiếp của XJTLU.</p>
       </article>
 
       <article class="vn-relevance-card reveal d1">
@@ -73,4 +72,4 @@ text, n = pattern.subn(COMBINED + '\n\n', text, count=1)
 if n != 1:
     raise SystemExit('Vietnam relevance section not found')
 INDEX.write_text(text, encoding='utf-8')
-print('Combined Liverpool × Vietnam and English + Chinese into one light homepage section.')
+print('Trimmed Liverpool × Vietnam to two high-value Vietnam proof points.')
