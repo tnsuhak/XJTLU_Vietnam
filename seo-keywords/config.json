@@ -24,12 +24,17 @@
     {"keyword": "học bổng xjtlu", "target": "/xjtlu-hoc-phi-hoc-bong-2027.html"},
     {"keyword": "điều kiện tuyển sinh xjtlu", "target": "/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html"},
     {"keyword": "xjtlu 2+2", "target": "/xjtlu-2plus2-liverpool.html", "volume_status": "not_yet_validated"},
-    {"keyword": "xjtlu ngành học", "target": "/xjtlu-nganh-hoc-nghe-nghiep.html", "volume_status": "not_yet_validated"}
+    {"keyword": "xjtlu ngành học", "target": "/xjtlu-nganh-hoc-nghe-nghiep.html", "volume_status": "not_yet_validated"},
+    {"keyword": "đời sống sinh viên xjtlu", "target": "/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html", "volume_status": "not_yet_validated"}
   ],
   "research_backlog": [
     "xjtlu vietnam",
     "đại học xjtlu",
     "xjtlu 2027",
+    "xjtlu student life",
+    "xjtlu sports",
+    "xjtlu clubs",
+    "câu lạc bộ xjtlu",
     "học đại học bằng tiếng anh ở trung quốc",
     "đại học trung quốc bằng tiếng anh",
     "đại học quốc tế ở trung quốc",
@@ -39,5 +44,5 @@
     "du học tô châu",
     "du học suzhou"
   ],
-  "architecture_rule": "One primary intent per page. Do not make the homepage compete with the generic China-study hub. New 2+2 and programmes/careers pages are conversion-support intents; do not assign search-volume numbers until validated. Split generic cost/scholarship/visa/requirements pages only after GSC validates demand."
+  "architecture_rule": "One primary intent per page. Keep the homepage light and route detailed intent to dedicated evergreen guides. New 2+2, programmes/careers, and student-life pages are conversion-support intents; do not assign search-volume numbers until validated. Do not make the homepage compete with the generic China-study hub. Split generic cost/scholarship/visa/requirements pages only after GSC validates demand."
 }
