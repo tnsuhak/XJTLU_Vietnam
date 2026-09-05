@@ -10,6 +10,7 @@ on:
       - 'scripts/ensure_homepage_seo_links.py'
       - 'scripts/lighten_homepage_student_life_20260905.py'
       - 'scripts/lighten_homepage_stories_20260905.py'
+      - 'scripts/enforce_light_homepage_20260905.py'
       - '.github/workflows/ensure-homepage-seo-links.yml'
 
 permissions:
@@ -37,11 +38,8 @@ jobs:
       - name: Normalize homepage and related SEO structure
         run: python scripts/ensure_homepage_seo_links.py
 
-      - name: Keep homepage light and route details to subpages
-        run: python scripts/lighten_homepage_student_life_20260905.py
-
-      - name: Compact stories and mobile news
-        run: python scripts/lighten_homepage_stories_20260905.py
+      - name: Enforce light homepage and student-life routing
+        run: python scripts/enforce_light_homepage_20260905.py
 
       - name: Commit normalized pages
         run: |
