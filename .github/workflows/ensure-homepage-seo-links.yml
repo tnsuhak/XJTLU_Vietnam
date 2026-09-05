@@ -14,6 +14,7 @@ on:
       - 'scripts/enforce_light_homepage_20260905.py'
       - 'scripts/unify_site_navigation_20260905.py'
       - 'scripts/add_liverpool_vietnam_guide_20260905.py'
+      - 'scripts/enrich_liverpool_vietnam_guide_20260905.py'
       - 'scripts/refine_vietnam_relevance_home_20260905.py'
       - '.github/workflows/ensure-homepage-seo-links.yml'
 
@@ -50,6 +51,9 @@ jobs:
 
       - name: Add Liverpool Vietnam detail guide
         run: python scripts/add_liverpool_vietnam_guide_20260905.py
+
+      - name: Enrich Liverpool Vietnam detail guide
+        run: python scripts/enrich_liverpool_vietnam_guide_20260905.py
 
       - name: Combine Vietnam relevance into one light homepage section
         run: python scripts/refine_vietnam_relevance_home_20260905.py
