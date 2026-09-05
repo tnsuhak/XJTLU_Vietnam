@@ -14,6 +14,7 @@ on:
       - 'scripts/enforce_light_homepage_20260905.py'
       - 'scripts/unify_site_navigation_20260905.py'
       - 'scripts/add_liverpool_vietnam_guide_20260905.py'
+      - 'scripts/refine_vietnam_relevance_home_20260905.py'
       - '.github/workflows/ensure-homepage-seo-links.yml'
 
 permissions:
@@ -47,8 +48,11 @@ jobs:
       - name: Enforce homepage/subpage navigation
         run: python scripts/unify_site_navigation_20260905.py
 
-      - name: Add compact Liverpool Vietnam section and detail guide
+      - name: Add Liverpool Vietnam detail guide
         run: python scripts/add_liverpool_vietnam_guide_20260905.py
+
+      - name: Combine Vietnam relevance into one light homepage section
+        run: python scripts/refine_vietnam_relevance_home_20260905.py
 
       - name: Keep Liverpool Vietnam in grouped menus
         run: |
@@ -81,7 +85,7 @@ jobs:
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
           git add index.html *.html news/*.html sitemap.xml
-          git commit -m "Add compact Liverpool Vietnam guide"
+          git commit -m "Combine Liverpool and China advantage on homepage"
           BRANCH="${GITHUB_REF_NAME}"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
