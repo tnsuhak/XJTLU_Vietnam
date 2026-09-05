@@ -1,0 +1,57 @@
+name: Apply XJTLU Vietnam relevance preview
+
+on:
+  push:
+    branches:
+      - preview/korea-style-subpages-20260905
+    paths:
+      - "scripts/refine_vietnam_relevance_home_20260905.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: xjtlu-vietnam-relevance-preview
+  cancel-in-progress: false
+
+jobs:
+  apply-relevance-section:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout preview branch
+        uses: actions/checkout@v4
+        with:
+          ref: preview/korea-style-subpages-20260905
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "TNS Preview Bot"
+          git config user.email "preview-bot@users.noreply.github.com"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply compact Vietnam relevance section
+        run: python scripts/refine_vietnam_relevance_home_20260905.py
+
+      - name: Validate expected compact content
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('index.html').read_text(encoding='utf-8')
+          assert 'Liverpool × TP.HCM' in text
+          assert 'University of Liverpool × UMP TP.HCM' in text
+          assert '<b>UK × Việt Nam</b>' not in text
+          print('Vietnam relevance section validation passed.')
+          PY
+
+      - name: Commit generated homepage change
+        run: |
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "refactor(preview): trim Liverpool Vietnam proof points"
+            git push origin HEAD:preview/korea-style-subpages-20260905
+          fi
