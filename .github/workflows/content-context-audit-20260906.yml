@@ -23,16 +23,16 @@ jobs:
           from pathlib import Path
           from urllib.parse import urlparse
           from collections import Counter, defaultdict
-          import re, math
+          import re, math, os
 
           STOP=set('và là của tại cho trong với từ một các có được về năm sinh học trường đại xjtlu việt nam'.split())
           class P(HTMLParser):
               def __init__(self):
-                  super().__init__(convert_charrefs=True); self.skip=0; self.text=[]; self.h=[]; self.hrefs=[]; self.a_stack=[]
+                  super().__init__(convert_charrefs=True)
+                  self.skip=0; self.text=[]; self.hrefs=[]; self.a_stack=[]
               def handle_starttag(self,t,a):
                   d=dict(a)
                   if t in ('script','style','noscript'): self.skip+=1
-                  if t in ('h1','h2','h3'): self.h.append([t,''])
                   if t=='a' and d.get('href'): self.a_stack.append([d['href'],''])
               def handle_endtag(self,t):
                   if t in ('script','style','noscript') and self.skip: self.skip-=1
@@ -41,12 +41,7 @@ jobs:
               def handle_data(self,d):
                   if self.skip: return
                   self.text.append(d)
-                  if self.h and self.lasttag in ('h1','h2','h3'): self.h[-1][1]+=d
                   if self.a_stack: self.a_stack[-1][1]+=d
-              @property
-              def lasttag(self):
-                  # HTMLParser does not expose current tag; headings are also captured later by regex below.
-                  return ''
 
           files=sorted(Path('.').rglob('*.html'))
           data={}
@@ -66,8 +61,10 @@ jobs:
               elif u.scheme or u.netloc or href.startswith(('#','mailto:','tel:','javascript:')): return None
               else: path=u.path
               if not path: return None
-              rel=path.lstrip('/') if path.startswith('/') else str((src.parent/Path(path)).as_posix())
-              if not rel or rel.endswith('/'): rel+='index.html'
+              rel=path.lstrip('/') if path.startswith('/') else str(src.parent/Path(path))
+              rel=os.path.normpath(rel).replace('\\','/')
+              if rel=='.': rel='index.html'
+              if rel.endswith('/'): rel+='index.html'
               return Path(rel)
 
           indeg=Counter(); outdeg=Counter(); anchors=defaultdict(list)
@@ -84,10 +81,11 @@ jobs:
               print('  headings:', ' | '.join(x[1][:80] for x in d['heads'][:8]))
 
           print('\nLOW INTERNAL DISCOVERY')
+          low=[]
           for p in files:
               if p==Path('index.html'): continue
               if indeg[p] < 2:
-                  print(f'WARN low inlinks={indeg[p]}: {p}')
+                  low.append((p,indeg[p])); print(f'WARN low inlinks={indeg[p]}: {p}')
 
           print('\nANCHOR SAMPLES')
           for p in files:
@@ -103,15 +101,20 @@ jobs:
               na=math.sqrt(sum(v*v for v in a.values())); nb=math.sqrt(sum(v*v for v in b.values()))
               return dot/(na*nb) if na and nb else 0
           print('\nCONTENT OVERLAP (non-news, >0.62 cosine)')
+          overlap=[]
           core=[p for p in files if 'news' not in p.parts]
           for i,a in enumerate(core):
               for b in core[i+1:]:
                   sc=cosine(data[a]['tokens'],data[b]['tokens'])
-                  if sc>0.62: print(f'WARN {sc:.3f}: {a} <-> {b}')
+                  if sc>0.62:
+                      overlap.append((sc,a,b)); print(f'WARN {sc:.3f}: {a} <-> {b}')
 
           print('\nPOTENTIALLY DIRECT-APPLICATION ANCHORS')
+          direct=[]
           pat=re.compile(r'\b(apply|application portal|how to apply|nộp hồ sơ trực tiếp|cổng đăng ký)\b',re.I)
           for p,d in data.items():
               for href,txt in d['links']:
                   if pat.search(txt or '') or pat.search(href or ''):
-                      print(f'CHECK {p}: {txt!r} -> {href}')
+                      direct.append((p,txt,href)); print(f'CHECK {p}: {txt!r} -> {href}')
+
+          print(f'\nSUMMARY low_inlink_pages={len(low)} overlap_pairs={len(overlap)} direct_apply_like_links={len(direct)}')
