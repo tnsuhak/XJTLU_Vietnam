@@ -1,0 +1,117 @@
+name: Content Context Audit
+
+on:
+  push:
+    branches:
+      - preview/korea-style-subpages-20260905
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/korea-style-subpages-20260905
+      - name: Analyze content architecture and internal links
+        shell: python
+        run: |
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urlparse
+          from collections import Counter, defaultdict
+          import re, math
+
+          STOP=set('và là của tại cho trong với từ một các có được về năm sinh học trường đại xjtlu việt nam'.split())
+          class P(HTMLParser):
+              def __init__(self):
+                  super().__init__(convert_charrefs=True); self.skip=0; self.text=[]; self.h=[]; self.hrefs=[]; self.a_stack=[]
+              def handle_starttag(self,t,a):
+                  d=dict(a)
+                  if t in ('script','style','noscript'): self.skip+=1
+                  if t in ('h1','h2','h3'): self.h.append([t,''])
+                  if t=='a' and d.get('href'): self.a_stack.append([d['href'],''])
+              def handle_endtag(self,t):
+                  if t in ('script','style','noscript') and self.skip: self.skip-=1
+                  if t=='a' and self.a_stack:
+                      href,txt=self.a_stack.pop(); self.hrefs.append((href,' '.join(txt.split())))
+              def handle_data(self,d):
+                  if self.skip: return
+                  self.text.append(d)
+                  if self.h and self.lasttag in ('h1','h2','h3'): self.h[-1][1]+=d
+                  if self.a_stack: self.a_stack[-1][1]+=d
+              @property
+              def lasttag(self):
+                  # HTMLParser does not expose current tag; headings are also captured later by regex below.
+                  return ''
+
+          files=sorted(Path('.').rglob('*.html'))
+          data={}
+          for p in files:
+              s=p.read_text(encoding='utf-8'); q=P(); q.feed(s)
+              visible=' '.join(' '.join(q.text).split())
+              heads=[(m.group(1).lower(),' '.join(re.sub('<[^>]+>',' ',m.group(2),flags=re.S).split())) for m in re.finditer(r'<(h[1-3])\b[^>]*>(.*?)</\1>',s,re.I|re.S)]
+              words=re.findall(r"[A-Za-zÀ-ỹ0-9][A-Za-zÀ-ỹ0-9+'’-]*",visible.lower())
+              toks=[w for w in words if len(w)>2 and w not in STOP]
+              data[p]={'text':visible,'words':words,'tokens':Counter(toks),'heads':heads,'links':q.hrefs}
+
+          def resolve(src,href):
+              u=urlparse(href)
+              if u.scheme in ('http','https'):
+                  if u.netloc!='xjtlu-vietnam.netlify.app': return None
+                  path=u.path
+              elif u.scheme or u.netloc or href.startswith(('#','mailto:','tel:','javascript:')): return None
+              else: path=u.path
+              if not path: return None
+              rel=path.lstrip('/') if path.startswith('/') else str((src.parent/Path(path)).as_posix())
+              if not rel or rel.endswith('/'): rel+='index.html'
+              return Path(rel)
+
+          indeg=Counter(); outdeg=Counter(); anchors=defaultdict(list)
+          for src,d in data.items():
+              for href,txt in d['links']:
+                  dst=resolve(src,href)
+                  if dst and dst in data:
+                      outdeg[src]+=1; indeg[dst]+=1; anchors[dst].append((src,txt))
+
+          print(f'HTML pages: {len(files)}')
+          print('\nCONTENT / LINK SUMMARY')
+          for p,d in data.items():
+              print(f'- {p}: words={len(d["words"])} inlinks={indeg[p]} outlinks={outdeg[p]} h1/h2/h3={len(d["heads"])}')
+              print('  headings:', ' | '.join(x[1][:80] for x in d['heads'][:8]))
+
+          print('\nLOW INTERNAL DISCOVERY')
+          for p in files:
+              if p==Path('index.html'): continue
+              if indeg[p] < 2:
+                  print(f'WARN low inlinks={indeg[p]}: {p}')
+
+          print('\nANCHOR SAMPLES')
+          for p in files:
+              if p==Path('index.html'): continue
+              vals=anchors[p]
+              if vals:
+                  c=Counter(txt for _,txt in vals if txt)
+                  print(f'- {p}: '+ '; '.join(f'{a} ({n})' for a,n in c.most_common(6)))
+
+          def cosine(a,b):
+              keys=set(a)|set(b)
+              dot=sum(a[k]*b[k] for k in keys)
+              na=math.sqrt(sum(v*v for v in a.values())); nb=math.sqrt(sum(v*v for v in b.values()))
+              return dot/(na*nb) if na and nb else 0
+          print('\nCONTENT OVERLAP (non-news, >0.62 cosine)')
+          core=[p for p in files if 'news' not in p.parts]
+          for i,a in enumerate(core):
+              for b in core[i+1:]:
+                  sc=cosine(data[a]['tokens'],data[b]['tokens'])
+                  if sc>0.62: print(f'WARN {sc:.3f}: {a} <-> {b}')
+
+          print('\nPOTENTIALLY DIRECT-APPLICATION ANCHORS')
+          pat=re.compile(r'\b(apply|application portal|how to apply|nộp hồ sơ trực tiếp|cổng đăng ký)\b',re.I)
+          for p,d in data.items():
+              for href,txt in d['links']:
+                  if pat.search(txt or '') or pat.search(href or ''):
+                      print(f'CHECK {p}: {txt!r} -> {href}')
