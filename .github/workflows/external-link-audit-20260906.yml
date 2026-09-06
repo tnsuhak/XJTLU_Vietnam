@@ -1,0 +1,74 @@
+name: External Link Audit
+
+on:
+  push:
+    branches:
+      - preview/korea-style-subpages-20260905
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/korea-style-subpages-20260905
+      - name: Check external links and source-link attributes
+        shell: python
+        run: |
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urlparse
+          from urllib.request import Request, urlopen
+          from urllib.error import HTTPError, URLError
+          import ssl
+
+          HOST='xjtlu-vietnam.netlify.app'
+          warnings=[]; hard=[]; links={}
+          class P(HTMLParser):
+              def __init__(self,p): super().__init__(); self.p=p
+              def handle_starttag(self,tag,attrs):
+                  if tag!='a': return
+                  a=dict(attrs); href=a.get('href','')
+                  u=urlparse(href)
+                  if u.scheme not in ('http','https') or u.netloc==HOST: return
+                  links.setdefault(href,[]).append((str(self.p),a.get('target',''),a.get('rel','')))
+
+          for p in sorted(Path('.').rglob('*.html')):
+              q=P(p); q.feed(p.read_text(encoding='utf-8'))
+
+          for href,uses in links.items():
+              for p,target,rel in uses:
+                  if target!='_blank': warnings.append(f'{p}: external link missing target=_blank -> {href}')
+                  rel_tokens=(rel or '').lower().split()
+                  if 'noopener' not in rel_tokens: warnings.append(f'{p}: external link missing rel=noopener -> {href}')
+              status=None; err=''
+              try:
+                  req=Request(href,headers={'User-Agent':'Mozilla/5.0 (compatible; TNS-LinkAudit/1.0)'},method='HEAD')
+                  with urlopen(req,timeout=12,context=ssl.create_default_context()) as r: status=r.status
+              except HTTPError as e:
+                  status=e.code
+                  if status in (403,405,429):
+                      try:
+                          req=Request(href,headers={'User-Agent':'Mozilla/5.0 (compatible; TNS-LinkAudit/1.0)','Range':'bytes=0-0'})
+                          with urlopen(req,timeout=12,context=ssl.create_default_context()) as r: status=r.status
+                      except HTTPError as e2: status=e2.code
+                      except Exception as e2: err=str(e2)
+              except Exception as e: err=str(e)
+              if status is None:
+                  warnings.append(f'external check inconclusive: {href} -> {err}')
+              elif status>=400 and status not in (401,403,429):
+                  hard.append(f'external HTTP {status}: {href}')
+              elif status in (401,403,429):
+                  warnings.append(f'external blocks automated check HTTP {status}: {href}')
+              print(f'{status or "ERR"} {href}')
+
+          print(f'\nUnique external URLs: {len(links)}')
+          print(f'Hard failures: {len(hard)}')
+          print(f'Warnings: {len(warnings)}')
+          for x in hard: print('ERROR:',x)
+          for x in warnings: print('WARN:',x)
+          if hard: raise SystemExit(1)
