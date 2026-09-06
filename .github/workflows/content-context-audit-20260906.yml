@@ -67,10 +67,11 @@ jobs:
               elif u.scheme or u.netloc or href.startswith(('#','mailto:','tel:','javascript:')): return None
               else: path=u.path
               if not path: return None
+              directory_url=path.endswith('/')
               rel=path.lstrip('/') if path.startswith('/') else str(src.parent/Path(path))
               rel=os.path.normpath(rel).replace('\\','/')
               if rel=='.': rel='index.html'
-              if rel.endswith('/'): rel+='index.html'
+              elif directory_url: rel=rel.rstrip('/')+'/index.html'
               return Path(rel)
 
           indeg=Counter(); outdeg=Counter(); anchors=defaultdict(list)
