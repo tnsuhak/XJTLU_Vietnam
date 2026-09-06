@@ -4,7 +4,7 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Audit | Mobile | Desktop |
 | --- | ---: | ---: |
-| Performance | 98 | 100 |
+| Performance | 67 | 98 |
 | SEO | 100 | 100 |
 | Accessibility | 100 | 100 |
 | Best Practices | 96 | 96 |
@@ -13,15 +13,16 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Metric | Mobile | Desktop |
 | --- | --- | --- |
-| First Contentful Paint | 1.8 s | 0.5 s |
-| Largest Contentful Paint | 1.8 s | 0.5 s |
-| Total Blocking Time | 80 ms | 0 ms |
-| Cumulative Layout Shift | 0.002 | 0.004 |
-| Speed Index | 1.8 s | 0.5 s |
+| First Contentful Paint | 2.3 s | 0.9 s |
+| Largest Contentful Paint | 2.4 s | 0.9 s |
+| Total Blocking Time | 1,730 ms | 0 ms |
+| Cumulative Layout Shift | 0.003 | 0 |
+| Speed Index | 3.3 s | 0.9 s |
 
 ### GPT priority flags
 
-_No priority performance thresholds exceeded._
+- Mobile Performance is 67/100; prioritize mobile loading work before cosmetic SEO changes.
+- Total Blocking Time is elevated; inspect long tasks, unused JavaScript and third-party scripts.
 
 ### LCP element / likely LCP-related nodes
 
@@ -33,18 +34,18 @@ _No priority performance thresholds exceeded._
 
 ### Mobile performance diagnostics
 
-- **Avoids enormous network payloads** — Total size was 276 KiB
-- **Avoid long main-thread tasks** — 7 long tasks found
-- **Minimize main-thread work** — 3.1 s
+- **Avoids enormous network payloads** — Total size was 268 KiB
+- **Avoid long main-thread tasks** — 10 long tasks found
+- **Minimize main-thread work** — 6.4 s
 
 ### Largest estimated mobile savings opportunities
 
-- Initial server response time was short (~0.13s potential savings)
+- Initial server response time was short (~0.01s potential savings)
 
 ### Heaviest network resources (mobile run)
 
 - 38 KiB · Font · `fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgEM86xQ.woff2`
-- 34 KiB · Document · `xjtlu-vietnam.netlify.app/`
+- 26 KiB · Document · `xjtlu-vietnam.netlify.app/`
 - 23 KiB · Font · `fonts.gstatic.com/s/playfairdisplay/v40/nuFRD-vYSZviVYUb_rj3ij__anPXDTnCjmHKM4nYO7KN_pqTXtHA-X-oE0o.woff2`
 - 21 KiB · Font · `fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgEM86xRbPQ.woff2`
 - 13 KiB · Font · `fonts.gstatic.com/s/bevietnampro/v12/QdVMSTAyLFyeg_IDWvOJmVES_HToIW81Rb0JcBao.woff2`
@@ -76,28 +77,31 @@ This section exposes the underlying mobile Lighthouse timing breakdown so future
 
 ### Main-thread work breakdown
 
-- Other: **1.06s**
-- Style & Layout: **1.00s**
-- Script Evaluation: **0.58s**
-- Rendering: **0.41s**
-- Parse HTML & CSS: **0.08s**
+- Other: **3.73s**
+- Script Evaluation: **1.23s**
+- Style & Layout: **0.87s**
+- Rendering: **0.38s**
+- Parse HTML & CSS: **0.19s**
 - Script Parsing & Compilation: **0.01s**
 
 ### Longest main-thread tasks
 
-- 0.32s · `xjtlu-vietnam.netlify.app/`
-- 0.21s · `xjtlu-vietnam.netlify.app/`
-- 0.19s · `Unattributable`
-- 0.13s · `xjtlu-vietnam.netlify.app/`
-- 0.12s · `xjtlu-vietnam.netlify.app/`
-- 0.06s · `xjtlu-vietnam.netlify.app/`
-- 0.06s · `Unattributable`
+- 1.42s · `Unattributable`
+- 0.72s · `xjtlu-vietnam.netlify.app/`
+- 0.55s · `xjtlu-vietnam.netlify.app/`
+- 0.22s · `xjtlu-vietnam.netlify.app/`
+- 0.22s · `Unattributable`
+- 0.14s · `xjtlu-vietnam.netlify.app/`
+- 0.10s · `xjtlu-vietnam.netlify.app/`
+- 0.08s · `xjtlu-vietnam.netlify.app/`
+- 0.05s · `xjtlu-vietnam.netlify.app/`
+- 0.05s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
 
 ### JavaScript boot-up cost
 
-- 2.62s · `xjtlu-vietnam.netlify.app/` (eval 0.50s, parse 0.00s)
-- 0.41s · `Unattributable` (eval 0.02s)
-- 0.06s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.05s, parse 0.00s)
+- 3.77s · `xjtlu-vietnam.netlify.app/` (eval 1.17s, parse 0.00s)
+- 2.55s · `Unattributable` (eval 0.00s)
+- 0.06s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.06s, parse 0.00s)
 
 ### LCP phase timing
 
