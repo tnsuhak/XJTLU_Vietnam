@@ -46,9 +46,15 @@ jobs:
           files=sorted(Path('.').rglob('*.html'))
           data={}
           for p in files:
-              s=p.read_text(encoding='utf-8'); q=P(); q.feed(s)
-              visible=' '.join(' '.join(q.text).split())
-              heads=[(m.group(1).lower(),' '.join(re.sub('<[^>]+>',' ',m.group(2),flags=re.S).split())) for m in re.finditer(r'<(h[1-3])\b[^>]*>(.*?)</\1>',s,re.I|re.S)]
+              s=p.read_text(encoding='utf-8')
+              q=P(); q.feed(s)
+              semantic=re.sub(r'<!--\s*TNS_GLOBAL_MENU_START\s*-->.*?<!--\s*TNS_GLOBAL_MENU_END\s*-->',' ',s,flags=re.I|re.S)
+              semantic=re.sub(r'<footer\b.*?</footer>',' ',semantic,flags=re.I|re.S)
+              semantic=re.sub(r'<script\b.*?</script>',' ',semantic,flags=re.I|re.S)
+              semantic=re.sub(r'<style\b.*?</style>',' ',semantic,flags=re.I|re.S)
+              sq=P(); sq.feed(semantic)
+              visible=' '.join(' '.join(sq.text).split())
+              heads=[(m.group(1).lower(),' '.join(re.sub('<[^>]+>',' ',m.group(2),flags=re.S).split())) for m in re.finditer(r'<(h[1-3])\b[^>]*>(.*?)</\1>',semantic,re.I|re.S)]
               words=re.findall(r"[A-Za-zÀ-ỹ0-9][A-Za-zÀ-ỹ0-9+'’-]*",visible.lower())
               toks=[w for w in words if len(w)>2 and w not in STOP]
               data[p]={'text':visible,'words':words,'tokens':Counter(toks),'heads':heads,'links':q.hrefs}
@@ -75,7 +81,7 @@ jobs:
                       outdeg[src]+=1; indeg[dst]+=1; anchors[dst].append((src,txt))
 
           print(f'HTML pages: {len(files)}')
-          print('\nCONTENT / LINK SUMMARY')
+          print('\nCONTENT / LINK SUMMARY (shared menu/footer excluded from word counts/headings)')
           for p,d in data.items():
               print(f'- {p}: words={len(d["words"])} inlinks={indeg[p]} outlinks={outdeg[p]} h1/h2/h3={len(d["heads"])}')
               print('  headings:', ' | '.join(x[1][:80] for x in d['heads'][:8]))
@@ -100,7 +106,7 @@ jobs:
               dot=sum(a[k]*b[k] for k in keys)
               na=math.sqrt(sum(v*v for v in a.values())); nb=math.sqrt(sum(v*v for v in b.values()))
               return dot/(na*nb) if na and nb else 0
-          print('\nCONTENT OVERLAP (non-news, >0.62 cosine)')
+          print('\nCONTENT OVERLAP (non-news body only, >0.62 cosine)')
           overlap=[]
           core=[p for p in files if 'news' not in p.parts]
           for i,a in enumerate(core):
