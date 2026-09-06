@@ -1,0 +1,157 @@
+name: Full Site SEO Audit
+
+on:
+  push:
+    branches:
+      - preview/korea-style-subpages-20260905
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout preview branch
+        uses: actions/checkout@v4
+        with:
+          ref: preview/korea-style-subpages-20260905
+      - name: Run static SEO, schema and link audit
+        shell: python
+        run: |
+          import json, re, sys
+          from pathlib import Path
+          from html.parser import HTMLParser
+          from urllib.parse import urlparse, unquote
+          import xml.etree.ElementTree as ET
+
+          PROD='https://xjtlu-vietnam.netlify.app'
+          root=Path('.')
+          html_files=sorted([p for p in root.rglob('*.html') if '.git' not in p.parts])
+          errors=[]; warnings=[]; rows=[]
+
+          class P(HTMLParser):
+              def __init__(self):
+                  super().__init__(convert_charrefs=True)
+                  self.title=[]; self.in_title=False; self.h1=0; self.lang=''; self.meta={}; self.canonical=[]; self.hrefs=[]; self.ids=set(); self.ld=[]; self.in_ld=False; self.ldbuf=[]
+              def handle_starttag(self, tag, attrs):
+                  a=dict(attrs)
+                  if tag=='html': self.lang=a.get('lang','')
+                  if tag=='title': self.in_title=True
+                  if tag=='h1': self.h1+=1
+                  if 'id' in a: self.ids.add(a['id'])
+                  if tag=='meta' and a.get('name'): self.meta[a.get('name','').lower()]=a.get('content','')
+                  if tag=='link' and 'canonical' in (a.get('rel') or '').lower(): self.canonical.append(a.get('href',''))
+                  if tag=='a' and a.get('href'): self.hrefs.append(a['href'])
+                  if tag=='script' and a.get('type')=='application/ld+json': self.in_ld=True; self.ldbuf=[]
+              def handle_endtag(self, tag):
+                  if tag=='title': self.in_title=False
+                  if tag=='script' and self.in_ld:
+                      self.in_ld=False; self.ld.append(''.join(self.ldbuf).strip()); self.ldbuf=[]
+              def handle_data(self, data):
+                  if self.in_title: self.title.append(data)
+                  if self.in_ld: self.ldbuf.append(data)
+
+          parsed={}
+          for p in html_files:
+              text=p.read_text(encoding='utf-8')
+              q=P()
+              try: q.feed(text)
+              except Exception as e: errors.append(f'{p}: HTML parse error: {e}')
+              parsed[p]=q
+              title=' '.join(''.join(q.title).split())
+              desc=q.meta.get('description','').strip()
+              robots=q.meta.get('robots','').lower()
+              can=q.canonical[0] if q.canonical else ''
+              if not title: errors.append(f'{p}: missing <title>')
+              if not desc: errors.append(f'{p}: missing meta description')
+              if q.h1!=1: errors.append(f'{p}: H1 count={q.h1}, expected 1')
+              if q.lang.lower() not in ('vi','vi-vn'): warnings.append(f'{p}: html lang={q.lang!r}, expected vi')
+              if 'noindex' in robots: errors.append(f'{p}: noindex present')
+              if not can: errors.append(f'{p}: missing canonical')
+              elif not can.startswith(PROD+'/') and can!=PROD+'/': errors.append(f'{p}: canonical not production host: {can}')
+              if len(q.canonical)!=1: errors.append(f'{p}: canonical count={len(q.canonical)}')
+              for i, blob in enumerate(q.ld,1):
+                  if not blob: continue
+                  try: json.loads(blob)
+                  except Exception as e: errors.append(f'{p}: invalid JSON-LD block {i}: {e}')
+              rows.append((str(p),title,desc,can,q.h1,len(q.hrefs),len(q.ld)))
+
+          titles={}; descs={}; cans={}
+          for p,title,desc,can,*_ in rows:
+              titles.setdefault(title,[]).append(p); descs.setdefault(desc,[]).append(p); cans.setdefault(can,[]).append(p)
+          for val,paths in titles.items():
+              if val and len(paths)>1: warnings.append('duplicate title: '+val+' -> '+', '.join(paths))
+          for val,paths in descs.items():
+              if val and len(paths)>1: warnings.append('duplicate description -> '+', '.join(paths))
+          for val,paths in cans.items():
+              if val and len(paths)>1: errors.append('duplicate canonical '+val+' -> '+', '.join(paths))
+
+          def local_target(src, href):
+              if href.startswith(('#','mailto:','tel:','javascript:')): return None
+              u=urlparse(href)
+              if u.scheme in ('http','https'):
+                  if u.netloc!='xjtlu-vietnam.netlify.app': return None
+                  path=u.path
+              elif u.scheme or u.netloc: return None
+              else: path=u.path
+              if not path: return None
+              if path.startswith('/'):
+                  rel=path.lstrip('/')
+              else:
+                  rel=str((src.parent / unquote(path)).as_posix())
+              if rel=='' or rel.endswith('/'):
+                  rel=rel+'index.html'
+              return Path(rel), u.fragment
+
+          for src,q in parsed.items():
+              for href in q.hrefs:
+                  t=local_target(src,href)
+                  if not t: continue
+                  target,frag=t
+                  target=Path(str(target).replace('//','/'))
+                  if not target.exists():
+                      errors.append(f'{src}: broken internal link {href} -> {target}')
+                      continue
+                  if target.suffix=='.html' and frag and target in parsed and frag not in parsed[target].ids:
+                      warnings.append(f'{src}: fragment not found {href}')
+
+          sm=Path('sitemap.xml')
+          sitemap_urls=[]
+          if not sm.exists(): errors.append('missing sitemap.xml')
+          else:
+              try:
+                  r=ET.parse(sm).getroot()
+                  ns={'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
+                  sitemap_urls=[x.text.strip() for x in r.findall('s:url/s:loc',ns) if x.text]
+              except Exception as e: errors.append(f'sitemap.xml parse error: {e}')
+          sitemap_paths=set()
+          for u in sitemap_urls:
+              pu=urlparse(u)
+              if pu.netloc!='xjtlu-vietnam.netlify.app': errors.append(f'sitemap wrong host: {u}')
+              rel=pu.path.lstrip('/') or 'index.html'
+              if rel.endswith('/'): rel+='index.html'
+              sitemap_paths.add(rel)
+              if not Path(rel).exists(): errors.append(f'sitemap URL missing file: {u} -> {rel}')
+          expected={str(p.as_posix()) for p in html_files}
+          missing=sorted(expected-sitemap_paths)
+          extra=sorted(sitemap_paths-expected)
+          if missing: errors.append('HTML pages missing from sitemap: '+', '.join(missing))
+          if extra: errors.append('Sitemap paths without HTML file: '+', '.join(extra))
+
+          robots=Path('robots.txt').read_text(encoding='utf-8') if Path('robots.txt').exists() else ''
+          if 'Disallow: /' in robots: errors.append('robots.txt blocks entire site')
+          if 'Sitemap: https://xjtlu-vietnam.netlify.app/sitemap.xml' not in robots: errors.append('robots.txt sitemap line missing/wrong')
+
+          print(f'HTML pages audited: {len(html_files)}')
+          print(f'Sitemap URLs: {len(sitemap_urls)}')
+          print('\nPAGE SUMMARY')
+          for p,title,desc,can,h1,links,ld in rows:
+              print(f'- {p} | H1={h1} links={links} JSON-LD={ld} | {title[:90]}')
+          print('\nWARNINGS')
+          for x in warnings: print('WARN:',x)
+          print('\nERRORS')
+          for x in errors: print('ERROR:',x)
+          print(f'\nTOTAL errors={len(errors)} warnings={len(warnings)}')
+          if errors: sys.exit(1)
