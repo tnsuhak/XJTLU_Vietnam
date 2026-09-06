@@ -23,7 +23,7 @@ jobs:
           from pathlib import Path
           from urllib.parse import urlparse
           from urllib.request import Request, urlopen
-          from urllib.error import HTTPError, URLError
+          from urllib.error import HTTPError
           import ssl
 
           HOST='xjtlu-vietnam.netlify.app'
@@ -40,24 +40,27 @@ jobs:
           for p in sorted(Path('.').rglob('*.html')):
               q=P(p); q.feed(p.read_text(encoding='utf-8'))
 
+          ctx=ssl.create_default_context()
           for href,uses in links.items():
               for p,target,rel in uses:
                   if target!='_blank': warnings.append(f'{p}: external link missing target=_blank -> {href}')
-                  rel_tokens=(rel or '').lower().split()
-                  if 'noopener' not in rel_tokens: warnings.append(f'{p}: external link missing rel=noopener -> {href}')
+                  if 'noopener' not in (rel or '').lower().split(): warnings.append(f'{p}: external link missing rel=noopener -> {href}')
               status=None; err=''
               try:
                   req=Request(href,headers={'User-Agent':'Mozilla/5.0 (compatible; TNS-LinkAudit/1.0)'},method='HEAD')
-                  with urlopen(req,timeout=12,context=ssl.create_default_context()) as r: status=r.status
+                  with urlopen(req,timeout=12,context=ctx) as r: status=r.status
               except HTTPError as e:
                   status=e.code
-                  if status in (403,405,429):
-                      try:
-                          req=Request(href,headers={'User-Agent':'Mozilla/5.0 (compatible; TNS-LinkAudit/1.0)','Range':'bytes=0-0'})
-                          with urlopen(req,timeout=12,context=ssl.create_default_context()) as r: status=r.status
-                      except HTTPError as e2: status=e2.code
-                      except Exception as e2: err=str(e2)
-              except Exception as e: err=str(e)
+              except Exception as e:
+                  err=str(e)
+              if status is None or status>=400:
+                  try:
+                      req=Request(href,headers={'User-Agent':'Mozilla/5.0','Range':'bytes=0-2047'})
+                      with urlopen(req,timeout=15,context=ctx) as r: status=r.status
+                  except HTTPError as e:
+                      status=e.code
+                  except Exception as e:
+                      err=str(e)
               if status is None:
                   warnings.append(f'external check inconclusive: {href} -> {err}')
               elif status>=400 and status not in (401,403,429):
