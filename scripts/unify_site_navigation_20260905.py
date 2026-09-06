@@ -83,7 +83,7 @@ MEGA_INNER = r'''
     <section class="tns-site-menu-group"><h3><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html">Đời sống sinh viên <small>Xem chi tiết →</small></a></h3><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html#the-thao">Thể thao & cơ sở thể thao</a><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html#cau-lac-bo">Câu lạc bộ & tổ chức sinh viên</a><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html#video">Video đời sống XJTLU</a></section>
     <section class="tns-site-menu-group"><h3><a href="/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html">Tuyển sinh 2027 <small>Xem chi tiết →</small></a></h3><a href="/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html">Điều kiện dành cho học sinh Việt Nam</a></section>
     <section class="tns-site-menu-group"><h3><a href="/du-hoc-trung-quoc-2027.html">Du học Trung Quốc <small>2027 →</small></a></h3><a href="/du-hoc-trung-quoc-2027.html">Hướng dẫn du học Trung Quốc 2027</a><a href="/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html">Học đại học bằng tiếng Anh tại XJTLU</a></section>
-    <section class="tns-site-menu-group"><h3><a href="/news/">Tin tức XJTLU <small>Xem tin →</small></a></h3><p>Tin chính thức đáng chú ý được chọn lọc và tóm tắt bằng tiếng Việt.</p></section>
+    <section class="tns-site-menu-group"><h3><a href="/news/">Tin tức XJTLU <small>Xem tin →</small></a></h3><a href="/news/">Tin chính thức đáng chú ý được chọn lọc và tóm tắt bằng tiếng Việt →</a></section>
   </div>
 </div>
 '''
