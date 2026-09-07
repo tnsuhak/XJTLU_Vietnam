@@ -18,13 +18,13 @@ jobs:
         with:
           ref: preview/homepage-news-before-contact-20260908-clean
           fetch-depth: 0
-      - name: Move news above final contact section
+      - name: Move news above final contact section and preserve future insertion point
         shell: python
         run: |
           from pathlib import Path
 
-          p = Path('index.html')
-          text = p.read_text(encoding='utf-8')
+          index = Path('index.html')
+          text = index.read_text(encoding='utf-8')
           start_marker = '<!-- TNS_AUTO_NEWS_START -->'
           end_marker = '<!-- TNS_AUTO_NEWS_END -->'
           contact_marker = '<style id="tns-contact-only-style">'
@@ -39,12 +39,24 @@ jobs:
           news = text[start:end].strip()
           text = text[:start] + text[end:]
           text = text.replace(contact_marker, news + '\n\n' + contact_marker, 1)
-          p.write_text(text, encoding='utf-8')
-      - name: Commit reordered homepage
+          index.write_text(text, encoding='utf-8')
+
+          script = Path('scripts/install_news_section.py')
+          s = script.read_text(encoding='utf-8')
+          old = '''    else:\n        marker = "<!-- ===================== FOOTER ===================== -->"\n        if marker not in text:\n            marker = "<footer"\n        if marker not in text:\n            raise SystemExit("Footer marker not found")\n        text = text.replace(marker, section + "\\n\\n" + marker, 1)\n'''
+          new = '''    else:\n        marker = '<style id="tns-contact-only-style">'\n        if marker not in text:\n            marker = "<!-- ===================== FOOTER ===================== -->"\n        if marker not in text:\n            marker = "<footer"\n        if marker not in text:\n            raise SystemExit("Contact/footer marker not found")\n        text = text.replace(marker, section + "\\n\\n" + marker, 1)\n'''
+          if old not in s:
+              raise SystemExit('Expected news insertion fallback not found')
+          script.write_text(s.replace(old, new, 1), encoding='utf-8')
+      - name: Commit clean homepage reorder
         run: |
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
-          git add index.html
-          git commit -m "fix(preview): move homepage news above contact"
+          git add index.html scripts/install_news_section.py
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Homepage order already current"
+            exit 0
+          fi
+          git commit -m "fix(preview): keep news above final contact"
           git pull --rebase origin preview/homepage-news-before-contact-20260908-clean
           git push origin HEAD:preview/homepage-news-before-contact-20260908-clean
