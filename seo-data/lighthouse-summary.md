@@ -4,7 +4,7 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Audit | Mobile | Desktop |
 | --- | ---: | ---: |
-| Performance | 67 | 98 |
+| Performance | 99 | 100 |
 | SEO | 100 | 100 |
 | Accessibility | 100 | 100 |
 | Best Practices | 96 | 96 |
@@ -13,16 +13,15 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Metric | Mobile | Desktop |
 | --- | --- | --- |
-| First Contentful Paint | 2.3 s | 0.9 s |
-| Largest Contentful Paint | 2.4 s | 0.9 s |
-| Total Blocking Time | 1,730 ms | 0 ms |
-| Cumulative Layout Shift | 0.003 | 0 |
-| Speed Index | 3.3 s | 0.9 s |
+| First Contentful Paint | 1.8 s | 0.6 s |
+| Largest Contentful Paint | 1.8 s | 0.6 s |
+| Total Blocking Time | 0 ms | 0 ms |
+| Cumulative Layout Shift | 0.002 | 0.004 |
+| Speed Index | 1.9 s | 0.6 s |
 
 ### GPT priority flags
 
-- Mobile Performance is 67/100; prioritize mobile loading work before cosmetic SEO changes.
-- Total Blocking Time is elevated; inspect long tasks, unused JavaScript and third-party scripts.
+_No priority performance thresholds exceeded._
 
 ### LCP element / likely LCP-related nodes
 
@@ -35,12 +34,12 @@ Automated weekly Lighthouse audit of the production homepage.
 ### Mobile performance diagnostics
 
 - **Avoids enormous network payloads** — Total size was 268 KiB
-- **Avoid long main-thread tasks** — 10 long tasks found
-- **Minimize main-thread work** — 6.4 s
+- **Avoid long main-thread tasks** — 5 long tasks found
+- **Minimize main-thread work** — 2.2 s
 
 ### Largest estimated mobile savings opportunities
 
-- Initial server response time was short (~0.01s potential savings)
+- Reduce initial server response time (~0.55s potential savings)
 
 ### Heaviest network resources (mobile run)
 
@@ -77,31 +76,26 @@ This section exposes the underlying mobile Lighthouse timing breakdown so future
 
 ### Main-thread work breakdown
 
-- Other: **3.73s**
-- Script Evaluation: **1.23s**
-- Style & Layout: **0.87s**
-- Rendering: **0.38s**
-- Parse HTML & CSS: **0.19s**
+- Other: **0.65s**
+- Style & Layout: **0.63s**
+- Script Evaluation: **0.52s**
+- Rendering: **0.36s**
+- Parse HTML & CSS: **0.05s**
 - Script Parsing & Compilation: **0.01s**
 
 ### Longest main-thread tasks
 
-- 1.42s · `Unattributable`
-- 0.72s · `xjtlu-vietnam.netlify.app/`
-- 0.55s · `xjtlu-vietnam.netlify.app/`
-- 0.22s · `xjtlu-vietnam.netlify.app/`
-- 0.22s · `Unattributable`
-- 0.14s · `xjtlu-vietnam.netlify.app/`
+- 0.21s · `xjtlu-vietnam.netlify.app/`
+- 0.16s · `xjtlu-vietnam.netlify.app/`
 - 0.10s · `xjtlu-vietnam.netlify.app/`
-- 0.08s · `xjtlu-vietnam.netlify.app/`
-- 0.05s · `xjtlu-vietnam.netlify.app/`
-- 0.05s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
+- 0.07s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
+- 0.07s · `Unattributable`
 
 ### JavaScript boot-up cost
 
-- 3.77s · `xjtlu-vietnam.netlify.app/` (eval 1.17s, parse 0.00s)
-- 2.55s · `Unattributable` (eval 0.00s)
-- 0.06s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.06s, parse 0.00s)
+- 1.82s · `xjtlu-vietnam.netlify.app/` (eval 0.48s, parse 0.00s)
+- 0.22s · `Unattributable` (eval 0.01s)
+- 0.16s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.03s, parse 0.00s)
 
 ### LCP phase timing
 
