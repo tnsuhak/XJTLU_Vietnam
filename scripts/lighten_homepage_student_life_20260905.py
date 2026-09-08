@@ -170,7 +170,7 @@ compact_video = '''<!-- ===================== VIDEO ===================== -->
       <h2>Xem nhanh khuôn viên XJTLU</h2>
       <p class="lead">Một video là đủ trên trang chính; thông tin đời sống sinh viên nằm ở trang riêng.</p>
     </div>
-    <div class="home-lite-video"><div class="video reveal" data-yt="2PyruJRbV5c" role="button" tabindex="0" aria-label="Phát video khuôn viên XJTLU"><img src="https://img.youtube.com/vi/2PyruJRbV5c/hqdefault.jpg" alt="Khuôn viên XJTLU và thành phố Tô Châu" width="480" height="360" loading="lazy" decoding="async"><div class="play"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></i></div><div class="cap">Khuôn viên & cuộc sống tại Tô Châu</div></div></div>
+    <div class="home-lite-video"><div class="video reveal" data-yt="7co9MT5a9YU" role="button" tabindex="0" aria-label="Phát video khuôn viên XJTLU"><img src="https://img.youtube.com/vi/7co9MT5a9YU/hqdefault.jpg" alt="Khuôn viên XJTLU và thành phố Tô Châu" width="480" height="360" loading="lazy" decoding="async"><div class="play"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></i></div><div class="cap">Khuôn viên & cuộc sống tại Tô Châu</div></div></div>
     <div class="home-lite-actions" style="justify-content:center"><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html">Thể thao, CLB & đời sống sinh viên →</a></div>
   </div>
 </section>
