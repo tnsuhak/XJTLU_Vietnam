@@ -14,6 +14,7 @@ on:
       - 'scripts/enforce_light_homepage_20260905.py'
       - 'scripts/unify_site_navigation_20260905.py'
       - 'scripts/replace_sports_videos_20260906.py'
+      - 'scripts/normalize_mobile_spacing_20260908.py'
       - 'scripts/add_liverpool_vietnam_guide_20260905.py'
       - 'scripts/enrich_liverpool_vietnam_guide_20260905.py'
       - 'scripts/refine_vietnam_relevance_home_20260905.py'
@@ -84,6 +85,9 @@ jobs:
       - name: Keep English SIP and Taicang sports videos after all generators
         run: python scripts/replace_sports_videos_20260906.py
 
+      - name: Normalize tablet and mobile section spacing
+        run: python scripts/normalize_mobile_spacing_20260908.py
+
       - name: Commit normalized pages
         run: |
           if [ -z "$(git status --porcelain)" ]; then
@@ -93,7 +97,7 @@ jobs:
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
           git add index.html *.html news/*.html sitemap.xml
-          git commit -m "Combine Liverpool and China advantage on homepage"
+          git commit -m "Normalize site structure and responsive spacing"
           BRANCH="${GITHUB_REF_NAME}"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
