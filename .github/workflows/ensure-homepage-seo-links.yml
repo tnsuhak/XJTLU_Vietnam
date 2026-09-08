@@ -19,6 +19,7 @@ on:
       - 'scripts/refine_vietnam_relevance_home_20260905.py'
       - 'scripts/standardize_subpage_contacts_20260908.py'
       - 'scripts/remove_homepage_cta_band_20260908.py'
+      - 'scripts/remove_subpage_source_footers_20260909.py'
       - '.github/workflows/ensure-homepage-seo-links.yml'
 
 permissions:
@@ -92,6 +93,9 @@ jobs:
       - name: Remove homepage admissions CTA band
         run: python scripts/remove_homepage_cta_band_20260908.py
 
+      - name: Remove small source footers from ordinary guide pages
+        run: python scripts/remove_subpage_source_footers_20260909.py
+
       - name: Commit normalized pages
         run: |
           if [ -z "$(git status --porcelain)" ]; then
@@ -101,7 +105,7 @@ jobs:
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
           git add index.html *.html news/*.html sitemap.xml
-          git commit -m "Remove homepage admissions CTA band"
+          git commit -m "Remove guide page source footers"
           BRANCH="${GITHUB_REF_NAME}"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
