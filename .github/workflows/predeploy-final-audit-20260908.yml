@@ -1,0 +1,246 @@
+name: Final Predeploy Audit
+
+on:
+  push:
+    branches:
+      - preview/homepage-news-before-contact-20260908-clean
+    paths:
+      - '.github/workflows/predeploy-final-audit-20260908.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/homepage-news-before-contact-20260908-clean
+          fetch-depth: 0
+      - name: Run technical SEO, links, content and live-preview checks
+        shell: python
+        run: |
+          import json, re, sys, ssl, math, os
+          from pathlib import Path
+          from html.parser import HTMLParser
+          from urllib.parse import urlparse, unquote
+          from urllib.request import Request, urlopen
+          from urllib.error import HTTPError
+          from collections import Counter, defaultdict
+          from concurrent.futures import ThreadPoolExecutor, as_completed
+          import xml.etree.ElementTree as ET
+          from datetime import date
+
+          PROD='https://xjtlu-vietnam.netlify.app'
+          PROD_HOST='xjtlu-vietnam.netlify.app'
+          PREVIEW='https://deploy-preview-4--xjtlu-vietnam.netlify.app'
+          TODAY=date(2026,9,8)
+          errors=[]; warnings=[]
+
+          class P(HTMLParser):
+              def __init__(self,p):
+                  super().__init__(convert_charrefs=True); self.p=p
+                  self.title=[]; self.in_title=False; self.h1=0; self.lang=''; self.meta={}; self.canonical=[]; self.hrefs=[]; self.ids=set(); self.ld=[]; self.in_ld=False; self.ldbuf=[]; self.iframes=[]; self.a_stack=[]; self.anchor_text=[]; self.skip=0; self.visible=[]
+              def handle_starttag(self,tag,attrs):
+                  a=dict(attrs)
+                  if tag=='html': self.lang=a.get('lang','')
+                  if tag=='title': self.in_title=True
+                  if tag=='h1': self.h1+=1
+                  if 'id' in a: self.ids.add(a['id'])
+                  if tag=='meta' and a.get('name'): self.meta[a['name'].lower()]=a.get('content','')
+                  if tag=='link' and 'canonical' in (a.get('rel') or '').lower(): self.canonical.append(a.get('href',''))
+                  if tag=='a' and a.get('href'):
+                      self.hrefs.append((a['href'],a.get('target',''),a.get('rel',''))); self.a_stack.append([a['href'],''])
+                  if tag=='iframe' and a.get('src'): self.iframes.append(a['src'])
+                  if tag=='script' and a.get('type')=='application/ld+json': self.in_ld=True; self.ldbuf=[]
+                  if tag in ('script','style','noscript'): self.skip+=1
+              def handle_endtag(self,tag):
+                  if tag=='title': self.in_title=False
+                  if tag=='script' and self.in_ld:
+                      self.in_ld=False; self.ld.append(''.join(self.ldbuf).strip()); self.ldbuf=[]
+                  if tag=='a' and self.a_stack:
+                      href,txt=self.a_stack.pop(); self.anchor_text.append((href,' '.join(txt.split())))
+                  if tag in ('script','style','noscript') and self.skip: self.skip-=1
+              def handle_data(self,d):
+                  if self.in_title: self.title.append(d)
+                  if self.in_ld: self.ldbuf.append(d)
+                  if not self.skip:
+                      self.visible.append(d)
+                      if self.a_stack: self.a_stack[-1][1]+=d
+
+          files=sorted(p for p in Path('.').rglob('*.html') if '.git' not in p.parts)
+          parsed={}; rows=[]
+          for p in files:
+              q=P(p); text=p.read_text(encoding='utf-8')
+              try: q.feed(text)
+              except Exception as e: errors.append(f'{p}: HTML parse error {e}')
+              parsed[p]=q
+              title=' '.join(''.join(q.title).split()); desc=q.meta.get('description','').strip(); robots=q.meta.get('robots','').lower(); can=q.canonical[0] if q.canonical else ''
+              if not title: errors.append(f'{p}: missing title')
+              if not desc: errors.append(f'{p}: missing meta description')
+              if q.h1!=1: errors.append(f'{p}: H1 count={q.h1}, expected 1')
+              if q.lang.lower() not in ('vi','vi-vn'): warnings.append(f'{p}: lang={q.lang!r}')
+              if 'noindex' in robots: errors.append(f'{p}: noindex present')
+              if len(q.canonical)!=1: errors.append(f'{p}: canonical count={len(q.canonical)}')
+              elif not (can==PROD+'/' or can.startswith(PROD+'/')): errors.append(f'{p}: canonical wrong host {can}')
+              for i,blob in enumerate(q.ld,1):
+                  if blob:
+                      try: json.loads(blob)
+                      except Exception as e: errors.append(f'{p}: invalid JSON-LD {i}: {e}')
+              if title and not (25 <= len(title) <= 70): warnings.append(f'{p}: title length={len(title)}')
+              if desc and not (70 <= len(desc) <= 180): warnings.append(f'{p}: description length={len(desc)}')
+              rows.append((p,title,desc,can))
+
+          for label,idx in [('title',1),('description',2),('canonical',3)]:
+              d=defaultdict(list)
+              for row in rows:
+                  if row[idx]: d[row[idx]].append(str(row[0]))
+              for val,paths in d.items():
+                  if len(paths)>1:
+                      (errors if label=='canonical' else warnings).append(f'duplicate {label}: {paths}')
+
+          def resolve(src,href):
+              if href.startswith(('#','mailto:','tel:','javascript:')): return None
+              u=urlparse(href)
+              if u.scheme in ('http','https'):
+                  if u.netloc!=PROD_HOST: return None
+                  path=u.path
+              elif u.scheme or u.netloc: return None
+              else: path=u.path
+              if not path: return None
+              rel=path.lstrip('/') if path.startswith('/') else str(src.parent/unquote(path))
+              if rel=='' or path.endswith('/'): rel=rel.rstrip('/')+'/index.html' if rel else 'index.html'
+              return Path(os.path.normpath(rel).replace('\\','/')),u.fragment
+
+          indeg=Counter()
+          for src,q in parsed.items():
+              for href,_,_ in q.hrefs:
+                  r=resolve(src,href)
+                  if not r: continue
+                  target,frag=r
+                  if not target.exists(): errors.append(f'{src}: broken internal {href} -> {target}'); continue
+                  if target in parsed: indeg[target]+=1
+                  if frag and target in parsed and frag not in parsed[target].ids: warnings.append(f'{src}: missing fragment {href}')
+
+          sm=Path('sitemap.xml'); sitemap_urls=[]; sitemap_lastmod={}
+          if not sm.exists(): errors.append('missing sitemap.xml')
+          else:
+              root=ET.parse(sm).getroot(); ns={'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
+              for node in root.findall('s:url',ns):
+                  loc=node.find('s:loc',ns); lm=node.find('s:lastmod',ns)
+                  if loc is None or not loc.text: continue
+                  u=loc.text.strip(); sitemap_urls.append(u); sitemap_lastmod[u]=(lm.text.strip() if lm is not None and lm.text else '')
+                  if urlparse(u).netloc!=PROD_HOST: errors.append(f'sitemap wrong host {u}')
+                  if sitemap_lastmod[u]:
+                      try:
+                          d=date.fromisoformat(sitemap_lastmod[u]);
+                          if d>TODAY: errors.append(f'sitemap future lastmod {u}: {d}')
+                      except Exception: errors.append(f'sitemap invalid lastmod {u}: {sitemap_lastmod[u]}')
+          expected=set(str(p.as_posix()) for p in files); mapped=set()
+          for u in sitemap_urls:
+              path=urlparse(u).path; rel=path.lstrip('/') or 'index.html';
+              if path.endswith('/'): rel=rel.rstrip('/')+'/index.html' if rel!='index.html' else 'index.html'
+              mapped.add(rel)
+              if not Path(rel).exists(): errors.append(f'sitemap missing file {u} -> {rel}')
+          if expected-mapped: errors.append('HTML missing sitemap: '+', '.join(sorted(expected-mapped)))
+          if mapped-expected: errors.append('sitemap extra paths: '+', '.join(sorted(mapped-expected)))
+
+          robots=Path('robots.txt').read_text(encoding='utf-8') if Path('robots.txt').exists() else ''
+          if 'Disallow: /' in robots: errors.append('robots blocks whole site')
+          if 'Sitemap: https://xjtlu-vietnam.netlify.app/sitemap.xml' not in robots: errors.append('robots sitemap line missing/wrong')
+
+          direct_pat=re.compile(r'\b(apply|application portal|how to apply|nộp hồ sơ trực tiếp|cổng đăng ký)\b',re.I)
+          direct=[]
+          for p,q in parsed.items():
+              if 'news' in p.parts: continue
+              for href,txt in q.anchor_text:
+                  if direct_pat.search(href or '') or direct_pat.search(txt or ''): direct.append((str(p),txt,href))
+          if direct: warnings.append('direct-application-like links: '+repr(direct))
+
+          for p in files:
+              if p!=Path('index.html') and indeg[p]<2: warnings.append(f'low internal discovery inlinks={indeg[p]}: {p}')
+
+          # Body-only similarity, shared global menu/footer removed.
+          STOP=set('và là của tại cho trong với từ một các có được về năm sinh học trường đại xjtlu việt nam'.split())
+          vec={}
+          for p in [x for x in files if 'news' not in x.parts]:
+              s=p.read_text(encoding='utf-8'); s=re.sub(r'<!--\s*TNS_GLOBAL_MENU_START\s*-->.*?<!--\s*TNS_GLOBAL_MENU_END\s*-->',' ',s,flags=re.S|re.I); s=re.sub(r'<footer\b.*?</footer>',' ',s,flags=re.S|re.I); s=re.sub(r'<(?:script|style)\b.*?</(?:script|style)>',' ',s,flags=re.S|re.I); s=re.sub(r'<[^>]+>',' ',s)
+              toks=[w for w in re.findall(r'[A-Za-zÀ-ỹ0-9][A-Za-zÀ-ỹ0-9+’\'-]*',s.lower()) if len(w)>2 and w not in STOP]; vec[p]=Counter(toks)
+          def cos(a,b):
+              keys=set(a)|set(b); dot=sum(a[k]*b[k] for k in keys); na=math.sqrt(sum(v*v for v in a.values())); nb=math.sqrt(sum(v*v for v in b.values())); return dot/(na*nb) if na and nb else 0
+          for i,a in enumerate(vec):
+              for b in list(vec)[i+1:]:
+                  sc=cos(vec[a],vec[b])
+                  if sc>0.72: warnings.append(f'high body overlap {sc:.3f}: {a} <-> {b}')
+
+          # YouTube embeds: duplicates inside one page are suspicious.
+          for p,q in parsed.items():
+              vids=[]
+              for src in q.iframes:
+                  m=re.search(r'/embed/([A-Za-z0-9_-]{6,})',src)
+                  if m: vids.append(m.group(1))
+              dup=[v for v,n in Counter(vids).items() if n>1]
+              if dup: warnings.append(f'{p}: duplicate YouTube embeds {dup}')
+
+          # External anchors and iframes.
+          ext={}
+          for p,q in parsed.items():
+              for href,target,rel in q.hrefs:
+                  u=urlparse(href)
+                  if u.scheme in ('http','https') and u.netloc!=PROD_HOST:
+                      ext.setdefault(href,[]).append((str(p),target,rel))
+                      if target!='_blank': warnings.append(f'{p}: external missing target=_blank {href}')
+                      if 'noopener' not in (rel or '').lower().split(): warnings.append(f'{p}: external missing noopener {href}')
+              for src in q.iframes:
+                  u=urlparse(src)
+                  if u.scheme in ('http','https'): ext.setdefault(src,[])
+
+          ctx=ssl.create_default_context()
+          def check(url):
+              status=None; err=''
+              for method in ('HEAD','GET'):
+                  try:
+                      req=Request(url,headers={'User-Agent':'Mozilla/5.0 (compatible; TNS-PredeployAudit/1.0)'},method=method)
+                      with urlopen(req,timeout=15,context=ctx) as r: return r.status,''
+                  except HTTPError as e: status=e.code
+                  except Exception as e: err=str(e)
+              return status,err
+          with ThreadPoolExecutor(max_workers=10) as ex:
+              fut={ex.submit(check,u):u for u in ext}
+              for f in as_completed(fut):
+                  u=fut[f]; status,err=f.result(); print('EXTERNAL',status or 'ERR',u)
+                  if status is None: warnings.append(f'external inconclusive {u}: {err}')
+                  elif status>=400 and status not in (401,403,429): errors.append(f'external HTTP {status}: {u}')
+                  elif status in (401,403,429): warnings.append(f'external blocks audit HTTP {status}: {u}')
+
+          # Live Netlify preview smoke test for every sitemap path plus robots/sitemap.
+          live=[]
+          for u in sitemap_urls:
+              live.append(PREVIEW + (urlparse(u).path or '/'))
+          live += [PREVIEW+'/robots.txt',PREVIEW+'/sitemap.xml']
+          with ThreadPoolExecutor(max_workers=10) as ex:
+              fut={ex.submit(check,u):u for u in live}
+              for f in as_completed(fut):
+                  u=fut[f]; status,err=f.result(); print('LIVE',status or 'ERR',u)
+                  if status is None or status>=400: errors.append(f'live preview failure {status or "ERR"}: {u} {err}')
+
+          # Flag changed HTML whose sitemap lastmod predates this PR's current edit date.
+          changed=os.popen('git diff --name-only origin/main...HEAD').read().splitlines()
+          changed_html=[x for x in changed if x.endswith('.html')]
+          for rel in changed_html:
+              path='/' if rel=='index.html' else '/'+rel
+              u=PROD+path
+              lm=sitemap_lastmod.get(u,'')
+              if lm and date.fromisoformat(lm)<TODAY: warnings.append(f'stale sitemap lastmod for changed page {rel}: {lm}')
+
+          print('\n=== FINAL SUMMARY ===')
+          print('HTML pages:',len(files))
+          print('Sitemap URLs:',len(sitemap_urls))
+          print('External URLs/iframes:',len(ext))
+          print('Changed HTML:',changed_html)
+          print('Errors:',len(errors))
+          print('Warnings:',len(warnings))
+          for x in errors: print('ERROR:',x)
+          for x in warnings: print('WARN:',x)
+          if errors: sys.exit(1)
