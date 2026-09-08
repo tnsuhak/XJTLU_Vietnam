@@ -216,7 +216,8 @@ if text != original:
 else:
     print("Homepage UX/SEO structure already current")
 
-# Update sitemap lastmod for pages changed in this review batch.
+# Update sitemap lastmod for pages changed in this review batch without
+# ever downgrading a newer date set by a later content edit.
 sitemap = SITEMAP.read_text(encoding="utf-8")
 sitemap_original = sitemap
 for url in [
@@ -224,8 +225,12 @@ for url in [
     "https://xjtlu-vietnam.netlify.app/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html",
     "https://xjtlu-vietnam.netlify.app/news/700-sinh-vien-indonesia-xjtlu-dong-nam-a.html",
 ]:
-    pattern = rf'(<loc>{re.escape(url)}</loc>\s*<lastmod>)[^<]+(</lastmod>)'
-    sitemap = re.sub(pattern, rf'\g<1>{TODAY}\2', sitemap, count=1)
+    pattern = rf'(<loc>{re.escape(url)}</loc>\s*<lastmod>)([^<]+)(</lastmod>)'
+    def keep_newer_lastmod(match):
+        current = match.group(2)
+        value = current if current >= TODAY else TODAY
+        return f"{match.group(1)}{value}{match.group(3)}"
+    sitemap = re.sub(pattern, keep_newer_lastmod, sitemap, count=1)
 if sitemap != sitemap_original:
     SITEMAP.write_text(sitemap, encoding="utf-8")
     print("Sitemap lastmod updated")

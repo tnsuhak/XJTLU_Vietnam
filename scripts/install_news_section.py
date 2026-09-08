@@ -73,11 +73,13 @@ def render_homepage(items: list[dict]) -> None:
         _, after = rest.split(END, 1)
         text = before.rstrip() + "\n\n" + section + "\n\n" + after.lstrip()
     else:
-        marker = "<!-- ===================== FOOTER ===================== -->"
+        marker = '<style id="tns-contact-only-style">'
+        if marker not in text:
+            marker = "<!-- ===================== FOOTER ===================== -->"
         if marker not in text:
             marker = "<footer"
         if marker not in text:
-            raise SystemExit("Footer marker not found")
+            raise SystemExit("Contact/footer marker not found")
         text = text.replace(marker, section + "\n\n" + marker, 1)
 
     nav_after = '<li><a href="#stories">Câu chuyện</a></li>'
