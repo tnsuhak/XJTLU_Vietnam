@@ -1,0 +1,41 @@
+name: Apply Sports Page Hotfix
+
+on:
+  push:
+    branches:
+      - hotfix/sports-videos-production-20260908
+    paths:
+      - '.github/workflows/apply-sports-hotfix-20260908.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: hotfix/sports-videos-production-20260908
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate corrected sports page
+        run: python scripts/replace_sports_videos_20260906.py
+      - name: Validate corrected sports page
+        run: |
+          grep -q 'drOy9rzNmlE' xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html
+          grep -q 'T8g0zoI9rO4' xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html
+          ! grep -q 'XciLskXWwIU' xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html
+          ! grep -q 'nVirGEvdcT8' xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html
+          ! grep -q 'Mở trên YouTube' xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html
+          grep -q 'grid-template-columns:repeat(2,1fr)' xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html
+      - name: Commit corrected page
+        run: |
+          git config user.name "TNS Site Manager"
+          git config user.email "actions@users.noreply.github.com"
+          git add xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html
+          git commit -m "fix(hotfix): restore two English sports videos"
+          git pull --rebase origin hotfix/sports-videos-production-20260908
+          git push origin HEAD:hotfix/sports-videos-production-20260908
