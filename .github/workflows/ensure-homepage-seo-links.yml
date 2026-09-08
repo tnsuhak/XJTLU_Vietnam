@@ -13,6 +13,7 @@ on:
       - 'scripts/lighten_homepage_stories_20260905.py'
       - 'scripts/enforce_light_homepage_20260905.py'
       - 'scripts/unify_site_navigation_20260905.py'
+      - 'scripts/replace_sports_videos_20260906.py'
       - 'scripts/add_liverpool_vietnam_guide_20260905.py'
       - 'scripts/enrich_liverpool_vietnam_guide_20260905.py'
       - 'scripts/refine_vietnam_relevance_home_20260905.py'
@@ -79,6 +80,9 @@ jobs:
                   text = text.replace(legacy_before, legacy_after)
               p.write_text(text, encoding='utf-8')
           PY
+
+      - name: Keep English SIP and Taicang sports videos after all generators
+        run: python scripts/replace_sports_videos_20260906.py
 
       - name: Commit normalized pages
         run: |
