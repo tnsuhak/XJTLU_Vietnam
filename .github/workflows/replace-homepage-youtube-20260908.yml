@@ -1,0 +1,48 @@
+name: Replace Homepage YouTube Preview
+
+on:
+  push:
+    branches:
+      - preview/homepage-youtube-7co9mt5a9yu-20260908
+    paths:
+      - '.github/workflows/replace-homepage-youtube-20260908.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  replace-video:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Replace homepage video in generated page and source generator
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          old = '2PyruJRbV5c'
+          new = '7co9MT5a9YU'
+          paths = [Path('index.html'), Path('scripts/lighten_homepage_student_life_20260905.py')]
+          for p in paths:
+              text = p.read_text(encoding='utf-8')
+              if old not in text:
+                  raise SystemExit(f'{old} not found in {p}')
+              p.write_text(text.replace(old, new), encoding='utf-8')
+          print('Replaced homepage YouTube video with', new)
+          PY
+      - name: Verify replacement
+        run: |
+          grep -q 'data-yt="7co9MT5a9YU"' index.html
+          grep -q 'img.youtube.com/vi/7co9MT5a9YU/hqdefault.jpg' index.html
+          grep -q '7co9MT5a9YU' scripts/lighten_homepage_student_life_20260905.py
+          ! grep -q '2PyruJRbV5c' index.html
+          ! grep -q '2PyruJRbV5c' scripts/lighten_homepage_student_life_20260905.py
+      - name: Commit replacement
+        run: |
+          git config user.name 'TNS Site Manager'
+          git config user.email 'actions@users.noreply.github.com'
+          git add index.html scripts/lighten_homepage_student_life_20260905.py
+          git commit -m 'Replace homepage YouTube video'
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
