@@ -18,6 +18,7 @@ on:
       - 'scripts/enrich_liverpool_vietnam_guide_20260905.py'
       - 'scripts/refine_vietnam_relevance_home_20260905.py'
       - 'scripts/standardize_subpage_contacts_20260908.py'
+      - 'scripts/remove_homepage_cta_band_20260908.py'
       - '.github/workflows/ensure-homepage-seo-links.yml'
 
 permissions:
@@ -88,6 +89,9 @@ jobs:
       - name: Standardize contact actions on all subpages
         run: python scripts/standardize_subpage_contacts_20260908.py
 
+      - name: Remove homepage admissions CTA band
+        run: python scripts/remove_homepage_cta_band_20260908.py
+
       - name: Commit normalized pages
         run: |
           if [ -z "$(git status --porcelain)" ]; then
@@ -97,7 +101,7 @@ jobs:
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
           git add index.html *.html news/*.html sitemap.xml
-          git commit -m "Standardize subpage contact buttons"
+          git commit -m "Remove homepage admissions CTA band"
           BRANCH="${GITHUB_REF_NAME}"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
