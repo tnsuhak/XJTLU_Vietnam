@@ -50,9 +50,6 @@ jobs:
       - name: Enforce homepage/subpage navigation
         run: python scripts/unify_site_navigation_20260905.py
 
-      - name: Keep English SIP and Taicang sports videos
-        run: python scripts/replace_sports_videos_20260906.py
-
       - name: Add Liverpool Vietnam detail guide
         run: python scripts/add_liverpool_vietnam_guide_20260905.py
 
@@ -83,6 +80,9 @@ jobs:
                   text = text.replace(legacy_before, legacy_after)
               p.write_text(text, encoding='utf-8')
           PY
+
+      - name: Keep English SIP and Taicang sports videos after all generators
+        run: python scripts/replace_sports_videos_20260906.py
 
       - name: Commit normalized pages
         run: |
