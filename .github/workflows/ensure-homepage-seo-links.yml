@@ -68,8 +68,8 @@ jobs:
           from pathlib import Path
 
           anchor = '<a href="/university-of-liverpool-vietnam.html">Liverpool & Việt Nam</a>'
-          before = '<a href="/xjtlu-2plus2-liverpool.html">Bằng University of Liverpool & lộ trình 2+2</a><a href="/xjtlu-ranking-2027.html">Xếp hạng XJTLU</a>'
-          after = '<a href="/xjtlu-2plus2-liverpool.html">Bằng University of Liverpool & lộ trình 2+2</a>' + anchor + '<a href="/xjtlu-ranking-2027.html">Xếp hạng XJTLU</a>'
+          before = '<a href="/xjtlu-2plus2-liverpool.html">Bằng University of Liverpool & lộ trình 2+2</a>'
+          after = before + anchor
 
           legacy_before = '<li><a href="/xjtlu-2plus2-liverpool.html">2+2 & University of Liverpool</a></li><li><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html">Đời sống sinh viên</a></li>'
           legacy_after = '<li><a href="/xjtlu-2plus2-liverpool.html">2+2 & University of Liverpool</a></li><li><a href="/university-of-liverpool-vietnam.html">Liverpool & Việt Nam</a></li><li><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html">Đời sống sinh viên</a></li>'
@@ -78,7 +78,7 @@ jobs:
           for p in pages:
               text = p.read_text(encoding='utf-8')
               if anchor not in text and before in text:
-                  text = text.replace(before, after)
+                  text = text.replace(before, after, 1)
               if legacy_before in text and '<li><a href="/university-of-liverpool-vietnam.html">Liverpool & Việt Nam</a></li>' not in text:
                   text = text.replace(legacy_before, legacy_after)
               p.write_text(text, encoding='utf-8')
@@ -93,7 +93,7 @@ jobs:
       - name: Remove homepage admissions CTA band
         run: python scripts/remove_homepage_cta_band_20260908.py
 
-      - name: Remove small source footers from ordinary guide pages
+      - name: Remove ranking guide, ranking links and ordinary guide source footers
         run: python scripts/remove_subpage_source_footers_20260909.py
 
       - name: Commit normalized pages
@@ -104,8 +104,8 @@ jobs:
           fi
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
-          git add index.html *.html news/*.html sitemap.xml
-          git commit -m "Remove guide page source footers"
+          git add -A
+          git commit -m "Remove XJTLU ranking guide and links"
           BRANCH="${GITHUB_REF_NAME}"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
