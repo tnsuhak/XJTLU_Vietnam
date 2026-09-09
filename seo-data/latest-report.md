@@ -2,8 +2,8 @@
 
 - Property: `https://xjtlu-vietnam.netlify.app/`
 - Primary market filter: **Vietnam** (`vnm`)
-- Current period: **2026-08-09 → 2026-09-05**
-- Comparison period: **2026-07-12 → 2026-08-08**
+- Current period: **2026-08-10 → 2026-09-06**
+- Comparison period: **2026-07-13 → 2026-08-09**
 - Search Console settling lag applied: **3 days**
 
 ## 1. Vietnam organic search summary
@@ -53,7 +53,7 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Audit | Mobile | Desktop |
 | --- | ---: | ---: |
-| Performance | 74 | 96 |
+| Performance | 74 | 95 |
 | SEO | 100 | 100 |
 | Accessibility | 100 | 100 |
 | Best Practices | 96 | 96 |
@@ -62,11 +62,11 @@ Automated weekly Lighthouse audit of the production homepage.
 
 | Metric | Mobile | Desktop |
 | --- | --- | --- |
-| First Contentful Paint | 4.3 s | 1.1 s |
-| Largest Contentful Paint | 4.3 s | 1.1 s |
+| First Contentful Paint | 4.3 s | 1.2 s |
+| Largest Contentful Paint | 4.3 s | 1.2 s |
 | Total Blocking Time | 0 ms | 0 ms |
-| Cumulative Layout Shift | 0.006 | 0.001 |
-| Speed Index | 4.3 s | 1.1 s |
+| Cumulative Layout Shift | 0.015 | 0.001 |
+| Speed Index | 4.3 s | 1.2 s |
 
 ### GPT priority flags
 
@@ -79,14 +79,14 @@ Automated weekly Lighthouse audit of the production homepage.
 
 ### CLS / layout-shift culprits
 
-- `Học bằng tiếng Anh | div.container > div > h1 > span.line | <span class="line accent">`
+- `100% học bằng tiếng Anh | div.container > div > h1 > span.line | <span class="line accent">`
 - `+ | div.hero-facts > div.fact > b > span.g | <span class="g">`
 
 ### Mobile performance diagnostics
 
 - **Avoids enormous network payloads** — Total size was 258 KiB
-- **Avoid long main-thread tasks** — 3 long tasks found
-- **Minimizes main-thread work** — 1.7 s
+- **Avoid long main-thread tasks** — 7 long tasks found
+- **Minimize main-thread work** — 2.7 s
 
 ### Largest estimated mobile savings opportunities
 
@@ -127,24 +127,28 @@ This section exposes the underlying mobile Lighthouse timing breakdown so future
 
 ### Main-thread work breakdown
 
-- Style & Layout: **0.66s**
-- Other: **0.43s**
-- Script Evaluation: **0.32s**
-- Rendering: **0.27s**
-- Parse HTML & CSS: **0.04s**
+- Other: **0.96s**
+- Style & Layout: **0.81s**
+- Script Evaluation: **0.47s**
+- Rendering: **0.35s**
+- Parse HTML & CSS: **0.12s**
 - Script Parsing & Compilation: **0.01s**
 
 ### Longest main-thread tasks
 
-- 0.13s · `xjtlu-vietnam.netlify.app/`
-- 0.11s · `xjtlu-vietnam.netlify.app/`
-- 0.07s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
+- 0.26s · `xjtlu-vietnam.netlify.app/`
+- 0.12s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
+- 0.10s · `Unattributable`
+- 0.09s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
+- 0.09s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud`
+- 0.08s · `xjtlu-vietnam.netlify.app/`
+- 0.06s · `xjtlu-vietnam.netlify.app/`
 
 ### JavaScript boot-up cost
 
-- 1.22s · `xjtlu-vietnam.netlify.app/` (eval 0.29s, parse 0.00s)
-- 0.36s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.03s, parse 0.00s)
-- 0.16s · `Unattributable` (eval 0.01s)
+- 2.00s · `xjtlu-vietnam.netlify.app/` (eval 0.34s, parse 0.00s)
+- 0.40s · `xjtlu-vietnam.netlify.app/.netlify/scripts/hud` (eval 0.11s, parse 0.00s)
+- 0.27s · `Unattributable` (eval 0.02s)
 
 ### LCP phase timing
 
