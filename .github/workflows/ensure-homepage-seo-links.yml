@@ -20,6 +20,7 @@ on:
       - 'scripts/standardize_subpage_contacts_20260908.py'
       - 'scripts/remove_homepage_cta_band_20260908.py'
       - 'scripts/remove_subpage_source_footers_20260909.py'
+      - 'scripts/normalize_menu_links_20260909.py'
       - '.github/workflows/ensure-homepage-seo-links.yml'
 
 permissions:
@@ -96,6 +97,9 @@ jobs:
       - name: Remove ranking guide, ranking links and ordinary guide source footers
         run: python scripts/remove_subpage_source_footers_20260909.py
 
+      - name: Keep every current guide visible in grouped menus
+        run: python scripts/normalize_menu_links_20260909.py
+
       - name: Commit normalized pages
         run: |
           if [ -z "$(git status --porcelain)" ]; then
@@ -105,7 +109,7 @@ jobs:
           git config user.name "TNS Site Manager"
           git config user.email "actions@users.noreply.github.com"
           git add -A
-          git commit -m "Remove XJTLU ranking guide and links"
+          git commit -m "Normalize current guide links in grouped menus"
           BRANCH="${GITHUB_REF_NAME}"
           git pull --rebase origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
