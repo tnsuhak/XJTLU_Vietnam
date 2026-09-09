@@ -7,3 +7,8 @@ These notes are durable site-specific decisions for future edits.
 - Keep official-source verification in the editorial/research process rather than showing source provenance in normal body copy.
 - News articles are the main exception: preserve the original source and source link when editorially required.
 - Do not expose Apply, How to apply, Application Portal, or generic university-homepage links by default. Prefer internal guides and TNS consultation paths.
+- When borrowing a useful content idea from XJTLU Korea or another country site, do **not** translate it literally. Rebuild the angle for Vietnamese students, parents, travel patterns, costs, industries and Vietnam-China connections.
+- Maintain these distinct Vietnam-market landing pages because they serve different user/search intents: `xjtlu-to-chau-thuong-hai-viet-nam.html`, `xjtlu-chi-phi-sinh-hoat-2027.html`, and `xjtlu-ky-tuc-xa-sip-taicang.html`.
+- The Suzhou city guide should prioritize the real Vietnam-Suzhou trade/logistics relationship and the practical Shanghai connection, not Korea-oriented company/community content.
+- Keep sports, clubs and student-life videos combined on the existing student-life page unless Vietnamese search/performance data later supports splitting them into separate pages.
+- Keep the homepage light: surface the city, living-cost and accommodation guides as compact internal links rather than copying their detail content onto the homepage.
