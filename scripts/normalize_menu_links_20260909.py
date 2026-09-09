@@ -1,129 +1,41 @@
 from pathlib import Path
 import re
 
-CITY_HREF = '/xjtlu-to-chau-thuong-hai-viet-nam.html'
-COST_HREF = '/xjtlu-chi-phi-sinh-hoat-2027.html'
-DORM_HREF = '/xjtlu-ky-tuc-xa-sip-taicang.html'
 RANK_HREF = '/xjtlu-ranking-2027.html'
-
 PAGES = sorted(Path('.').glob('*.html')) + sorted(Path('news').glob('*.html'))
 
+GRID = '''<div class="tns-site-menu-grid">
+<section class="tns-site-menu-group"><h3><a href="/">Giới thiệu XJTLU <small>Trang chính →</small></a></h3><a href="/xjtlu-2plus2-liverpool.html">Bằng University of Liverpool &amp; lộ trình 2+2</a><a href="/university-of-liverpool-vietnam.html">Liverpool &amp; Việt Nam</a><a href="/xjtlu-to-chau-thuong-hai-viet-nam.html">Tô Châu, Thượng Hải &amp; Việt Nam</a></section>
+<section class="tns-site-menu-group"><h3><a href="/xjtlu-nganh-hoc-nghe-nghiep.html">Ngành học &amp; nghề nghiệp <small>Xem chi tiết →</small></a></h3><a href="/xjtlu-nganh-hoc-nghe-nghiep.html">Ngành học, nghề nghiệp &amp; lựa chọn chương trình</a><a href="/xjtlu-ket-qua-hoc-len-sau-tot-nghiep-2025.html">Kết quả học lên sau tốt nghiệp</a></section>
+<section class="tns-site-menu-group"><h3><a href="/xjtlu-hoc-phi-hoc-bong-2027.html">Học phí &amp; học bổng <small>2027 →</small></a></h3><a href="/xjtlu-hoc-phi-hoc-bong-2027.html">Học phí, học bổng &amp; các mốc quan trọng 2027</a><a href="/xjtlu-chi-phi-sinh-hoat-2027.html">Chi phí sinh hoạt XJTLU 2027</a></section>
+<section class="tns-site-menu-group"><h3><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html">Đời sống sinh viên <small>Xem chi tiết →</small></a></h3><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html#the-thao">Thể thao &amp; cơ sở thể thao</a><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html#cau-lac-bo">Câu lạc bộ &amp; tổ chức sinh viên</a><a href="/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html#video">Video đời sống XJTLU</a><a href="/xjtlu-ky-tuc-xa-sip-taicang.html">Ký túc xá SIP &amp; Taicang</a></section>
+<section class="tns-site-menu-group"><h3><a href="/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html">Tuyển sinh 2027 <small>Xem chi tiết →</small></a></h3><a href="/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html">Điều kiện dành cho học sinh Việt Nam</a></section>
+<section class="tns-site-menu-group"><h3><a href="/du-hoc-trung-quoc-2027.html">Du học Trung Quốc <small>2027 →</small></a></h3><a href="/du-hoc-trung-quoc-2027.html">Hướng dẫn du học Trung Quốc 2027</a><a href="/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html">Học đại học bằng tiếng Anh tại XJTLU</a></section>
+<section class="tns-site-menu-group"><h3><a href="/news/">Tin tức XJTLU <small>Xem tin →</small></a></h3><a href="/news/">Tin chính thức đáng chú ý được chọn lọc và tóm tắt bằng tiếng Việt →</a></section>
+</div>'''
 
-def split_menu(text: str):
-    if '<!-- TNS_GLOBAL_MENU_START -->' in text and '<!-- TNS_GLOBAL_MENU_END -->' in text:
-        a, rest = text.split('<!-- TNS_GLOBAL_MENU_START -->', 1)
-        menu, b = rest.split('<!-- TNS_GLOBAL_MENU_END -->', 1)
-        return a + '<!-- TNS_GLOBAL_MENU_START -->', menu, '<!-- TNS_GLOBAL_MENU_END -->' + b
+GRID_RE = re.compile(r'<div class=["\']tns-site-menu-grid["\']>.*?</div>', re.I | re.S)
+EXPECTED = {
+    '/xjtlu-to-chau-thuong-hai-viet-nam.html',
+    '/xjtlu-chi-phi-sinh-hoat-2027.html',
+    '/xjtlu-ky-tuc-xa-sip-taicang.html',
+}
 
-    marker = 'id="siteMenu"'
-    pos = text.find(marker)
-    if pos < 0:
-        return None
-    start = text.rfind('<div', 0, pos)
-    if start < 0:
-        return None
-    end = text.find('<header class="hero"', pos)
-    if end < 0:
-        end = text.find('<header class="hero ', pos)
-    if end < 0:
-        return None
-    return text[:start], text[start:end], text[end:]
-
-
-def add_after_first_available_href(menu: str, hrefs, new_anchor: str):
-    for href in hrefs:
-        pat = re.compile(r'(<a\b[^>]*href=["\']' + re.escape(href) + r'["\'][^>]*>.*?</a>)', re.I | re.S)
-        m = pat.search(menu)
-        if m:
-            return menu[:m.end()] + new_anchor + menu[m.end():]
-    raise RuntimeError(f'no anchor found from: {hrefs}')
-
-
-def add_after_last_href(menu: str, href: str, new_anchor: str):
-    pat = re.compile(r'<a\b[^>]*href=["\']' + re.escape(href) + r'["\'][^>]*>.*?</a>', re.I | re.S)
-    matches = list(pat.finditer(menu))
-    if not matches:
-        raise RuntimeError(f'anchor not found: {href}')
-    m = matches[-1]
-    return menu[:m.end()] + new_anchor + menu[m.end():]
-
-
-def add_after_last_studentlife_href(menu: str, new_anchor: str):
-    pat = re.compile(r'<a\b[^>]*href=["\']/xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo\.html(?:#[^"\']*)?["\'][^>]*>.*?</a>', re.I | re.S)
-    matches = list(pat.finditer(menu))
-    if not matches:
-        raise RuntimeError('student-life anchor not found')
-    m = matches[-1]
-    return menu[:m.end()] + new_anchor + menu[m.end():]
-
-
-def remove_cost_link_from_heading(menu: str) -> str:
-    # Work one H3 at a time so a regex can never cross a closing heading tag.
-    def clean_h3(match):
-        block = match.group(0)
-        return re.sub(
-            r'<a\b[^>]*href=["\']' + re.escape(COST_HREF) + r'["\'][^>]*>.*?</a>',
-            '',
-            block,
-            flags=re.I | re.S,
-        )
-    return re.sub(r'<h3\b[^>]*>.*?</h3>', clean_h3, menu, flags=re.I | re.S)
-
-
-def cost_link_nested_in_heading(menu: str) -> bool:
-    return any(COST_HREF in block for block in re.findall(r'<h3\b[^>]*>.*?</h3>', menu, flags=re.I | re.S))
-
-
-changed = []
+changed=[]
 for p in PAGES:
-    text = p.read_text(encoding='utf-8')
-    parts = split_menu(text)
-    if not parts:
-        raise RuntimeError(f'{p}: site menu not found')
-    before, menu, after = parts
-
-    menu = re.sub(
-        r'\s*<a\b[^>]*href=["\']' + re.escape(RANK_HREF) + r'["\'][^>]*>.*?</a>',
-        '',
-        menu,
-        flags=re.I | re.S,
-    )
-
-    menu = remove_cost_link_from_heading(menu)
-
-    if f'href="{CITY_HREF}"' not in menu and f"href='{CITY_HREF}'" not in menu:
-        menu = add_after_first_available_href(
-            menu,
-            ['/university-of-liverpool-vietnam.html', '/xjtlu-2plus2-liverpool.html', '/'],
-            f'<a href="{CITY_HREF}">Tô Châu, Thượng Hải &amp; Việt Nam</a>',
-        )
-
-    if f'href="{COST_HREF}"' not in menu and f"href='{COST_HREF}'" not in menu:
-        menu = add_after_last_href(
-            menu,
-            '/xjtlu-hoc-phi-hoc-bong-2027.html',
-            f'<a href="{COST_HREF}">Chi phí sinh hoạt XJTLU 2027</a>',
-        )
-
-    if f'href="{DORM_HREF}"' not in menu and f"href='{DORM_HREF}'" not in menu:
-        menu = add_after_last_studentlife_href(
-            menu,
-            f'<a href="{DORM_HREF}">Ký túc xá SIP &amp; Taicang</a>',
-        )
-
-    for href in (CITY_HREF, COST_HREF, DORM_HREF):
-        if href not in menu:
-            raise RuntimeError(f'{p}: missing menu href {href}')
-    if RANK_HREF in menu:
-        raise RuntimeError(f'{p}: stale ranking menu href')
-    if cost_link_nested_in_heading(menu):
-        raise RuntimeError(f'{p}: living-cost link nested inside heading')
-
-    new_text = before + menu + after
-    if new_text != text:
-        p.write_text(new_text, encoding='utf-8')
+    text=p.read_text(encoding='utf-8')
+    matches=list(GRID_RE.finditer(text))
+    if not matches:
+        raise RuntimeError(f'{p}: grouped menu grid not found')
+    # Some generated pages can contain more than one menu copy. Normalize all copies.
+    new_text=GRID_RE.sub(GRID,text)
+    for href in EXPECTED:
+        if href not in new_text:
+            raise RuntimeError(f'{p}: missing {href}')
+    if RANK_HREF in GRID:
+        raise RuntimeError('ranking link unexpectedly present in canonical grid')
+    if new_text!=text:
+        p.write_text(new_text,encoding='utf-8')
         changed.append(str(p))
 
-print('Normalized Vietnamese grouped menus:', len(changed), 'pages changed')
-for name in changed:
-    print(' -', name)
+print('Canonical Vietnamese grouped menu applied:',len(changed),'pages changed')
