@@ -6,6 +6,7 @@ on:
       - preview/home-hero-copy-20260908
     paths:
       - 'scripts/add_vietnam_market_guides_20260909.py'
+      - 'scripts/polish_vietnam_market_guides_20260909.py'
       - '.github/workflows/add-vietnam-market-guides-20260909.yml'
   workflow_dispatch:
 
@@ -29,7 +30,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Fix one-time bootstrap block and build pages
+      - name: Build and polish pages
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -43,13 +44,13 @@ jobs:
               p.write_text(s,encoding='utf-8')
           PY
           python scripts/add_vietnam_market_guides_20260909.py
+          python scripts/polish_vietnam_market_guides_20260909.py
 
       - name: Validate new pages and internal links
         run: |
           python - <<'PY'
           from pathlib import Path
-          from html.parser import HTMLParser
-          import re, json
+          import re
           new=[
             'xjtlu-to-chau-thuong-hai-viet-nam.html',
             'xjtlu-chi-phi-sinh-hoat-2027.html',
@@ -63,6 +64,8 @@ jobs:
               assert 'TNS_SUBPAGE_CONTACT_START' in s,f
               assert 'class="sources"' not in s,f
               assert '<meta name="robots" content="index,follow' in s,f
+              assert 'VISIBLE-FAQ-20260909' in s,f
+              assert '<section class="section faq">' in s,f
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
           for f in new: assert f in sm,f
           home=Path('index.html').read_text(encoding='utf-8')
@@ -71,12 +74,17 @@ jobs:
           life=Path('xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html').read_text(encoding='utf-8')
           assert 'VIETNAM-SUZHOU-CONTEXT-20260909' in prog
           assert 'PRACTICAL-LIFE-LINKS-20260909' in life
-          # Basic internal root-link existence check across the three new pages.
           for f in new:
               s=Path(f).read_text(encoding='utf-8')
               for href in re.findall(r'href="(/[^"]+\.html)(?:#[^"]*)?"',s):
                   target=href.lstrip('/')
                   assert Path(target).exists(),(f,target)
+          # Critical factual values used in the new guides.
+          assert '204,75 tỷ RMB' in Path(new[0]).read_text(encoding='utf-8')
+          cost=Path(new[1]).read_text(encoding='utf-8')
+          assert all(x in cost for x in ['3.700 RMB','6.450 RMB','9.600 RMB'])
+          acc=Path(new[2]).read_text(encoding='utf-8')
+          assert all(x in acc for x in ['57 RMB/ngày','6.000 RMB','14.000 RMB'])
           print('validation passed:',len(new),'new guides')
           PY
 
@@ -85,6 +93,7 @@ jobs:
           git config user.name 'TNS Site Manager'
           git config user.email 'actions@users.noreply.github.com'
           git add scripts/add_vietnam_market_guides_20260909.py \
+            scripts/polish_vietnam_market_guides_20260909.py \
             index.html sitemap.xml \
             xjtlu-nganh-hoc-nghe-nghiep.html \
             xjtlu-doi-song-sinh-vien-the-thao-cau-lac-bo.html \
@@ -96,6 +105,6 @@ jobs:
             echo 'No changes to commit'
             exit 0
           fi
-          git commit -m 'Add Vietnam-market Suzhou, living cost and accommodation guides'
+          git commit -m 'Polish Vietnam-market Suzhou, cost and accommodation guides'
           git pull --rebase origin "$GITHUB_REF_NAME"
           git push origin "HEAD:$GITHUB_REF_NAME"
