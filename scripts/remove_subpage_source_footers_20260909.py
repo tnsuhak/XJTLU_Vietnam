@@ -3,14 +3,13 @@ import re
 
 RANKING = 'xjtlu-ranking-2027.html'
 
-# Remove the small source/citation footer blocks from ordinary guide pages only.
+# Remove small source/citation footer blocks from ordinary guide pages only.
 # News articles are intentionally excluded because their original source links
-# must remain visible.
+# must remain visible. Some older guides use class="source" (singular).
 guide_pages = [p for p in Path('.').glob('*.html') if p.name not in {'index.html', RANKING}]
 removed_total = 0
 patterns = [
-    r'\n?\s*<(?:div|section|p)\b[^>]*class=["\'][^"\']*\bsources\b[^"\']*["\'][^>]*>.*?</(?:div|section|p)>\s*',
-    r'\n?\s*<(?:div|section|p)\b[^>]*class=["\'][^"\']*\bsource-footer\b[^"\']*["\'][^>]*>.*?</(?:div|section|p)>\s*',
+    r'\n?\s*<(?:div|section|p)\b[^>]*class=["\'][^"\']*\b(?:sources|source|source-footer)\b[^"\']*["\'][^>]*>.*?</(?:div|section|p)>\s*',
 ]
 for page in guide_pages:
     text = page.read_text(encoding='utf-8')
@@ -53,7 +52,7 @@ for page in sorted(Path('.').glob('*.html')) + sorted(Path('news').glob('*.html'
 for page in guide_pages:
     if page.exists():
         raw = page.read_text(encoding='utf-8')
-        assert not re.search(r'class=["\'][^"\']*\b(?:sources|source-footer)\b', raw, re.I), page
+        assert not re.search(r'class=["\'][^"\']*\b(?:sources|source|source-footer)\b', raw, re.I), page
 if sitemap.exists():
     assert RANKING not in sitemap.read_text(encoding='utf-8')
-print('ranking guide removed; guide source footers removed:', removed_total)
+print('ranking guide removed; ordinary guide source footers removed:', removed_total)
