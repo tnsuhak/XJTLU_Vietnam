@@ -30,12 +30,13 @@ def split_menu(text: str):
     return text[:start], text[start:end], text[end:]
 
 
-def add_after_first_href(menu: str, href: str, new_anchor: str):
-    pat = re.compile(r'(<a\b[^>]*href=["\']' + re.escape(href) + r'["\'][^>]*>.*?</a>)', re.I | re.S)
-    m = pat.search(menu)
-    if not m:
-        raise RuntimeError(f'anchor not found: {href}')
-    return menu[:m.end()] + new_anchor + menu[m.end():]
+def add_after_first_available_href(menu: str, hrefs, new_anchor: str):
+    for href in hrefs:
+        pat = re.compile(r'(<a\b[^>]*href=["\']' + re.escape(href) + r'["\'][^>]*>.*?</a>)', re.I | re.S)
+        m = pat.search(menu)
+        if m:
+            return menu[:m.end()] + new_anchor + menu[m.end():]
+    raise RuntimeError(f'no anchor found from: {hrefs}')
 
 
 def add_after_last_studentlife_href(menu: str, new_anchor: str):
@@ -62,16 +63,16 @@ for p in PAGES:
     )
 
     if f'href="{CITY_HREF}"' not in menu and f"href='{CITY_HREF}'" not in menu:
-        menu = add_after_first_href(
+        menu = add_after_first_available_href(
             menu,
-            '/university-of-liverpool-vietnam.html',
+            ['/university-of-liverpool-vietnam.html', '/xjtlu-2plus2-liverpool.html', '/'],
             f'<a href="{CITY_HREF}">Tô Châu, Thượng Hải &amp; Việt Nam</a>',
         )
 
     if f'href="{COST_HREF}"' not in menu and f"href='{COST_HREF}'" not in menu:
-        menu = add_after_first_href(
+        menu = add_after_first_available_href(
             menu,
-            '/xjtlu-hoc-phi-hoc-bong-2027.html',
+            ['/xjtlu-hoc-phi-hoc-bong-2027.html'],
             f'<a href="{COST_HREF}">Chi phí sinh hoạt XJTLU 2027</a>',
         )
 
