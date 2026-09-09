@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://xjtlu-vietnam.netlify.app/</loc><lastmod>2026-09-08</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/du-hoc-trung-quoc-2027.html</loc><lastmod>2026-08-30</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-hoc-phi-hoc-bong-2027.html</loc><lastmod>2026-09-05</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-dieu-kien-tuyen-sinh-vietnam-2027.html</loc><lastmod>2026-09-05</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/du-hoc-trung-quoc-bang-tieng-anh-xjtlu.html</loc><lastmod>2026-09-05</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-2plus2-liverpool.html</loc><lastmod>2026-09-06</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-nganh-hoc-nghe-nghiep.html</loc><lastmod>2026-09-05</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-ranking-2027.html</loc><lastmod>2026-09-06</lastmod></url>
-  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-ket-qua-hoc-len-sau-tot-nghiep-2025.html</loc><lastmod>2026-08-30</lastmod></url>
+<url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-ket-qua-hoc-len-sau-tot-nghiep-2025.html</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-alumni-australia-2026.html</loc><lastmod>2026-08-30</lastmod></url>
   <url><loc>https://xjtlu-vietnam.netlify.app/news/xjtlu-to-tsinghua-indonesian-student.html</loc><lastmod>2026-08-30</lastmod></url>
@@ -29,4 +21,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-to-chau-thuong-hai-viet-nam.html</loc><lastmod>2026-09-09</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-chi-phi-sinh-hoat-2027.html</loc><lastmod>2026-09-09</lastmod></url>
+  <url><loc>https://xjtlu-vietnam.netlify.app/xjtlu-ky-tuc-xa-sip-taicang.html</loc><lastmod>2026-09-09</lastmod></url>
 </urlset>
