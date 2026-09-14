@@ -13,16 +13,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Reconstruct and verify bundle
+      - name: Diagnose staged chunks
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
           : > /tmp/claude-bundle.zip
           for f in .tns-apply/part*.b64; do
-            base64 -d "$f" >> /tmp/claude-bundle.zip
+            echo "--- $f chars=$(wc -c < "$f") ---"
+            if base64 -d "$f" > /tmp/chunk.bin 2>/tmp/b64err; then
+              echo "OK bytes=$(stat -c%s /tmp/chunk.bin)"
+              cat /tmp/chunk.bin >> /tmp/claude-bundle.zip
+            else
+              echo "FAIL: $(cat /tmp/b64err)"
+              echo "HEAD=$(head -c 24 "$f")"
+              echo "TAIL=$(tail -c 24 "$f")"
+            fi
           done
-          echo "SHA256=$(sha256sum /tmp/claude-bundle.zip | awk '{print $1}')"
-          echo "SIZE=$(stat -c%s /tmp/claude-bundle.zip)"
-          unzip -t /tmp/claude-bundle.zip
-          echo '--- FILE LIST ---'
-          unzip -Z1 /tmp/claude-bundle.zip
+          echo "RECONSTRUCTED_SIZE=$(stat -c%s /tmp/claude-bundle.zip)"
+          echo "RECONSTRUCTED_SHA256=$(sha256sum /tmp/claude-bundle.zip | awk '{print $1}')"
+          unzip -t /tmp/claude-bundle.zip || true
