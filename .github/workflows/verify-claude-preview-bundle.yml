@@ -1,0 +1,25 @@
+name: Verify Claude preview bundle
+
+on:
+  push:
+    branches:
+      - preview/home-restructure-20260915-v2
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reconstruct and verify bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .tns-apply/part*.b64 | base64 -d > /tmp/claude-bundle.zip
+          echo "SHA256=$(sha256sum /tmp/claude-bundle.zip | awk '{print $1}')"
+          echo "SIZE=$(stat -c%s /tmp/claude-bundle.zip)"
+          unzip -t /tmp/claude-bundle.zip
+          echo '--- FILE LIST ---'
+          unzip -Z1 /tmp/claude-bundle.zip
