@@ -1,0 +1,46 @@
+name: Tune mobile hero typography
+
+on:
+  push:
+    branches:
+      - preview/home-restructure-reviewed-20260915
+    paths:
+      - '.github/workflows/tune-mobile-hero-20260915.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  tune-mobile-hero:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/home-restructure-reviewed-20260915
+      - name: Tune mobile hero typography only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'TNS Site Manager'
+          git config user.email 'actions@users.noreply.github.com'
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '  .hero h1 .h1-brand{margin-bottom:11px;font-size:11px;letter-spacing:.11em}\n  .hero .sub{margin-top:18px;font-size:15.5px;line-height:1.62}'
+          new = '''  .hero h1 .h1-brand{margin-bottom:11px;font-size:11px;letter-spacing:.11em}
+  .hero h1{font-size:clamp(32px,9.5vw,38px);line-height:1.02;letter-spacing:-.02em}
+  .hero h1 .line.accent{font-size:.8em;line-height:1.06;white-space:nowrap;margin-top:3px}
+  .hero h1 .line:last-child{font-size:.8em;line-height:1.06;white-space:nowrap;margin-top:4px}
+  .hero .sub{margin-top:18px;font-size:15.5px;line-height:1.62}'''
+          assert old in s, 'expected mobile hero CSS block not found'
+          s = s.replace(old, new, 1)
+          assert '<span class="line">Đại học Liverpool (Anh Quốc)</span>' in s
+          assert '<span class="line accent">100% học bằng tiếng Anh</span>' in s
+          assert '<span class="line">Tô Châu, Trung Quốc</span>' in s
+          p.write_text(s, encoding='utf-8')
+          PY
+          rm -f .github/workflows/tune-mobile-hero-20260915.yml
+          git add -A
+          git commit -m 'fix(preview): tighten mobile hero typography'
+          git push origin HEAD:preview/home-restructure-reviewed-20260915
