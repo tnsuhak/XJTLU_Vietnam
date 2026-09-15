@@ -34,11 +34,19 @@ jobs:
         run: |
           set -euo pipefail
           git fetch origin feature/tns-favicon-20260908
-          git checkout origin/feature/tns-favicon-20260908 -- favicon.svg favicon-16.png favicon-32.png apple-touch-icon.png
+          git checkout origin/feature/tns-favicon-20260908 -- favicon.svg
+          rm -f favicon-16.png favicon-32.png apple-touch-icon.png
           python scripts/remove_subpage_source_footers_20260909.py
           python - <<'PY'
           from pathlib import Path
           import re
+
+          # Use the central TNS SVG favicon only; remove Claude's extra PNG/Apple icon links.
+          for page in list(Path('.').glob('*.html')) + list(Path('news').glob('*.html')):
+              s = page.read_text(encoding='utf-8')
+              s = re.sub(r'<link rel="icon" type="image/png"[^>]*>\s*', '', s, flags=re.I)
+              s = re.sub(r'<link rel="apple-touch-icon"[^>]*>\s*', '', s, flags=re.I)
+              page.write_text(s, encoding='utf-8')
 
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
@@ -47,7 +55,7 @@ jobs:
           hero = '<span class="line">Đại học Liverpool (Anh Quốc)</span>'
           assert hero in s, 'approved Hero wording changed unexpectedly'
 
-          # Remove the stale ranking emphasis from homepage social/search descriptions only.
+          # Remove stale ranking emphasis from homepage search/social descriptions only.
           head, rest = s.split('</head>', 1)
           head = head.replace('XJTLU tại Tô Châu: xếp hạng, học phí, học bổng, điều kiện tuyển sinh 2027, ngành học, ký túc xá và bằng University of Liverpool.',
                               'XJTLU tại Tô Châu: học phí, học bổng, điều kiện tuyển sinh 2027, ngành học, ký túc xá và bằng University of Liverpool.')
@@ -57,12 +65,12 @@ jobs:
                               'XJTLU Việt Nam 2027: học phí, học bổng, tuyển sinh và bằng University of Liverpool.')
           p.write_text(head + '</head>' + rest, encoding='utf-8')
 
-          # Validation: Hero unchanged, ordinary guide source-footer classes removed,
-          # OG/favicons referenced, sitemap complete, and homepage news remains 3 cards.
+          # Validation.
           home = p.read_text(encoding='utf-8')
           assert hero in home
           assert '/og-image.png' in home
           assert '/favicon.svg' in home
+          assert 'favicon-16.png' not in home and 'favicon-32.png' not in home and 'apple-touch-icon.png' not in home
           assert home.count('class="news-card') == 3, home.count('class="news-card')
 
           for page in sorted(Path('.').glob('*.html')):
