@@ -1,8 +1,20 @@
 {
   "site": "xjtlu-vietnam",
   "language": "vi",
-  "updated_at": "2026-08-30T16:05:00+09:00",
+  "updated_at": "2026-09-13T00:00:00+09:00",
   "items": [
+    {
+      "id": "xjtlu-aiat-aolns-restructured-academies-2026",
+      "title": "XJTLU tái cấu trúc hai học viện AI và Khoa học Sự sống từ tháng 9/2026",
+      "summary": "XJTLU ra mắt Academy of AI and Advanced Technology và Academy of Life and Natural Sciences, tái nhóm các ngành AI, máy tính, kỹ thuật, khoa học sự sống, dược và sức khỏe theo mô hình liên ngành.",
+      "date": "01/09/2026",
+      "source_date": "01/09/2026",
+      "url": "/news/xjtlu-aiat-aolns-restructured-academies-2026.html",
+      "source_url": "https://www.xjtlu.edu.cn/en/news/2026/09/two-restructured-academies-to-launch-in-september",
+      "source_title": "Two restructured academies to launch in September",
+      "image": null,
+      "category": "Ngành học · AI · Khoa học sự sống"
+    },
     {
       "id": "xjtlu-alumni-australia-2026",
       "title": "Gần 600 sinh viên XJTLU sang Úc học tiếp trong 2025: alumni trải rộng Sydney, Melbourne và Brisbane",
