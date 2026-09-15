@@ -1,0 +1,68 @@
+name: Refine mobile hero copy and typography
+
+on:
+  push:
+    branches:
+      - preview/home-restructure-reviewed-20260915
+    paths:
+      - '.github/workflows/refine-mobile-hero-20260915-b.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refine-mobile-hero:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/home-restructure-reviewed-20260915
+      - name: Refine hero text and mobile typography
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'TNS Site Manager'
+          git config user.email 'actions@users.noreply.github.com'
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          s2, n1 = re.subn(r'<span class="h1-brand">.*?</span>', '<span class="h1-brand">XJTLU Vietnam</span>', s, count=1, flags=re.S)
+          assert n1 == 1, 'hero eyebrow not found'
+          s = s2
+
+          old_sub = re.compile(r'<p class="sub"><b>Xi\'an Jiaotong–Liverpool University \(XJTLU\)</b>.*?</p>', re.S)
+          new_sub = '<p class="sub"><b>Xi\'an Jiaotong–Liverpool University (XJTLU)</b> là đại học Anh–Trung tại Tô Châu. Sinh viên học 100% bằng tiếng Anh và khi tốt nghiệp nhận bằng của <b>University of Liverpool</b> cùng bằng XJTLU.</p>'
+          s2, n2 = old_sub.subn(new_sub, s, count=1)
+          if n2 == 0:
+              old_sub = re.compile(r'<p class="sub"><b>Xi\'an Jiaotong-Liverpool University \(XJTLU\)</b>.*?</p>', re.S)
+              s2, n2 = old_sub.subn(new_sub, s, count=1)
+          assert n2 == 1, 'hero sub paragraph not found'
+          s = s2
+
+          pattern = re.compile(r'  \.hero h1 \.h1-brand\{.*?\n  \.hero \.sub\{margin-top:18px;font-size:15\.5px;line-height:1\.62\}', re.S)
+          repl = '''  .hero h1 .h1-brand{margin-bottom:10px;font-size:10.5px;letter-spacing:.08em;white-space:nowrap}
+  .hero h1{font-size:clamp(29px,8.7vw,35px);line-height:1.01;letter-spacing:-.02em}
+  .hero h1 .line{white-space:nowrap}
+  .hero h1 .line.accent{font-size:.82em;line-height:1.05;margin-top:4px}
+  .hero h1 .line:last-child{font-size:.82em;line-height:1.05;margin-top:4px}
+  .hero .sub{margin-top:16px;font-size:14.5px;line-height:1.56;max-width:34ch}'''
+          s2, n3 = pattern.subn(repl, s, count=1)
+          assert n3 == 1, 'mobile hero CSS block not found'
+          s = s2
+
+          for needle in [
+              '<span class="line">Đại học Liverpool (Anh Quốc)</span>',
+              '<span class="line accent">100% học bằng tiếng Anh</span>',
+              '<span class="line">Tô Châu, Trung Quốc</span>'
+          ]:
+              assert needle in s, f'missing expected hero line: {needle}'
+
+          p.write_text(s, encoding='utf-8')
+          PY
+          rm -f .github/workflows/refine-mobile-hero-20260915-b.yml
+          git add -A
+          git commit -m 'fix(preview): simplify hero lines on mobile'
+          git push origin HEAD:preview/home-restructure-reviewed-20260915
