@@ -1,0 +1,52 @@
+name: Tune desktop hero to three lines
+
+on:
+  push:
+    branches:
+      - preview/home-restructure-reviewed-20260915
+    paths:
+      - '.github/workflows/tune-desktop-hero-3lines-20260915.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  tune-desktop-hero:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/home-restructure-reviewed-20260915
+      - name: Keep desktop hero headline to three lines
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'TNS Site Manager'
+          git config user.email 'actions@users.noreply.github.com'
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          anchor = '@media(max-width:1180px){.route-card'
+          block = '''@media(min-width:981px){
+  .hero h1{font-size:clamp(44px,3.7vw,56px);line-height:1.02;letter-spacing:-.018em}
+  .hero h1 .line{white-space:nowrap}
+  .hero h1 .line.accent{font-size:.9em}
+  .hero h1 .line:last-child{font-size:.9em}
+}
+'''
+          assert anchor in s, 'desktop hero insertion anchor not found'
+          if block not in s:
+              s = s.replace(anchor, block + anchor, 1)
+          for needle in [
+              '<span class="line">Đại học Liverpool (Anh Quốc)</span>',
+              '<span class="line accent">100% học bằng tiếng Anh</span>',
+              '<span class="line">Tô Châu, Trung Quốc</span>'
+          ]:
+              assert needle in s, f'missing expected hero line: {needle}'
+          p.write_text(s, encoding='utf-8')
+          PY
+          rm -f .github/workflows/tune-desktop-hero-3lines-20260915.yml
+          git add -A
+          git commit -m 'fix(preview): keep desktop hero headline to three lines'
+          git push origin HEAD:preview/home-restructure-reviewed-20260915
