@@ -41,7 +41,6 @@ jobs:
           from pathlib import Path
           import re
 
-          # Use the central TNS SVG favicon only; remove Claude's extra PNG/Apple icon links.
           for page in list(Path('.').glob('*.html')) + list(Path('news').glob('*.html')):
               s = page.read_text(encoding='utf-8')
               s = re.sub(r'<link rel="icon" type="image/png"[^>]*>\s*', '', s, flags=re.I)
@@ -50,12 +49,9 @@ jobs:
 
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-
-          # Keep the Hero wording exactly as approved by the user.
           hero = '<span class="line">Đại học Liverpool (Anh Quốc)</span>'
           assert hero in s, 'approved Hero wording changed unexpectedly'
 
-          # Remove stale ranking emphasis from homepage search/social descriptions only.
           head, rest = s.split('</head>', 1)
           head = head.replace('XJTLU tại Tô Châu: xếp hạng, học phí, học bổng, điều kiện tuyển sinh 2027, ngành học, ký túc xá và bằng University of Liverpool.',
                               'XJTLU tại Tô Châu: học phí, học bổng, điều kiện tuyển sinh 2027, ngành học, ký túc xá và bằng University of Liverpool.')
@@ -65,13 +61,12 @@ jobs:
                               'XJTLU Việt Nam 2027: học phí, học bổng, tuyển sinh và bằng University of Liverpool.')
           p.write_text(head + '</head>' + rest, encoding='utf-8')
 
-          # Validation.
           home = p.read_text(encoding='utf-8')
           assert hero in home
           assert '/og-image.png' in home
           assert '/favicon.svg' in home
           assert 'favicon-16.png' not in home and 'favicon-32.png' not in home and 'apple-touch-icon.png' not in home
-          assert home.count('class="news-card') == 3, home.count('class="news-card')
+          assert home.count('class="tns-news-card"') == 3, home.count('class="tns-news-card"')
 
           for page in sorted(Path('.').glob('*.html')):
               if page.name == 'index.html':
@@ -81,7 +76,6 @@ jobs:
 
           svg = Path('favicon.svg').read_text(encoding='utf-8')
           assert '#F4D717' in svg and '>tns<' in svg.lower()
-
           sm = Path('sitemap.xml').read_text(encoding='utf-8')
           assert sm.count('<url>') == 26, sm.count('<url>')
           assert 'xjtlu-ranking-2027.html' not in sm
