@@ -24,8 +24,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cat .tns-zip/part*.b64 > /tmp/xjtlu-preview.b64
-          base64 --decode /tmp/xjtlu-preview.b64 > /tmp/xjtlu-preview.zip
+          : > /tmp/xjtlu-preview.zip
+          for part in .tns-zip/part*.b64; do
+            base64 --decode "$part" >> /tmp/xjtlu-preview.zip
+          done
           echo 'a44f20228141e3ef76e6cf3f116c65a2bfd77c6b8e652ee3aa0ef2f6682f74c2  /tmp/xjtlu-preview.zip' | sha256sum -c -
           unzip -t /tmp/xjtlu-preview.zip
 
